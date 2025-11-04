@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter } from 'react-router-dom';
 import PATH from '~/constants/path';
 import SidebarLayout from '~/layouts/sidebar';
 import AdminPage from '~/pages/admin';
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
           },
           // =============== ADMIN ROUTE ===============
           {
-            element: <RoleRoute allowedRoles={['admin']} userRole={'admin'} />,
+            element: <RoleRoute allowedRoles={['admin']} userRole={'test'} />,
             children: [
               {
                 path: PATH.ADMIN,

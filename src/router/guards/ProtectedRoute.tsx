@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from 'react-router';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import PATH from '~/constants/path';
 import { useAuthStore } from '~/stores/auth.store';
 
