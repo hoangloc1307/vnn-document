@@ -3,7 +3,6 @@ import type { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { z } from 'zod';
 import logo from '~/assets/images/VNN_Building.jpg';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
@@ -11,13 +10,7 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '~/c
 import { Input } from '~/components/ui/input';
 import { Spinner } from '~/components/ui/spinner';
 import { useLogin } from '~/hooks/auth/useLogin';
-
-const schema = z.object({
-  username: z.string().min(1, 'Enter your username'),
-  password: z.string().min(1, 'Enter your password'),
-});
-
-type FormValues = z.infer<typeof schema>;
+import { loginSchema, type LoginFormValues } from '~/validations/auth.validation';
 
 export default function LoginPage() {
   const login = useLogin();
@@ -29,12 +22,12 @@ export default function LoginPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
     defaultValues: { username: '', password: '' },
   });
 
-  const onSubmit = (values: FormValues) =>
+  const onSubmit = (values: LoginFormValues) =>
     login.mutate(values, {
       onSuccess: () => navigate(from, { replace: true }),
       onError: (error) => {

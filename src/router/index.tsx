@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import PATH from '~/constants/path';
+import PATHS from '~/constants/paths';
 import SidebarLayout from '~/layouts/sidebar';
 import AdminPage from '~/pages/admin';
 import LoginPage from '~/pages/auth/login';
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     element: <RejectedRoute />,
     children: [
       {
-        path: PATH.LOGIN,
+        path: PATHS.LOGIN,
         element: <LoginPage />,
       },
     ],
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
             element: <RoleRoute allowedRoles={['admin']} userRole={'test'} />,
             children: [
               {
-                path: PATH.ADMIN,
+                path: PATHS.ADMIN,
                 element: <AdminPage />,
               },
             ],

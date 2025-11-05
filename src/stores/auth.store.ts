@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import STORAGE_KEYS from '~/constants/storageKeys';
 
-export type AuthUser = { username: string; name: string };
+export type User = { username: string; name: string };
 
 type AuthState = {
-  user: AuthUser | null;
+  user: User | null;
   accessToken: string | null;
   isAuthenticated: boolean;
-  setAuth: (p: { user: AuthUser; accessToken: string }) => void;
+  setAuth: (p: { user: User; accessToken: string }) => void;
   setAccessToken: (t: string | null) => void;
   logout: () => void;
 };
@@ -23,7 +24,7 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ user: null, accessToken: null, isAuthenticated: false }),
     }),
     {
-      name: 'auth',
+      name: STORAGE_KEYS.AUTH,
       partialize: (s) => ({ user: s.user, isAuthenticated: s.isAuthenticated }),
     },
   ),

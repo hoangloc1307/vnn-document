@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import PATH from '~/constants/path';
+import PATHS from '~/constants/paths';
 
 export default function RoleRoute({
   allowedRoles = [],
@@ -9,7 +9,7 @@ export default function RoleRoute({
   userRole: string;
 }) {
   if (!allowedRoles.includes(userRole)) {
-    return <Navigate to={PATH.FORBIDDEN} replace />;
+    return <Navigate to={PATHS.FORBIDDEN} replace />;
   }
 
   return <Outlet />;

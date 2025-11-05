@@ -1,8 +1,8 @@
-const PATH = {
+const PATHS = {
   HOME: '/',
   LOGIN: '/login',
   FORBIDDEN: '/denied',
   ADMIN: '/admin',
 } as const;
 
-export default PATH;
+export default PATHS;
