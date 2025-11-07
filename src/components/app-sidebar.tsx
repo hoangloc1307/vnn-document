@@ -1,7 +1,7 @@
-import { ChartNoAxesCombined } from 'lucide-react';
 import * as React from 'react';
 import logo from '~/assets/images/NOK_logo.svg';
 import { NavMain } from '~/components/nav-main';
+import { NavSecondary } from '~/components/nav-secondary';
 import { NavUser } from '~/components/nav-user';
 import {
   Sidebar,
@@ -11,34 +11,9 @@ import {
   SidebarRail,
   useSidebar,
 } from '~/components/ui/sidebar';
+import MENU from '~/config/menu';
 import { cn } from '~/lib/utils';
 import { useAuthStore } from '~/stores/auth.store';
-
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: 'Dashboard',
-      url: '#',
-      icon: ChartNoAxesCombined,
-      isActive: true,
-      items: [
-        {
-          title: 'History',
-          url: '#',
-        },
-        {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
-          url: '#',
-        },
-      ],
-    },
-  ],
-};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { state } = useSidebar();
@@ -63,7 +38,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={MENU.MAIN} />
+        {/* <NavProjects projects={MENU.OTHER} /> */}
+        <NavSecondary items={MENU.OTHER} className='mt-auto' />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user!} />

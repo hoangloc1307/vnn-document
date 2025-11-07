@@ -9,8 +9,8 @@ const authServices = {
       data: {
         user: {
           username: payload.username,
-          name: 'Trần Hoàng Lộc',
-          email: 'loc.tran@vnn.com.vn',
+          name: 'Trần Nguyễn Hoàng Lộc',
+          email: 'tran.nguyen.hoang.loc@vnn.nokgrp.com',
         },
         tokens: {
           accessToken: 'fake-access-token-xyz',
