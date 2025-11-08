@@ -4,6 +4,9 @@ import SidebarLayout from '~/layouts/sidebar';
 import AdminPage from '~/pages/admin';
 import LoginPage from '~/pages/auth/login';
 import DashboardPage from '~/pages/dashboard';
+import NotFoundPage from '~/pages/not-found';
+import SupportPage from '~/pages/support';
+import VersonPage from '~/pages/version';
 import ProtectedRoute from '~/router/guards/ProtectedRoute';
 import RejectedRoute from '~/router/guards/RejectedRoute';
 import RoleRoute from '~/router/guards/RoleRoute';
@@ -19,6 +22,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   // =============== PROTECTED ROUTE ===============
   {
     element: <ProtectedRoute />,
@@ -27,9 +31,18 @@ const router = createBrowserRouter([
         element: <SidebarLayout />,
         children: [
           {
-            path: '/',
+            path: PATHS.HOME,
             element: <DashboardPage />,
           },
+          {
+            path: PATHS.VERSION,
+            element: <VersonPage />,
+          },
+          {
+            path: PATHS.SUPPORT,
+            element: <SupportPage />,
+          },
+
           // =============== ADMIN ROUTE ===============
           {
             element: <RoleRoute allowedRoles={['admin']} userRole={'test'} />,
@@ -44,6 +57,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: '*', element: <NotFoundPage /> },
 ]);
 
 export default router;

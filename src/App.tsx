@@ -10,6 +10,7 @@ const queryClient = new QueryClient();
 
 function App() {
   const init = useThemeStore((s) => s.init);
+  const theme = useThemeStore((s) => s.theme);
 
   useEffect(() => {
     init();
@@ -18,7 +19,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <Toaster />
+      <Toaster theme={theme} />
     </QueryClientProvider>
   );
 }

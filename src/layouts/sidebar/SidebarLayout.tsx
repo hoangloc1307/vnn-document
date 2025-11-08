@@ -6,13 +6,13 @@ export default function SidebarLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <header className='bg-sidebar flex h-16 shrink-0 items-center gap-2 border-b px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12'>
+      <SidebarInset className='flex h-dvh flex-col overflow-hidden'>
+        <header className='bg-sidebar flex h-12 shrink-0 items-center border-b px-4'>
           <SidebarTrigger />
         </header>
-        <div className='flex-1 p-4'>
+        <main className='min-h-0 flex-1 overflow-auto p-4'>
           <Outlet />
-        </div>
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );

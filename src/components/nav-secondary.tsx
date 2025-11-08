@@ -1,5 +1,6 @@
 import { type LucideIcon } from 'lucide-react';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -8,27 +9,28 @@ import {
   SidebarMenuItem,
 } from '~/components/ui/sidebar';
 
-export function NavSecondary({
-  items,
-  ...props
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon: LucideIcon;
-  }[];
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+export type NavSecondaryItem = {
+  title: string;
+  url: string;
+  icon: LucideIcon;
+};
+
+type NavSecondaryProps = {
+  items: readonly NavSecondaryItem[];
+} & React.ComponentPropsWithoutRef<typeof SidebarGroup>;
+
+export function NavSecondary({ items, ...props }: NavSecondaryProps) {
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild size='sm'>
-                <a href={item.url}>
+              <SidebarMenuButton asChild size='sm' tooltip={item.title}>
+                <Link to={item.url}>
                   <item.icon />
                   <span>{item.title}</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

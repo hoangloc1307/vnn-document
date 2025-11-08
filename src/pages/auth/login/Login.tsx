@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { AxiosError } from 'axios';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import logo from '~/assets/images/VNN_Building.jpg';
@@ -18,11 +18,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const from = location.state?.from?.pathname ?? '/';
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormValues>({
+  const { handleSubmit, control } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { username: '', password: '' },
   });
@@ -60,44 +56,48 @@ export default function LoginPage() {
                   </div>
 
                   {/* <==> USERNAME <==> */}
-                  <Field>
-                    <FieldLabel htmlFor='username'>Username</FieldLabel>
-                    <Input
-                      className='placeholder:text-sm placeholder:italic'
-                      id='username'
-                      type='text'
-                      autoFocus
-                      placeholder='Employee ID. e.g., 12314092'
-                      tabIndex={1}
-                      disabled={login.isPending}
-                      {...register('username')}
-                    />
-                    {errors.username && <FieldError>{errors.username.message}</FieldError>}
-                  </Field>
+                  <Controller
+                    name='username'
+                    control={control}
+                    disabled={login.isPending}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor='username'>Username</FieldLabel>
+                        <Input
+                          {...field}
+                          id='username'
+                          aria-invalid={fieldState.invalid}
+                          placeholder='Employee ID. e.g., 12314092'
+                          autoFocus
+                          tabIndex={1}
+                          className='placeholder:text-sm placeholder:italic'
+                        />
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )}
+                  />
 
                   {/* <==> PASSWORD <==> */}
-                  <Field>
-                    <div className='flex items-center'>
-                      <FieldLabel htmlFor='password'>Password</FieldLabel>
-                      <a
-                        href='#'
-                        className='text-muted-foreground ml-auto text-sm underline-offset-2 hover:underline'
-                      >
-                        Forgot your password?
-                      </a>
-                    </div>
-
-                    <Input
-                      className='placeholder:text-sm placeholder:italic'
-                      id='password'
-                      type='password'
-                      placeholder='Enter your password'
-                      tabIndex={2}
-                      disabled={login.isPending}
-                      {...register('password')}
-                    />
-                    {errors.password && <FieldError>{errors.password.message}</FieldError>}
-                  </Field>
+                  <Controller
+                    name='password'
+                    control={control}
+                    disabled={login.isPending}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor='password'>Password</FieldLabel>
+                        <Input
+                          {...field}
+                          id='password'
+                          aria-invalid={fieldState.invalid}
+                          className='placeholder:text-sm placeholder:italic'
+                          type='password'
+                          placeholder='Enter your password'
+                          tabIndex={2}
+                        />
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )}
+                  />
 
                   {/* <==> BUTTON <==> */}
                   <Field>
