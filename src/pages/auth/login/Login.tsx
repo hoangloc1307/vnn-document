@@ -47,7 +47,7 @@ export default function LoginPage() {
               </div>
 
               {/* <==> FORM <==> */}
-              <div className='p-6 md:p-8'>
+              <form onSubmit={handleSubmit(onSubmit)} className='p-6 md:p-8'>
                 <FieldGroup>
                   {/* <==> WELCOME <==> */}
                   <div className='flex flex-col items-center gap-2 text-center'>
@@ -101,7 +101,7 @@ export default function LoginPage() {
 
                   {/* <==> BUTTON <==> */}
                   <Field>
-                    <Button disabled={login.isPending} onClick={handleSubmit(onSubmit)}>
+                    <Button disabled={login.isPending} type='submit'>
                       {login.isPending && <Spinner />}
                       Login
                     </Button>
@@ -112,7 +112,7 @@ export default function LoginPage() {
                     Don&apos;t have an account? <a href='#'>Sign up</a>
                   </FieldDescription>
                 </FieldGroup>
-              </div>
+              </form>
             </CardContent>
           </Card>
 

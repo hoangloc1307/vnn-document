@@ -3,6 +3,7 @@ import PATHS from '~/constants/paths';
 import SidebarLayout from '~/layouts/sidebar';
 import AdminPage from '~/pages/admin';
 import LoginPage from '~/pages/auth/login';
+import CategoryPage from '~/pages/category';
 import DashboardPage from '~/pages/dashboard';
 import NotFoundPage from '~/pages/not-found';
 import SupportPage from '~/pages/support';
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
           {
             path: PATHS.HOME,
             element: <DashboardPage />,
+          },
+          {
+            path: PATHS.CATEGORY,
+            element: <CategoryPage />,
           },
           {
             path: PATHS.VERSION,

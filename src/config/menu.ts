@@ -1,11 +1,9 @@
 import {
   BadgeInfo,
-  ChartNoAxesCombined,
-  ClipboardList,
-  FilePlus,
+  Boxes,
   FileQuestionMark,
   MessageCircleQuestionMark,
-  NotebookTabs,
+  Wrench,
 } from 'lucide-react';
 import type { NavItem } from '~/components/nav-main';
 import type { NavSecondaryItem } from '~/components/nav-secondary';
@@ -13,60 +11,20 @@ import PATHS from '~/constants/paths';
 
 const MAIN = [
   {
-    title: 'Dashboard',
-    url: '#',
-    icon: ChartNoAxesCombined,
-    isActive: false,
+    title: 'Asset',
+    url: '',
+    icon: Boxes,
     items: [
       {
-        title: 'Abnormal A5',
-        url: 'abnormal-a5-dashboard',
+        title: 'Category',
+        url: PATHS.CATEGORY,
       },
     ],
   },
   {
-    title: 'Create Request',
-    url: '#',
-    icon: FilePlus,
-    isActive: true,
-    items: [
-      {
-        title: 'Abnormal A5',
-        url: 'abnormal-a5',
-      },
-    ],
-  },
-  {
-    title: 'Task',
-    url: '#',
-    icon: ClipboardList,
-    isActive: false,
-    items: [
-      {
-        title: 'Task List',
-        url: 'task',
-      },
-      {
-        title: 'Delete Request',
-        url: 'delete',
-      },
-    ],
-  },
-  {
-    title: 'Document Management',
-    url: '#',
-    icon: NotebookTabs,
-    isActive: false,
-    items: [
-      {
-        title: 'Document List',
-        url: 'document',
-      },
-      {
-        title: 'Report',
-        url: 'report',
-      },
-    ],
+    title: 'Maintenance',
+    url: '',
+    icon: Wrench,
   },
 ] as const satisfies NavItem[];
 

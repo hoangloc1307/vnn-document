@@ -6,11 +6,11 @@ export default function SidebarLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className='flex h-dvh flex-col overflow-hidden'>
-        <header className='bg-sidebar flex h-12 shrink-0 items-center border-b px-4'>
+      <SidebarInset>
+        <header className='bg-background sticky top-0 z-50 flex h-16 shrink-0 items-center gap-2 border-b px-4'>
           <SidebarTrigger />
         </header>
-        <main className='min-h-0 flex-1 overflow-auto p-4'>
+        <main className='flex min-h-min flex-1 flex-col p-4'>
           <Outlet />
         </main>
       </SidebarInset>

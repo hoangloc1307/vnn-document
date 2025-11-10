@@ -9,13 +9,13 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    debug: true,
+    debug: false,
     fallbackLng: 'en',
     supportedLngs: ['vi', 'en', 'jp'],
     interpolation: {
       escapeValue: false,
     },
-    ns: ['common'],
+    ns: ['common', 'datatable'],
     defaultNS: 'common',
     detection: {
       caches: ['localStorage'],

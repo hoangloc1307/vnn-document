@@ -1,0 +1,36 @@
+{
+  "pagination": {
+    "pageOf": "Page {{page, number}} of {{total, number}}",
+    "rowsPerPage": "Rows per page",
+    "first": "First",
+    "next": "Next",
+    "prev": "Previous",
+    "last": "Last"
+  },
+  "toolbar": {
+    "search": "Search...",
+    "reset": "Reset",
+    "export": "Export",
+    "density": "Density",
+    "columns": "Columns"
+  },
+  "filter": {
+    "title": "Filters",
+    "apply": "Apply",
+    "clear": "Clear"
+  },
+  "sort": {
+    "asc": "Sort ascending",
+    "desc": "Sort descending",
+    "remove": "Remove sort"
+  },
+  "selection": {
+    "selectAll": "Select all",
+    "selectedCount": "{{count, number}} of {{total, number}} row(s) selected."
+  },
+  "empty": "No data",
+  "aria": {
+    "table": "Data table",
+    "rowActions": "Row actions"
+  }
+}
