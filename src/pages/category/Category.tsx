@@ -7,6 +7,7 @@ export default function CategoryPage() {
     {
       id: '1',
       name: 'Laptop',
+      description: 'Máy tính xách tay',
       status: true,
     },
     {

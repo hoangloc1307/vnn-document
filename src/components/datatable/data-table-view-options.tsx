@@ -1,6 +1,5 @@
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import type { Table } from '@tanstack/react-table';
-import { Settings2 } from 'lucide-react';
+import { Columns3 } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import {
   DropdownMenu,
@@ -8,6 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 
 export function DataTableViewOptions<TData>({ table }: { table: Table<TData> }) {
@@ -15,12 +15,12 @@ export function DataTableViewOptions<TData>({ table }: { table: Table<TData> }) 
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant='outline' size='sm' className='ml-auto hidden h-8 lg:flex'>
-          <Settings2 />
-          View
+          <Columns3 />
+          Columns
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='w-[150px]'>
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+      <DropdownMenuContent align='end'>
+        <DropdownMenuLabel>Show/Hide columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table
           .getAllColumns()

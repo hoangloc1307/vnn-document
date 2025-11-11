@@ -15,6 +15,7 @@ import {
 export type Category = {
   id: string;
   name: string;
+  description?: string;
   maintenanceIntervalHours?: number;
   status: boolean;
 };
@@ -70,6 +71,11 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
+  },
+  {
+    accessorKey: 'description',
+    header: 'Description',
+    enableSorting: false,
   },
   {
     accessorKey: 'maintenanceIntervalHours',
