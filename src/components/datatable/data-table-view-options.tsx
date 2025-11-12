@@ -1,12 +1,9 @@
 import type { Table } from '@tanstack/react-table';
-import { Columns3 } from 'lucide-react';
-import { Button } from '~/components/ui/button';
+import { Columns3Cog } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 
@@ -14,14 +11,11 @@ export function DataTableViewOptions<TData>({ table }: { table: Table<TData> }) 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline' size='sm' className='ml-auto hidden h-8 lg:flex'>
-          <Columns3 />
-          Columns
-        </Button>
+        <button className='inline-flex items-center justify-center'>
+          <Columns3Cog />
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        <DropdownMenuLabel>Show/Hide columns</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         {table
           .getAllColumns()
           .filter((column) => typeof column.accessorFn !== 'undefined' && column.getCanHide())

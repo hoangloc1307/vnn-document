@@ -1,6 +1,7 @@
 import {
   flexRender,
   getCoreRowModel,
+  getFacetedUniqueValues,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
@@ -12,10 +13,10 @@ import {
 } from '@tanstack/react-table';
 import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import DataTableColumnFilter from '~/components/datatable/data-table-column-filter';
 import { DataTableColumnHeader } from '~/components/datatable/data-table-column-header';
 import { DataTablePagination } from '~/components/datatable/data-table-pagination';
 import { DataTableToolbar } from '~/components/datatable/data-table-toolbar';
-import { Input } from '~/components/ui/input';
 import {
   Table,
   TableBody,
@@ -24,6 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui/table';
+import { cn } from '~/lib/utils';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,7 +34,10 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation(['datatable']);
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+  const [fullScreen, setFullScreen] = useState<boolean>(false);
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -46,6 +51,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     state: { sorting, globalFilter, columnVisibility, rowSelection, columnFilters },
     onGlobalFilterChange: setGlobalFilter,
     onSortingChange: setSorting,
@@ -56,17 +62,24 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     enableSorting: true,
     enableGlobalFilter: true,
     meta: {
-      toggleFilters: () => setShowFilters((prev) => !prev),
+      showFilters,
+      setShowFilters,
+      showSearch,
+      setShowSearch,
+      fullScreen,
+      setFullScreen,
     },
   });
 
   return (
-    <div className='space-y-4'>
+    <div className={cn(fullScreen && 'fixed top-0 left-0 z-50 h-dvh w-dvw bg-white')}>
       {/* <==> TOOLBAR <==> */}
-      <DataTableToolbar table={table} showFilters={showFilters} setShowFilters={setShowFilters} />
+      <DataTableToolbar table={table} />
 
       {/* TABLE */}
-      <div className='overflow-hidden rounded-md border'>
+      <div
+        className={cn('overflow-y-auto rounded-md border', fullScreen && 'h-[calc(100dvh-100px)]')}
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -100,11 +113,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
                       return (
                         <TableHead key={header.id}>
-                          <Input
-                            type='text'
-                            value={(column.getFilterValue() ?? '') as string}
-                            onChange={(e) => column.setFilterValue(e.target.value)}
-                          />
+                          <DataTableColumnFilter column={header.column} />
                         </TableHead>
                       );
                     })}

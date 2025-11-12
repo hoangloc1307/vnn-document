@@ -19,7 +19,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
   const { t } = useTranslation(['datatable']);
 
   return (
-    <div className='flex items-center justify-between px-2'>
+    <div className='flex items-center justify-between p-2'>
       {/* ROW SELECTED */}
       <div className='text-muted-foreground flex-1 text-sm'>
         {t('datatable:selection.selectedCount', {
