@@ -11,6 +11,8 @@ declare module '@tanstack/react-table' {
     setShowSearch?: (v: boolean) => void;
     fullScreen?: boolean;
     setFullScreen?: (v: boolean) => void;
+    hasPagination?: boolean;
+    pageSizeOptions: number[];
   }
 
   interface ColumnMeta<TData extends RowData, TValue> {

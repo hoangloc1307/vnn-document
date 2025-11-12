@@ -11,9 +11,9 @@ export function DataTableViewOptions<TData>({ table }: { table: Table<TData> }) 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className='inline-flex items-center justify-center'>
+        <div role='button' className='p-3'>
           <Columns3Cog />
-        </button>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         {table

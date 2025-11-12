@@ -19,7 +19,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
   const setFullScreen = table.options.meta?.setFullScreen;
 
   return (
-    <div className='flex items-center justify-end gap-2 p-2'>
+    <div className='flex items-center justify-end gap-2'>
       <div className='flex items-center'>
         {showSearch && <DataTableGlobalSearch table={table} />}
       </div>
@@ -56,11 +56,11 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         {/* <==> SHOW / HIDE COLUMNS <==> */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size={'sm'} variant={'outline'}>
+            <Button size={'sm'} variant={'outline'} className='p-0'>
               <DataTableViewOptions table={table} />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Full screen</TooltipContent>
+          <TooltipContent>Show/Hide columns</TooltipContent>
         </Tooltip>
 
         {/* <==> TOGGLE FULLSCREEN <==> */}

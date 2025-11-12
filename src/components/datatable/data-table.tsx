@@ -1,17 +1,5 @@
-import {
-  flexRender,
-  getCoreRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  type ColumnDef,
-  type ColumnFiltersState,
-  type SortingState,
-  type VisibilityState,
-} from '@tanstack/react-table';
-import { Fragment, useState } from 'react';
+import { flexRender, type Table as TableType } from '@tanstack/react-table';
+import { Fragment, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import DataTableColumnFilter from '~/components/datatable/data-table-column-filter';
 import { DataTableColumnHeader } from '~/components/datatable/data-table-column-header';
@@ -27,58 +15,47 @@ import {
 } from '~/components/ui/table';
 import { cn } from '~/lib/utils';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
+type DataTableProps<TData> = {
+  table: TableType<TData>;
+};
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+// const ROW_VIRTUAL_THRESHOLD = 5;
+// const ESTIMATED_ROW_HEIGHT = 39;
+
+export default function DataTable<TData>({ table }: DataTableProps<TData>) {
   const { t } = useTranslation(['datatable']);
-  const [showFilters, setShowFilters] = useState<boolean>(false);
-  const [showSearch, setShowSearch] = useState<boolean>(false);
-  const [fullScreen, setFullScreen] = useState<boolean>(false);
+  const parentRef = useRef<HTMLDivElement | null>(null);
 
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = useState<string>('');
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const fullScreen = table.options.meta?.fullScreen;
+  const showFilters = table.options.meta?.showFilters;
+  const emptyBody = Boolean(!table.getRowModel().rows?.length);
+  // const visibleRows = table.getRowModel().rows;
+  // const enableVirtual = visibleRows.length > ROW_VIRTUAL_THRESHOLD;
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-    state: { sorting, globalFilter, columnVisibility, rowSelection, columnFilters },
-    onGlobalFilterChange: setGlobalFilter,
-    onSortingChange: setSorting,
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    onColumnFiltersChange: setColumnFilters,
-    globalFilterFn: 'includesString',
-    enableSorting: true,
-    enableGlobalFilter: true,
-    meta: {
-      showFilters,
-      setShowFilters,
-      showSearch,
-      setShowSearch,
-      fullScreen,
-      setFullScreen,
-    },
-  });
+  // const rowVirtualizer = useVirtualizer({
+  //   count: enableVirtual ? visibleRows.length : 0,
+  //   getScrollElement: () => parentRef.current,
+  //   estimateSize: () => ESTIMATED_ROW_HEIGHT,
+  //   overscan: 8,
+  // });
+
+  // const virtualItems = rowVirtualizer.getVirtualItems();
+  // const totalSize = rowVirtualizer.getTotalSize();
 
   return (
-    <div className={cn(fullScreen && 'fixed top-0 left-0 z-50 h-dvh w-dvw bg-white')}>
+    <div
+      className={cn(
+        'space-y-2',
+        fullScreen && 'bg-background fixed top-0 left-0 z-50 h-dvh w-dvw p-2',
+      )}
+    >
       {/* <==> TOOLBAR <==> */}
       <DataTableToolbar table={table} />
 
       {/* TABLE */}
       <div
-        className={cn('overflow-y-auto rounded-md border', fullScreen && 'h-[calc(100dvh-100px)]')}
+        ref={parentRef}
+        className={cn('overflow-auto rounded-md border', fullScreen && 'h-[calc(100dvh-100px)]')}
       >
         <Table>
           <TableHeader>
@@ -122,9 +99,22 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               </Fragment>
             ))}
           </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+
+          {/* <==> EMPTY BODY <==> */}
+          {emptyBody && (
+            <TableBody>
+              <TableRow>
+                <TableCell colSpan={table.getAllLeafColumns().length} className='h-24 text-center'>
+                  {t('datatable:empty')}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          )}
+
+          {/* <==> BODY WITH DATA <==> */}
+          {!emptyBody && (
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -132,15 +122,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                     </TableCell>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
-                  {t('datatable:empty')}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+              ))}
+            </TableBody>
+          )}
         </Table>
       </div>
 
