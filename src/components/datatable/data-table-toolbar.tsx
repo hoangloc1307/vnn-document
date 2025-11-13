@@ -1,5 +1,6 @@
 import type { Table } from '@tanstack/react-table';
 import { Fullscreen, Funnel, Search } from 'lucide-react';
+import { useEffect } from 'react';
 import { DataTableGlobalSearch } from '~/components/datatable/data-table-global-search';
 import { DataTableViewOptions } from '~/components/datatable/data-table-view-options';
 import { Button } from '~/components/ui/button';
@@ -18,12 +19,21 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
   const fullScreen = table.options.meta?.fullScreen;
   const setFullScreen = table.options.meta?.setFullScreen;
 
+  useEffect(() => {
+    if (!showFilters) {
+      table.resetColumnFilters();
+    }
+  }, [showFilters, table]);
+
+  useEffect(() => {
+    if (!showSearch) {
+      table.resetGlobalFilter();
+    }
+  }, [showSearch, table]);
+
   return (
     <div className='flex items-center justify-end gap-2'>
-      <div className='flex items-center'>
-        {showSearch && <DataTableGlobalSearch table={table} />}
-      </div>
-
+      <DataTableGlobalSearch table={table} />
       <ButtonGroup>
         {/* <==> TOGGLE SEARCH <==> */}
         <Tooltip>

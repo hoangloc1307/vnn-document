@@ -1,6 +1,7 @@
 import type { Column } from '@tanstack/react-table';
 import { InputGroup, InputGroupInput } from '~/components/ui/input-group';
 import { Separator } from '~/components/ui/separator';
+import { NumericFormat } from 'react-number-format';
 
 type DataTableColumnFilterRangeProps<TData, TValue> = {
   column: Column<TData, TValue>;
@@ -13,28 +14,31 @@ export default function DataTableColumnFilterRange<TData, TValue>({
     | [number | undefined, number | undefined]
     | undefined;
 
-  const min = columnFilterValue?.[0] ?? '';
-  const max = columnFilterValue?.[1] ?? '';
+  const [min, max] = columnFilterValue ?? ['', ''];
 
   return (
     <InputGroup>
-      <InputGroupInput
-        type='number'
+      <NumericFormat
+        customInput={InputGroupInput}
+        inputMode='decimal'
+        allowNegative={false}
+        thousandSeparator
         placeholder='Min'
         value={min}
-        onChange={(event) => {
-          const value = event.target.value;
+        onValueChange={({ value }) => {
           const nextMin = value === '' ? undefined : Number(value);
           column.setFilterValue([nextMin, max]);
         }}
       />
       <Separator orientation='vertical' />
-      <InputGroupInput
-        type='number'
+      <NumericFormat
+        customInput={InputGroupInput}
+        inputMode='decimal'
+        allowNegative={false}
+        thousandSeparator
         placeholder='Max'
         value={max}
-        onChange={(event) => {
-          const value = event.target.value;
+        onValueChange={({ value }) => {
           const nextMax = value === '' ? undefined : Number(value);
           column.setFilterValue([min, nextMax]);
         }}
