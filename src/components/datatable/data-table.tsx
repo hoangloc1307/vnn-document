@@ -58,21 +58,34 @@ export default function DataTable<TData>({ table }: DataTableProps<TData>) {
         className={cn('overflow-auto rounded-md border', fullScreen && 'h-[calc(100dvh-100px)]')}
       >
         <Table>
-          <TableHeader>
+          <TableHeader className='border-b [&_tr]:border-b-0'>
             {table.getHeaderGroups().map((headerGroup) => (
               <Fragment key={headerGroup.id}>
-                <TableRow>
+                <TableRow className='border-b-0'>
                   {headerGroup.headers.map((header) => {
                     if (header.isPlaceholder)
-                      return <TableHead key={header.id} colSpan={header.colSpan} />;
+                      return (
+                        <TableHead
+                          key={header.id}
+                          colSpan={header.colSpan}
+                          style={{
+                            width: header.column.getSize(),
+                          }}
+                        />
+                      );
 
                     const title =
                       typeof header.column.columnDef.header === 'string'
                         ? (header.column.columnDef.header as string)
                         : flexRender(header.column.columnDef.header, header.getContext());
-
                     return (
-                      <TableHead key={header.id} colSpan={header.colSpan}>
+                      <TableHead
+                        key={header.id}
+                        colSpan={header.colSpan}
+                        style={{
+                          width: header.column.getSize(),
+                        }}
+                      >
                         <DataTableColumnHeader column={header.column} label={title} />
                       </TableHead>
                     );
@@ -89,7 +102,7 @@ export default function DataTable<TData>({ table }: DataTableProps<TData>) {
                       }
 
                       return (
-                        <TableHead key={header.id}>
+                        <TableHead key={header.id} className='p-2'>
                           <DataTableColumnFilter column={header.column} />
                         </TableHead>
                       );
@@ -117,7 +130,12 @@ export default function DataTable<TData>({ table }: DataTableProps<TData>) {
               {table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      style={{
+                        width: cell.column.getSize(),
+                      }}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

@@ -22,15 +22,18 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'maintenanceIntervalHours',
     header: 'Maintenance After (hours)',
+    filterFn: 'inNumberRange',
     meta: {
       filterVariant: 'range',
     },
+    size: 100,
   },
   {
     accessorKey: 'status',
     accessorFn: (row) => (row.status ? 'Active' : 'Inactive'),
     header: 'Status',
     filterFn: 'equals',
+    size: 50,
     cell: ({ row }) => {
       const isActive = row.getValue('status') === 'Active';
       return (
