@@ -2,15 +2,26 @@ import * as React from 'react';
 
 import { cn } from '~/lib/utils';
 
-function Table({ className, ...props }: React.ComponentProps<'table'>) {
-  return (
-    <div data-slot='table-container' className='relative h-full w-full overflow-auto'>
-      <table
-        data-slot='table'
-        className={cn('w-full caption-bottom text-sm', className)}
+const TableContainer = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        data-slot='table-container'
+        className={cn('relative h-full w-full overflow-auto', className)}
         {...props}
       />
-    </div>
+    );
+  },
+);
+
+function Table({ className, ...props }: React.ComponentProps<'table'>) {
+  return (
+    <table
+      data-slot='table'
+      className={cn('w-full caption-bottom text-sm', className)}
+      {...props}
+    />
   );
 }
 
@@ -87,4 +98,14 @@ function TableCaption({ className, ...props }: React.ComponentProps<'caption'>) 
   );
 }
 
-export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption };
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+};

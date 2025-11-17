@@ -14,10 +14,10 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
   const showFilters = table.options.meta?.showFilters;
 
   return (
-    <TableHeader className='bg-background shadow-border sticky top-0 shadow [&_tr]:border-b-0'>
+    <TableHeader className='bg-background shadow-border sticky top-0 z-10 grid shadow [&_tr]:border-b-0'>
       {table.getHeaderGroups().map((headerGroup) => (
         <Fragment key={headerGroup.id}>
-          <TableRow>
+          <TableRow className='flex h-full w-full'>
             {headerGroup.headers.map((header) => {
               if (header.isPlaceholder)
                 return (
@@ -25,7 +25,7 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
                     key={header.id}
                     colSpan={header.colSpan}
                     style={{
-                      width: header.column.getSize(),
+                      width: header.getSize(),
                     }}
                   />
                 );
@@ -34,23 +34,26 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
                 typeof header.column.columnDef.header === 'string'
                   ? (header.column.columnDef.header as string)
                   : flexRender(header.column.columnDef.header, header.getContext());
+
               return (
                 <TableHead
                   key={header.id}
                   colSpan={header.colSpan}
+                  className='h-full p-0'
                   style={{
-                    width: header.column.getSize(),
+                    width: header.getSize(),
+                    flex: `${header.getSize()} 0 auto`,
                   }}
                 >
                   <Button
                     variant='ghost'
                     size='sm'
-                    className='w-full justify-normal px-0 has-[>svg]:px-0'
+                    className='h-full min-h-10 w-full justify-normal gap-0.5 px-2 has-[>svg]:px-2'
                     onClick={(e) =>
                       header.column.toggleSorting(undefined, (e as React.MouseEvent).shiftKey)
                     }
                   >
-                    <span>{title}</span>
+                    <p className='max-w-[calc(100%-16x)] whitespace-break-spaces'>{title}</p>
                     {header.column.getCanSort() && (
                       <>
                         {header.column.getIsSorted() === 'desc' ? (
@@ -70,7 +73,7 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
 
           {/* <==> FILTER ROW <==> */}
           {showFilters && (
-            <TableRow>
+            <TableRow className='flex w-full'>
               {headerGroup.headers.map((header) => {
                 const column = header.column;
                 if (!column.getCanFilter()) {
@@ -78,7 +81,14 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
                 }
 
                 return (
-                  <TableHead key={header.id} className='p-2'>
+                  <TableHead
+                    key={header.id}
+                    className='h-max p-2'
+                    style={{
+                      width: header.getSize(),
+                      flex: `${header.getSize()} 0 auto`,
+                    }}
+                  >
                     <DataTableColumnFilter column={header.column} />
                   </TableHead>
                 );

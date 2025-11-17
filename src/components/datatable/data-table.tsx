@@ -1,9 +1,10 @@
 import { type Table as TableType } from '@tanstack/react-table';
+import { useRef, type RefObject } from 'react';
 import { DataTableBody } from '~/components/datatable/data-table-body';
 import { DataTableHeader } from '~/components/datatable/data-table-header';
 import { DataTablePagination } from '~/components/datatable/data-table-pagination';
 import { DataTableToolbar } from '~/components/datatable/data-table-toolbar';
-import { Table } from '~/components/ui/table';
+import { Table, TableContainer } from '~/components/ui/table';
 import { cn } from '~/lib/utils';
 
 type DataTableProps<TData> = {
@@ -12,6 +13,7 @@ type DataTableProps<TData> = {
 
 export default function DataTable<TData>({ table }: DataTableProps<TData>) {
   const fullScreen = table.options.meta?.fullScreen;
+  const tableContainerRef = useRef<HTMLDivElement>(null);
 
   return (
     <div
@@ -25,15 +27,17 @@ export default function DataTable<TData>({ table }: DataTableProps<TData>) {
 
       {/* <==> TABLE <==> */}
       <div
-        className={cn(
-          'relative h-[300px] max-h-[calc(100dvh-100px)] overflow-auto rounded-md border',
-          fullScreen && 'h-[calc(100dvh-100px)]',
-        )}
+        className={cn('overflow-auto rounded-md border', fullScreen && 'h-[calc(100dvh-100px)]')}
       >
-        <Table>
-          <DataTableHeader table={table} />
-          <DataTableBody table={table} />
-        </Table>
+        <TableContainer ref={tableContainerRef} className='max-h-[calc(100dvh-100px)]'>
+          <Table className='grid'>
+            <DataTableHeader table={table} />
+            <DataTableBody
+              table={table}
+              tableContainerRef={tableContainerRef as RefObject<HTMLDivElement>}
+            />
+          </Table>
+        </TableContainer>
       </div>
 
       {/* <==> PAGINATION <==> */}
