@@ -1,5 +1,5 @@
+import { IconColumns3 } from '@tabler/icons-react';
 import type { Table } from '@tanstack/react-table';
-import { Columns3Cog } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -11,8 +11,8 @@ export function DataTableViewOptions<TData>({ table }: { table: Table<TData> }) 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div role='button' className='p-3'>
-          <Columns3Cog />
+        <div role='button' className='p-2.5'>
+          <IconColumns3 />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>

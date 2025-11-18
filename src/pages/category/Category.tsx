@@ -10,7 +10,7 @@ export default function CategoryPage() {
     data: dataFake,
     pagination: {
       type: 'client',
-      // pageSizeOptions: [5, 15],
+      pageSizeOptions: [10, 25, 50],
     },
   });
 
