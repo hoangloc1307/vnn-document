@@ -22,19 +22,20 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
     <div className='flex items-center justify-between'>
       {/* <==> ROW SELECTED <==> */}
       <div className='text-muted-foreground flex-1 text-sm'>
-        {t('datatable:selection.selectedCount', {
+        {/* {t('datatable:selection.selectedCount', {
           count: table.getFilteredSelectedRowModel().rows.length,
           total: table.getFilteredRowModel().rows.length,
-        })}
+        })} */}
       </div>
 
       {/* <==> PAGINATION <==> */}
-      {table.options.meta?.hasPagination && (
+      {Boolean(table.options.meta?.hasPagination) && (
         <div className='flex items-center space-x-6 lg:space-x-8'>
           {/* <==> ROW PER PAGE <==> */}
           <div className='flex items-center space-x-2'>
             <p className='text-sm font-medium'>{t('datatable:pagination.rowsPerPage')}</p>
             <Select
+              disabled={!table.getRowModel().rows?.length}
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(value) => {
                 table.setPageSize(Number(value));
@@ -44,7 +45,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
                 <SelectValue placeholder={table.getState().pagination.pageSize} />
               </SelectTrigger>
               <SelectContent side='top'>
-                {table.options.meta.pageSizeOptions.map((pageSize) => (
+                {table.options.meta?.pageSizeOptions.map((pageSize) => (
                   <SelectItem key={pageSize} value={pageSize.toString()}>
                     {pageSize === Number.MAX_SAFE_INTEGER ? 'All' : pageSize}
                   </SelectItem>

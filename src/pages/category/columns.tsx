@@ -1,3 +1,4 @@
+import { IconCircleCheckFilled, IconCircleXFilled } from '@tabler/icons-react';
 import type { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '~/components/ui/badge';
 
@@ -26,18 +27,22 @@ export const columns: ColumnDef<Category>[] = [
     meta: {
       filterVariant: 'range',
     },
-    size: 100,
   },
   {
     accessorKey: 'status',
     accessorFn: (row) => (row.status ? 'Active' : 'Inactive'),
     header: 'Status',
     filterFn: 'equals',
-    size: 50,
+    size: 100,
     cell: ({ row }) => {
       const isActive = row.getValue('status') === 'Active';
       return (
-        <Badge className={isActive ? 'bg-green-700' : 'bg-red-700'}>
+        <Badge variant='outline' className='px-1.5'>
+          {isActive ? (
+            <IconCircleCheckFilled className='fill-green-500 dark:fill-green-400' />
+          ) : (
+            <IconCircleXFilled className='fill-red-500 dark:fill-red-400' />
+          )}
           {isActive ? 'Active' : 'Inactive'}
         </Badge>
       );

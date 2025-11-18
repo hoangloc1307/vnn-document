@@ -2,17 +2,23 @@ import type { Cell, Table } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useTranslation } from 'react-i18next';
+import { Spinner } from '~/components/ui/spinner';
 import { TableBody, TableCell, TableRow } from '~/components/ui/table';
 
 interface DataTableBodyProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   table: Table<TData>;
   tableContainerRef: React.RefObject<HTMLDivElement>;
+  loading?: boolean;
 }
 
 const ESTIMATED_ROW_HEIGHT = 39;
 const ROW_VIRTUAL_THRESHOLD = 25;
 
-export function DataTableBody<TData>({ table, tableContainerRef }: DataTableBodyProps<TData>) {
+export function DataTableBody<TData>({
+  table,
+  tableContainerRef,
+  loading,
+}: DataTableBodyProps<TData>) {
   const { t } = useTranslation(['datatable']);
   const emptyBody = Boolean(!table.getRowModel().rows?.length);
   const visibleRows = table.getRowModel().rows;
@@ -29,10 +35,20 @@ export function DataTableBody<TData>({ table, tableContainerRef }: DataTableBody
     <>
       {/* <==> EMPTY BODY <==> */}
       {emptyBody && (
-        <TableBody>
-          <TableRow>
-            <TableCell colSpan={table.getAllLeafColumns().length} className='h-24 text-center'>
-              {t('datatable:empty')}
+        <TableBody className='grid'>
+          <TableRow className='flex w-full'>
+            <TableCell
+              colSpan={table.getAllLeafColumns().length}
+              className='flex h-14 w-full items-center justify-center text-center'
+            >
+              {loading ? (
+                <p className='flex items-center gap-2 italic'>
+                  <Spinner />
+                  <span>Loading</span>
+                </p>
+              ) : (
+                t('datatable:empty')
+              )}
             </TableCell>
           </TableRow>
         </TableBody>
@@ -40,7 +56,7 @@ export function DataTableBody<TData>({ table, tableContainerRef }: DataTableBody
 
       {/* <==> BODY WITH DATA AND NOT ENABLE VIRTUAL <==> */}
       {Boolean(!emptyBody && !enableVirtual) && (
-        <TableBody className='relative grid'>
+        <TableBody className='grid'>
           {table.getRowModel().rows.map((row) => (
             <TableRow key={row.id} className='flex w-full'>
               {row.getVisibleCells().map((cell) => (

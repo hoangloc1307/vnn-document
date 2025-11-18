@@ -7,7 +7,7 @@ export default function SidebarLayout() {
   return (
     <SidebarProvider>
       <AppSidebar variant='inset' />
-      <SidebarInset className='h-[calc(100svh-1rem)] overflow-auto'>
+      <SidebarInset>
         <SiteHeader />
         <div className='flex flex-1 flex-col p-4'>
           <Outlet />

@@ -1,6 +1,6 @@
 import type { Category } from '~/pages/category/columns';
 
-export const dataFake = [
+export const dataFake: Category[] = [
   { id: '1', name: 'Laptop', description: 'Máy tính xách tay', status: true },
   { id: '2', name: 'Máy tính bàn', maintenanceIntervalHours: 4320, status: true },
   { id: '3', name: 'Máy in', status: false },
@@ -110,4 +110,4 @@ export const dataFake = [
   { id: '98', name: 'Power Module', status: true },
   { id: '99', name: 'Bộ nguồn dự phòng', status: true },
   { id: '100', name: 'Thiết bị cân chỉnh laser', status: true },
-] satisfies Category[];
+];

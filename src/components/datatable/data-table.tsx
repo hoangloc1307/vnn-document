@@ -9,9 +9,10 @@ import { cn } from '~/lib/utils';
 
 type DataTableProps<TData> = {
   table: TableType<TData>;
+  loading?: boolean;
 };
 
-export default function DataTable<TData>({ table }: DataTableProps<TData>) {
+export default function DataTable<TData>({ table, loading }: DataTableProps<TData>) {
   const fullScreen = table.options.meta?.fullScreen;
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +36,7 @@ export default function DataTable<TData>({ table }: DataTableProps<TData>) {
             <DataTableBody
               table={table}
               tableContainerRef={tableContainerRef as RefObject<HTMLDivElement>}
+              loading={loading}
             />
           </Table>
         </TableContainer>

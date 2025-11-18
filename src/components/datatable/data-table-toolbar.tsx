@@ -41,6 +41,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
             <Button
               size={'sm'}
               variant={showSearch ? 'default' : 'outline'}
+              disabled={!table.getRowModel().rows?.length}
               onClick={() => setShowSearch && setShowSearch(!showSearch)}
             >
               <Search />
@@ -55,6 +56,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
             <Button
               size={'sm'}
               variant={showFilters ? 'default' : 'outline'}
+              disabled={!table.getRowModel().rows?.length}
               onClick={() => setShowFilters && setShowFilters(!showFilters)}
             >
               <Funnel />
@@ -66,7 +68,12 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         {/* <==> SHOW / HIDE COLUMNS <==> */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size={'sm'} variant={'outline'} className='p-0'>
+            <Button
+              size={'sm'}
+              variant={'outline'}
+              className='p-0'
+              disabled={!table.getRowModel().rows?.length}
+            >
               <DataTableViewOptions table={table} />
             </Button>
           </TooltipTrigger>
@@ -79,6 +86,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
             <Button
               size={'sm'}
               variant={fullScreen ? 'default' : 'outline'}
+              disabled={!table.getRowModel().rows?.length}
               onClick={() => setFullScreen && setFullScreen(!fullScreen)}
             >
               <Fullscreen />

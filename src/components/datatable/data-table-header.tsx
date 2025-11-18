@@ -14,7 +14,7 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
   const showFilters = table.options.meta?.showFilters;
 
   return (
-    <TableHeader className='bg-background shadow-border sticky top-0 z-10 grid shadow [&_tr]:border-b-0'>
+    <TableHeader className='bg-muted shadow-border sticky top-0 z-10 grid shadow [&_tr]:border-b-0'>
       {table.getHeaderGroups().map((headerGroup) => (
         <Fragment key={headerGroup.id}>
           <TableRow className='flex h-full w-full'>
@@ -49,9 +49,10 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
                     variant='ghost'
                     size='sm'
                     className='h-full min-h-10 w-full justify-normal gap-0.5 px-2 has-[>svg]:px-2'
-                    onClick={(e) =>
-                      header.column.toggleSorting(undefined, (e as React.MouseEvent).shiftKey)
-                    }
+                    onClick={(e) => {
+                      if (!table.getRowModel().rows?.length) return;
+                      header.column.toggleSorting(undefined, (e as React.MouseEvent).shiftKey);
+                    }}
                   >
                     <p className='max-w-[calc(100%-16x)] whitespace-break-spaces'>{title}</p>
                     {header.column.getCanSort() && (

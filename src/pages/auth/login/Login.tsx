@@ -9,7 +9,7 @@ import { Card, CardContent } from '~/components/ui/card';
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '~/components/ui/field';
 import { Input } from '~/components/ui/input';
 import { Spinner } from '~/components/ui/spinner';
-import { useLogin } from '~/hooks/auth/useLogin';
+import { useLogin } from '~/hooks/queries/auth/useLogin';
 import { loginSchema, type LoginFormValues } from '~/validations/auth.validation';
 
 export default function LoginPage() {
