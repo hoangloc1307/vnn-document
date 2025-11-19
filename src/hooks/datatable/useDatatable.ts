@@ -31,6 +31,8 @@ export default function useDatatable<TData, TValue>({
   data,
   pagination,
 }: UseDataTableProps<TData, TValue>) {
+  const hasPagination = Boolean(pagination);
+
   // UI states (meta)
   const [showFilters, setShowFilters] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -42,17 +44,10 @@ export default function useDatatable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [paginationState, setPaginationState] = useState(() =>
-    pagination
-      ? {
-          pageIndex: pagination?.initial?.pageIndex ?? 0,
-          pageSize: pagination?.initial?.pageSize ?? pagination.pageSizeOptions?.[0] ?? 10,
-        }
-      : {
-          pageIndex: 0,
-          pageSize: data.length,
-        },
-  );
+  const [paginationState, setPaginationState] = useState({
+    pageIndex: pagination?.initial?.pageIndex ?? 0,
+    pageSize: pagination?.initial?.pageSize ?? pagination?.pageSizeOptions?.[0] ?? 10,
+  });
 
   const table = useReactTable({
     data,
@@ -60,7 +55,7 @@ export default function useDatatable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: hasPagination ? getPaginationRowModel() : undefined,
     getFacetedUniqueValues: getFacetedUniqueValues(),
     state: {
       sorting,
@@ -68,14 +63,14 @@ export default function useDatatable<TData, TValue>({
       columnVisibility,
       rowSelection,
       columnFilters,
-      pagination: paginationState,
+      pagination: hasPagination ? paginationState : undefined,
     },
     onGlobalFilterChange: setGlobalFilter,
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     onColumnFiltersChange: setColumnFilters,
-    onPaginationChange: setPaginationState,
+    onPaginationChange: hasPagination ? setPaginationState : undefined,
     globalFilterFn: 'includesString',
     enableSorting: true,
     enableGlobalFilter: true,
@@ -86,8 +81,8 @@ export default function useDatatable<TData, TValue>({
       setShowSearch,
       fullScreen,
       setFullScreen,
-      hasPagination: Boolean(pagination),
-      pageSizeOptions: pagination?.pageSizeOptions ?? [10, 20, 50, 100, Number.MAX_SAFE_INTEGER],
+      hasPagination,
+      pageSizeOptions: pagination?.pageSizeOptions ?? [10, 20, 50, 100],
     },
   });
 
