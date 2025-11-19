@@ -1,6 +1,8 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FilePlus } from 'lucide-react';
-import { type UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
+import { toast } from 'sonner';
 import { Button } from '~/components/ui/button';
 import {
   Dialog,
@@ -23,15 +25,41 @@ import {
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { Switch } from '~/components/ui/switch';
-import type { CreateCategoryFormValues } from '~/validations/category.validation';
+import {
+  createCategorySchema,
+  type CreateCategoryFormValues,
+} from '~/validations/category.validation';
 
-interface CreateCategoryProps {
-  form: UseFormReturn<CreateCategoryFormValues>;
-}
+export default function CreateCategory() {
+  const createForm = useForm<CreateCategoryFormValues>({
+    resolver: zodResolver(createCategorySchema),
+    defaultValues: {
+      name: '',
+      description: '',
+      maintenanceIntervalHours: null,
+      status: true,
+    },
+  });
 
-export default function CreateCategory({ form }: CreateCategoryProps) {
+  const onSubmit = (values: CreateCategoryFormValues) => {
+    toast.success('Create successfully', {
+      description: (
+        <pre className='bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
+          <code>{JSON.stringify(values, null, 2)}</code>
+        </pre>
+      ),
+      position: 'bottom-right',
+    });
+  };
+
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={(open) => {
+        if (!open) {
+          createForm.reset();
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button size={'sm'}>
           <FilePlus /> Create
@@ -45,13 +73,13 @@ export default function CreateCategory({ form }: CreateCategoryProps) {
             finalize.
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
+        <Form {...createForm}>
           <FormField
             name='name'
-            control={form.control}
+            control={createForm.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel className='required'>Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -61,7 +89,7 @@ export default function CreateCategory({ form }: CreateCategoryProps) {
           />
           <FormField
             name='description'
-            control={form.control}
+            control={createForm.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Description</FormLabel>
@@ -72,60 +100,60 @@ export default function CreateCategory({ form }: CreateCategoryProps) {
               </FormItem>
             )}
           />
-          <FormField
-            name='maintenanceIntervalHours'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Maintenance Interval (Hours)</FormLabel>
-                <FormControl>
-                  <NumericFormat
-                    value={field.value ?? ''}
-                    customInput={Input}
-                    thousandSeparator
-                    allowNegative={false}
-                    decimalScale={0}
-                    onValueChange={(values) => {
-                      field.onChange(values.floatValue ?? null);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name='status'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Status</FormLabel>
-                <FormControl>
-                  <div className='flex items-center space-x-2'>
-                    <Switch
-                      id='status'
-                      checked={!!field.value}
-                      onCheckedChange={(val) => field.onChange(Boolean(val))}
-                    />
-                    <Label htmlFor='status'>{field.value ? 'Active' : 'Inactive'}</Label>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className='grid grid-cols-10 gap-6'>
+            <div className='col-span-7'>
+              <FormField
+                name='maintenanceIntervalHours'
+                control={createForm.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Maintenance Interval (Hours)</FormLabel>
+                    <FormControl>
+                      <NumericFormat
+                        value={field.value ?? ''}
+                        customInput={Input}
+                        thousandSeparator
+                        allowNegative={false}
+                        decimalScale={0}
+                        onValueChange={(values) => {
+                          field.onChange(values.floatValue ?? null);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='col-span-3'>
+              <FormField
+                name='status'
+                control={createForm.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <FormControl>
+                      <div className='flex items-center space-x-2'>
+                        <Switch
+                          id='status'
+                          checked={!!field.value}
+                          onCheckedChange={(val) => field.onChange(Boolean(val))}
+                        />
+                        <Label htmlFor='status'>{field.value ? 'Active' : 'Inactive'}</Label>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
         </Form>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant='outline'>Cancel</Button>
           </DialogClose>
-          <Button
-            onClick={form.handleSubmit((v) => {
-              console.log(v);
-            })}
-          >
-            Save changes
-          </Button>
+          <Button onClick={createForm.handleSubmit(onSubmit)}>Save</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

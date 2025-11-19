@@ -117,4 +117,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  .required::after {
+    content: ' *';
+    color: red;
+  }
 }

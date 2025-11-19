@@ -1,12 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { AxiosError } from 'axios';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import logo from '~/assets/images/VNN_Building.jpg';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '~/components/ui/field';
+import { Field, FieldDescription, FieldGroup } from '~/components/ui/field';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { Spinner } from '~/components/ui/spinner';
 import { useLogin } from '~/hooks/queries/auth/useLogin';
@@ -18,7 +26,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const from = location.state?.from?.pathname ?? '/';
 
-  const { handleSubmit, control } = useForm<LoginFormValues>({
+  const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { username: '', password: '' },
   });
@@ -47,72 +55,73 @@ export default function LoginPage() {
               </div>
 
               {/* <==> FORM <==> */}
-              <form onSubmit={handleSubmit(onSubmit)} className='p-6 md:p-8'>
-                <FieldGroup>
-                  {/* <==> WELCOME <==> */}
-                  <div className='flex flex-col items-center gap-2 text-center'>
-                    <h1 className='text-2xl font-bold'>Welcome back</h1>
-                    <p className='text-muted-foreground text-balance'>Login to your VNN account</p>
-                  </div>
+              <Form {...loginForm}>
+                <form className='p-6 md:p-8' onSubmit={loginForm.handleSubmit(onSubmit)}>
+                  <FieldGroup>
+                    {/* <==> WELCOME <==> */}
+                    <div className='flex flex-col items-center gap-2 text-center'>
+                      <h2 className='text-2xl font-bold'>Welcome back</h2>
+                      <p className='text-muted-foreground text-balance'>
+                        Login to your VNN account
+                      </p>
+                    </div>
 
-                  {/* <==> USERNAME <==> */}
-                  <Controller
-                    name='username'
-                    control={control}
-                    disabled={login.isPending}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor='username'>Username</FieldLabel>
-                        <Input
-                          {...field}
-                          id='username'
-                          aria-invalid={fieldState.invalid}
-                          placeholder='Employee ID. e.g., 12314092'
-                          autoFocus
-                          tabIndex={1}
-                          className='placeholder:text-sm placeholder:italic'
-                        />
-                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                      </Field>
-                    )}
-                  />
+                    {/* <==> USERNAME <==> */}
+                    <FormField
+                      control={loginForm.control}
+                      name='username'
+                      disabled={login.isPending}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Username</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='Employee ID. e.g., 12314092'
+                              className='placeholder:text-sm placeholder:italic'
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  {/* <==> PASSWORD <==> */}
-                  <Controller
-                    name='password'
-                    control={control}
-                    disabled={login.isPending}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor='password'>Password</FieldLabel>
-                        <Input
-                          {...field}
-                          id='password'
-                          aria-invalid={fieldState.invalid}
-                          className='placeholder:text-sm placeholder:italic'
-                          type='password'
-                          placeholder='Enter your password'
-                          tabIndex={2}
-                        />
-                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                      </Field>
-                    )}
-                  />
+                    {/* <==> PASSWORD <==> */}
+                    <FormField
+                      control={loginForm.control}
+                      name='password'
+                      disabled={login.isPending}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                            <Input
+                              type='password'
+                              placeholder='Enter your password'
+                              className='placeholder:text-sm placeholder:italic'
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  {/* <==> BUTTON <==> */}
-                  <Field>
-                    <Button disabled={login.isPending} type='submit'>
-                      {login.isPending && <Spinner />}
-                      Login
-                    </Button>
-                  </Field>
+                    {/* <==> BUTTON <==> */}
+                    <Field>
+                      <Button disabled={login.isPending} type='submit'>
+                        {login.isPending && <Spinner />}
+                        Login
+                      </Button>
+                    </Field>
 
-                  {/* <==> SIGN UP <==> */}
-                  <FieldDescription className='text-center'>
-                    Don&apos;t have an account? <a href='#'>Sign up</a>
-                  </FieldDescription>
-                </FieldGroup>
-              </form>
+                    {/* <==> SIGN UP <==> */}
+                    <FieldDescription className='text-center'>
+                      Don&apos;t have an account? <a href='#'>Sign up</a>
+                    </FieldDescription>
+                  </FieldGroup>
+                </form>
+              </Form>
             </CardContent>
           </Card>
 
