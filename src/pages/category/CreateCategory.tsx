@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FilePlus } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'sonner';
@@ -31,6 +32,8 @@ import {
 } from '~/validations/category.validation';
 
 export default function CreateCategory() {
+  const [open, setOpen] = useState<boolean>(false);
+
   const createForm = useForm<CreateCategoryFormValues>({
     resolver: zodResolver(createCategorySchema),
     defaultValues: {
@@ -42,6 +45,7 @@ export default function CreateCategory() {
   });
 
   const onSubmit = (values: CreateCategoryFormValues) => {
+    setOpen(false);
     toast.success('Create successfully', {
       description: (
         <pre className='bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
@@ -54,10 +58,12 @@ export default function CreateCategory() {
 
   return (
     <Dialog
+      open={open}
       onOpenChange={(open) => {
-        if (!open) {
+        if (open) {
           createForm.reset();
         }
+        setOpen((prev) => !prev);
       }}
     >
       <DialogTrigger asChild>
@@ -65,7 +71,11 @@ export default function CreateCategory() {
           <FilePlus /> Create
         </Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px]' onInteractOutside={(e) => e.preventDefault()}>
+      <DialogContent
+        className='sm:max-w-[425px]'
+        onInteractOutside={(e) => e.preventDefault()}
+        showCloseButton={false}
+      >
         <DialogHeader>
           <DialogTitle>Create Category</DialogTitle>
           <DialogDescription>

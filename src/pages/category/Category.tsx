@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router-dom';
 import DataTable from '~/components/datatable/data-table';
 import { Button } from '~/components/ui/button';
 import useDatatable from '~/hooks/datatable/useDatatable';
@@ -5,7 +6,12 @@ import { useGetCategory } from '~/hooks/queries/category/useGetCategory';
 import { columns } from '~/pages/category/columns';
 import CreateCategory from '~/pages/category/CreateCategory';
 
+const PAGE_SIZE_OPTIONS = [15, 30, 50] as const;
+
 export default function CategoryPage() {
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
+  const pageSize = Number(searchParams.get('page-size')) || PAGE_SIZE_OPTIONS[0];
   const { data: categories, isFetching: categoryLoading } = useGetCategory();
 
   const table = useDatatable({
@@ -13,7 +19,8 @@ export default function CategoryPage() {
     data: categories,
     pagination: {
       type: 'client',
-      pageSizeOptions: [15, 30, 50],
+      pageSizeOptions: [...PAGE_SIZE_OPTIONS],
+      initial: { pageIndex: page - 1, pageSize },
     },
   });
 
@@ -26,7 +33,9 @@ export default function CategoryPage() {
         </div>
 
         <div className='flex flex-wrap justify-end gap-2'>
-          <Button variant={'outline'}>Import</Button>
+          <Button variant={'outline'} onClick={() => table.setPageIndex(2)}>
+            Import
+          </Button>
           <CreateCategory />
         </div>
       </div>

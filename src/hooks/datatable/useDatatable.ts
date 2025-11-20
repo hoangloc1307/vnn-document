@@ -74,6 +74,7 @@ export default function useDatatable<TData, TValue>({
     globalFilterFn: 'includesString',
     enableSorting: true,
     enableGlobalFilter: true,
+    autoResetPageIndex: false,
     meta: {
       showFilters,
       setShowFilters,
