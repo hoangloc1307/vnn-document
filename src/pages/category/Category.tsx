@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DataTable from '~/components/datatable/data-table';
 import { Button } from '~/components/ui/button';
+import URL_PARAM_KEYS from '~/constants/urlParamKeys';
 import useDatatable from '~/hooks/datatable/useDatatable';
 import { useGetCategory } from '~/hooks/queries/category/useGetCategory';
 import { columns } from '~/pages/category/columns';
@@ -9,9 +11,9 @@ import CreateCategory from '~/pages/category/CreateCategory';
 const PAGE_SIZE_OPTIONS = [15, 30, 50] as const;
 
 export default function CategoryPage() {
-  const [searchParams] = useSearchParams();
-  const page = Number(searchParams.get('page')) || 1;
-  const pageSize = Number(searchParams.get('page-size')) || PAGE_SIZE_OPTIONS[0];
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get(URL_PARAM_KEYS.PAGE_INDEX)) || 1;
+  const pageSize = Number(searchParams.get(URL_PARAM_KEYS.PAGE_SIZE)) || PAGE_SIZE_OPTIONS[0];
   const { data: categories, isFetching: categoryLoading } = useGetCategory();
 
   const table = useDatatable({
@@ -23,6 +25,15 @@ export default function CategoryPage() {
       initial: { pageIndex: page - 1, pageSize },
     },
   });
+
+  const paginationState = table.getState().pagination;
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    params.set(URL_PARAM_KEYS.PAGE_INDEX, String(paginationState.pageIndex + 1));
+    params.set(URL_PARAM_KEYS.PAGE_SIZE, String(paginationState.pageSize));
+    setSearchParams(params, { replace: true });
+  }, [paginationState, searchParams, setSearchParams]);
 
   return (
     <>

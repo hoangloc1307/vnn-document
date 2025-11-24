@@ -20,18 +20,27 @@ type ClientPaginationConfig = {
 
 type PaginationConfig = ClientPaginationConfig;
 
-type UseDataTableProps<TData, TValue> = {
+type SortingConfig = {
+  initial?: { id: string; desc: boolean }[];
+};
+
+interface UseDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   pagination?: PaginationConfig;
-};
+  sorting?: SortingConfig;
+}
+
+const DEFAULT_PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const;
 
 export default function useDatatable<TData, TValue>({
   columns,
   data,
   pagination,
+  sorting,
 }: UseDataTableProps<TData, TValue>) {
   const hasPagination = Boolean(pagination);
+  const hasSorting = Boolean(sorting);
 
   // UI states (meta)
   const [showFilters, setShowFilters] = useState(false);
@@ -39,14 +48,18 @@ export default function useDatatable<TData, TValue>({
   const [fullScreen, setFullScreen] = useState(false);
 
   // Table states
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sortingState, setSortingState] = useState<SortingState>(sorting?.initial ?? []);
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [paginationState, setPaginationState] = useState({
     pageIndex: pagination?.initial?.pageIndex ?? 0,
-    pageSize: pagination?.initial?.pageSize ?? pagination?.pageSizeOptions?.[0] ?? 10,
+    pageSize: pagination?.initial?.pageSize
+      ? pagination.pageSizeOptions?.includes(pagination?.initial?.pageSize)
+        ? pagination?.initial?.pageSize
+        : (pagination.pageSizeOptions?.[0] ?? DEFAULT_PAGE_SIZE_OPTIONS[0])
+      : DEFAULT_PAGE_SIZE_OPTIONS[0],
   });
 
   const table = useReactTable({
@@ -54,11 +67,11 @@ export default function useDatatable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    getSortedRowModel: hasSorting ? getSortedRowModel() : undefined,
     getPaginationRowModel: hasPagination ? getPaginationRowModel() : undefined,
     getFacetedUniqueValues: getFacetedUniqueValues(),
     state: {
-      sorting,
+      sorting: hasSorting ? sortingState : undefined,
       globalFilter,
       columnVisibility,
       rowSelection,
@@ -66,7 +79,7 @@ export default function useDatatable<TData, TValue>({
       pagination: hasPagination ? paginationState : undefined,
     },
     onGlobalFilterChange: setGlobalFilter,
-    onSortingChange: setSorting,
+    onSortingChange: hasSorting ? setSortingState : undefined,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     onColumnFiltersChange: setColumnFilters,
@@ -83,7 +96,7 @@ export default function useDatatable<TData, TValue>({
       fullScreen,
       setFullScreen,
       hasPagination,
-      pageSizeOptions: pagination?.pageSizeOptions ?? [10, 20, 50, 100],
+      pageSizeOptions: pagination?.pageSizeOptions ?? [...DEFAULT_PAGE_SIZE_OPTIONS],
     },
   });
 
