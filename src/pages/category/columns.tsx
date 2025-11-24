@@ -19,6 +19,7 @@ export const columns: ColumnDef<Category>[] = [
     accessorKey: 'description',
     header: 'Description',
     enableSorting: false,
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'maintenanceIntervalHours',

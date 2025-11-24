@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DataTable from '~/components/datatable/data-table';
 import { Button } from '~/components/ui/button';
@@ -12,9 +12,27 @@ const PAGE_SIZE_OPTIONS = [15, 30, 50] as const;
 
 export default function CategoryPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = Number(searchParams.get(URL_PARAM_KEYS.PAGE_INDEX)) || 1;
-  const pageSize = Number(searchParams.get(URL_PARAM_KEYS.PAGE_SIZE)) || PAGE_SIZE_OPTIONS[0];
   const { data: categories, isFetching: categoryLoading } = useGetCategory();
+
+  const initialPage = useMemo(() => {
+    const p = Number(searchParams.get(URL_PARAM_KEYS.PAGE_INDEX));
+    return Number.isFinite(p) && p > 0 ? p : 1;
+  }, [searchParams]);
+
+  const initialPageSize = useMemo(() => {
+    const s = Number(searchParams.get(URL_PARAM_KEYS.PAGE_SIZE));
+    return Number.isFinite(s) && s > 0 ? s : PAGE_SIZE_OPTIONS[0];
+  }, [searchParams]);
+
+  const initialSorting = useMemo(() => {
+    const sortParam = searchParams.get(URL_PARAM_KEYS.SORT);
+    if (!sortParam) return [];
+
+    return sortParam.split('.').map((p) => {
+      const [id, dir] = p.split('_');
+      return { id, desc: dir === 'desc' };
+    });
+  }, [searchParams]);
 
   const table = useDatatable({
     columns,
@@ -22,18 +40,26 @@ export default function CategoryPage() {
     pagination: {
       type: 'client',
       pageSizeOptions: [...PAGE_SIZE_OPTIONS],
-      initial: { pageIndex: page - 1, pageSize },
+      initial: { pageIndex: initialPage - 1, pageSize: initialPageSize },
     },
+    sorting: { initial: initialSorting },
   });
 
   const paginationState = table.getState().pagination;
+  const sortingState = table.getState().sorting;
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
+    const sort = sortingState.map((s) => `${s.id}_${s.desc ? 'desc' : 'asc'}`).join('.');
+    if (sort) {
+      params.set(URL_PARAM_KEYS.SORT, sort);
+    } else {
+      params.delete(URL_PARAM_KEYS.SORT);
+    }
     params.set(URL_PARAM_KEYS.PAGE_INDEX, String(paginationState.pageIndex + 1));
     params.set(URL_PARAM_KEYS.PAGE_SIZE, String(paginationState.pageSize));
     setSearchParams(params, { replace: true });
-  }, [paginationState, searchParams, setSearchParams]);
+  }, [paginationState, searchParams, setSearchParams, sortingState]);
 
   return (
     <>

@@ -11,6 +11,7 @@ declare module '@tanstack/react-table' {
     setShowSearch?: (v: boolean) => void;
     fullScreen?: boolean;
     setFullScreen?: (v: boolean) => void;
+    hasSorting?: boolean;
     hasPagination?: boolean;
     pageSizeOptions: number[];
   }

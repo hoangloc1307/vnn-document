@@ -97,6 +97,7 @@ export default function useDatatable<TData, TValue>({
       setFullScreen,
       hasPagination,
       pageSizeOptions: pagination?.pageSizeOptions ?? [...DEFAULT_PAGE_SIZE_OPTIONS],
+      hasSorting,
     },
   });
 

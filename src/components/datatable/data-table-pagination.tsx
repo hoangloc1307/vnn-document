@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui/select';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
@@ -17,6 +16,11 @@ interface DataTablePaginationProps<TData> {
 
 export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
   const { t } = useTranslation(['datatable']);
+  const hasPagination = table.options.meta?.hasPagination;
+  const page = table.getState().pagination.pageIndex + 1;
+  const pageSize = table.getState().pagination.pageSize;
+  const pageSizeOptions = table.options.meta?.pageSizeOptions;
+  const totalPage = table.getPageCount();
 
   return (
     <div className='flex items-center justify-between'>
@@ -29,23 +33,20 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
       </div>
 
       {/* <==> PAGINATION <==> */}
-      {Boolean(table.options.meta?.hasPagination) && (
+      {Boolean(hasPagination) && (
         <div className='flex items-center space-x-6 lg:space-x-8'>
           {/* <==> ROW PER PAGE <==> */}
           <div className='flex items-center space-x-2'>
             <p className='text-sm font-medium'>{t('datatable:pagination.rowsPerPage')}</p>
             <Select
-              disabled={!table.getRowModel().rows?.length}
-              value={`${table.getState().pagination.pageSize}`}
-              onValueChange={(value) => {
-                table.setPageSize(Number(value));
-              }}
+              value={pageSize.toString()}
+              onValueChange={(value) => table.setPageSize(Number(value))}
             >
               <SelectTrigger>
-                <SelectValue placeholder={table.getState().pagination.pageSize} />
+                <SelectValue placeholder={pageSize} />
               </SelectTrigger>
               <SelectContent side='top'>
-                {table.options.meta?.pageSizeOptions.map((pageSize) => (
+                {pageSizeOptions?.map((pageSize) => (
                   <SelectItem key={pageSize} value={pageSize.toString()}>
                     {pageSize === Number.MAX_SAFE_INTEGER ? 'All' : pageSize}
                   </SelectItem>
@@ -54,83 +55,60 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             </Select>
           </div>
 
-          {/* PAGE COUNT */}
+          {/* <==> PAGE COUNT <==> */}
           <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
-            {t('datatable:pagination.pageOf', {
-              page: table.getState().pagination.pageIndex + 1,
-              total: table.getPageCount(),
-            })}
+            {t('datatable:pagination.pageOf', { page, total: totalPage })}
           </div>
 
-          {/* NAVIGATE BUTTONS */}
+          {/* <==> NAVIGATE BUTTONS <==> */}
           <div className='flex items-center space-x-2'>
             {/* <==> PREVIOUS <==> */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  className='hidden size-8 lg:flex'
-                  onClick={() => table.setPageIndex(0)}
-                  disabled={!table.getCanPreviousPage()}
-                >
-                  <span className='sr-only'>{t('datatable:pagination.first')}</span>
-                  <ChevronsLeft />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{t('datatable:pagination.first')}</TooltipContent>
-            </Tooltip>
+            <Button
+              variant='outline'
+              size='icon'
+              title={t('datatable:pagination.first')}
+              className='hidden size-8 lg:flex'
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <ChevronsLeft />
+            </Button>
 
             {/* <==> PREVIOUS <==> */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  className='size-8'
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                >
-                  <span className='sr-only'>{t('datatable:pagination.prev')}</span>
-                  <ChevronLeft />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{t('datatable:pagination.prev')}</TooltipContent>
-            </Tooltip>
+            <Button
+              variant='outline'
+              size='icon'
+              title={t('datatable:pagination.prev')}
+              className='size-8'
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <ChevronLeft />
+            </Button>
 
             {/* <==> NEXT <==> */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  className='size-8'
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                >
-                  <span className='sr-only'>{t('datatable:pagination.next')}</span>
-                  <ChevronRight />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{t('datatable:pagination.next')}</TooltipContent>
-            </Tooltip>
+            <Button
+              variant='outline'
+              size='icon'
+              title={t('datatable:pagination.next')}
+              className='size-8'
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <ChevronRight />
+            </Button>
 
             {/* <==> LAST <==> */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  className='hidden size-8 lg:flex'
-                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                  disabled={!table.getCanNextPage()}
-                >
-                  <span className='sr-only'>{t('datatable:pagination.last')}</span>
-                  <ChevronsRight />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{t('datatable:pagination.last')}</TooltipContent>
-            </Tooltip>
+            <Button
+              variant='outline'
+              size='icon'
+              title={t('datatable:pagination.last')}
+              className='hidden size-8 lg:flex'
+              onClick={() => table.setPageIndex(totalPage - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              <ChevronsRight />
+            </Button>
           </div>
         </div>
       )}

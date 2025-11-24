@@ -1,99 +1,99 @@
+import { IconColumns3 } from '@tabler/icons-react';
 import type { Table } from '@tanstack/react-table';
 import { Fullscreen, Funnel, Search } from 'lucide-react';
 import { useEffect } from 'react';
 import { DataTableGlobalSearch } from '~/components/datatable/data-table-global-search';
-import { DataTableViewOptions } from '~/components/datatable/data-table-view-options';
 import { Button } from '~/components/ui/button';
 import { ButtonGroup } from '~/components/ui/button-group';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
-  const showFilters = table.options.meta?.showFilters;
-  const setShowFilters = table.options.meta?.setShowFilters;
-  const showSearch = table.options.meta?.showSearch;
-  const setShowSearch = table.options.meta?.setShowSearch;
-  const fullScreen = table.options.meta?.fullScreen;
-  const setFullScreen = table.options.meta?.setFullScreen;
+  const meta = table.options.meta!;
+  const { showFilters, setShowFilters, showSearch, setShowSearch, fullScreen, setFullScreen } =
+    meta;
 
   useEffect(() => {
     if (!showFilters) {
       table.resetColumnFilters();
     }
-  }, [showFilters, table]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showFilters]);
 
   useEffect(() => {
     if (!showSearch) {
       table.resetGlobalFilter();
     }
-  }, [showSearch, table]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showSearch]);
 
   return (
     <div className='flex items-center justify-end gap-2'>
       <DataTableGlobalSearch table={table} />
       <ButtonGroup>
         {/* <==> TOGGLE SEARCH <==> */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              size={'sm'}
-              variant={showSearch ? 'default' : 'outline'}
-              disabled={!table.getRowModel().rows?.length}
-              onClick={() => setShowSearch && setShowSearch(!showSearch)}
-            >
-              <Search />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Search</TooltipContent>
-        </Tooltip>
+        <Button
+          size={'sm'}
+          title='Search'
+          variant={showSearch ? 'default' : 'outline'}
+          onClick={() => setShowSearch && setShowSearch(!showSearch)}
+        >
+          <Search />
+        </Button>
 
         {/* <==> TOGGLE FILTERS <==> */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              size={'sm'}
-              variant={showFilters ? 'default' : 'outline'}
-              disabled={!table.getRowModel().rows?.length}
-              onClick={() => setShowFilters && setShowFilters(!showFilters)}
-            >
-              <Funnel />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Filter</TooltipContent>
-        </Tooltip>
+        <Button
+          size={'sm'}
+          title='Filter'
+          variant={showFilters ? 'default' : 'outline'}
+          onClick={() => setShowFilters && setShowFilters(!showFilters)}
+        >
+          <Funnel />
+        </Button>
 
         {/* <==> SHOW / HIDE COLUMNS <==> */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              size={'sm'}
-              variant={'outline'}
-              className='p-0'
-              disabled={!table.getRowModel().rows?.length}
-            >
-              <DataTableViewOptions table={table} />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button size={'sm'} variant={'outline'} className='p-0' title='Show/Hide columns'>
+              <IconColumns3 />
             </Button>
-          </TooltipTrigger>
-          <TooltipContent>Show/Hide columns</TooltipContent>
-        </Tooltip>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            {table
+              .getAllColumns()
+              .filter((column) => typeof column.accessorFn !== 'undefined' && column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className='capitalize'
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         {/* <==> TOGGLE FULLSCREEN <==> */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              size={'sm'}
-              variant={fullScreen ? 'default' : 'outline'}
-              disabled={!table.getRowModel().rows?.length}
-              onClick={() => setFullScreen && setFullScreen(!fullScreen)}
-            >
-              <Fullscreen />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Full screen</TooltipContent>
-        </Tooltip>
+        <Button
+          size={'sm'}
+          title='Full screen'
+          variant={fullScreen ? 'default' : 'outline'}
+          onClick={() => setFullScreen && setFullScreen(!fullScreen)}
+        >
+          <Fullscreen />
+        </Button>
       </ButtonGroup>
     </div>
   );

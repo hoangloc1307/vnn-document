@@ -3,7 +3,6 @@ import { flexRender } from '@tanstack/react-table';
 import { ChevronDown, ChevronsUpDown, ChevronUp } from 'lucide-react';
 import { Fragment } from 'react';
 import DataTableColumnFilter from '~/components/datatable/data-table-column-filter';
-import { Button } from '~/components/ui/button';
 import { TableHead, TableHeader, TableRow } from '~/components/ui/table';
 
 interface DataTableHeaderProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
@@ -12,23 +11,30 @@ interface DataTableHeaderProps<TData> extends React.HTMLAttributes<HTMLDivElemen
 
 export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
   const showFilters = table.options.meta?.showFilters;
+  const hasSorting = table.options.meta?.hasSorting;
 
   return (
     <TableHeader className='bg-muted shadow-border sticky top-0 z-10 grid shadow [&_tr]:border-b-0'>
       {table.getHeaderGroups().map((headerGroup) => (
         <Fragment key={headerGroup.id}>
+          {/* <==> HEADER ROW <==> */}
           <TableRow className='flex h-full w-full'>
             {headerGroup.headers.map((header) => {
-              if (header.isPlaceholder)
+              const canSort = header.column.getCanSort();
+              const sortDir = header.column.getIsSorted();
+
+              if (header.isPlaceholder) {
                 return (
                   <TableHead
                     key={header.id}
                     colSpan={header.colSpan}
                     style={{
                       width: header.getSize(),
+                      flex: `${header.getSize()} 0 auto`,
                     }}
                   />
                 );
+              }
 
               const title =
                 typeof header.column.columnDef.header === 'string'
@@ -39,34 +45,30 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
                 <TableHead
                   key={header.id}
                   colSpan={header.colSpan}
-                  className='h-full p-0'
+                  className='flex h-full min-h-10 items-center px-2'
                   style={{
                     width: header.getSize(),
                     flex: `${header.getSize()} 0 auto`,
                   }}
+                  onClick={(e) => {
+                    if (!hasSorting || !canSort) return;
+                    header.column.toggleSorting(undefined, (e as React.MouseEvent).shiftKey);
+                  }}
                 >
-                  <Button
-                    variant='ghost'
-                    size='sm'
-                    className='h-full min-h-10 w-full justify-normal gap-0.5 px-2 has-[>svg]:px-2'
-                    onClick={(e) => {
-                      if (!table.getRowModel().rows?.length) return;
-                      header.column.toggleSorting(undefined, (e as React.MouseEvent).shiftKey);
-                    }}
-                  >
-                    <p className='max-w-[calc(100%-16x)] whitespace-break-spaces'>{title}</p>
-                    {header.column.getCanSort() && (
-                      <>
-                        {header.column.getIsSorted() === 'desc' ? (
-                          <ChevronDown />
-                        ) : header.column.getIsSorted() === 'asc' ? (
-                          <ChevronUp />
-                        ) : (
-                          <ChevronsUpDown className='text-muted-foreground/50' />
-                        )}
-                      </>
-                    )}
-                  </Button>
+                  <p className='max-w-[calc(100%-16x)] whitespace-break-spaces select-none'>
+                    {title}
+                  </p>
+                  {Boolean(canSort && hasSorting) && (
+                    <Fragment>
+                      {sortDir === 'desc' ? (
+                        <ChevronDown className='size-4' />
+                      ) : sortDir === 'asc' ? (
+                        <ChevronUp className='size-4' />
+                      ) : (
+                        <ChevronsUpDown className='text-muted-foreground/50 size-4' />
+                      )}
+                    </Fragment>
+                  )}
                 </TableHead>
               );
             })}
@@ -77,14 +79,22 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
             <TableRow className='flex w-full'>
               {headerGroup.headers.map((header) => {
                 const column = header.column;
+
                 if (!column.getCanFilter()) {
-                  return <TableHead key={header.id} />;
+                  return (
+                    <TableHead
+                      key={header.id}
+                      style={{
+                        width: header.getSize(),
+                        flex: `${header.getSize()} 0 auto`,
+                      }}
+                    />
+                  );
                 }
 
                 return (
                   <TableHead
                     key={header.id}
-                    className='h-max p-2'
                     style={{
                       width: header.getSize(),
                       flex: `${header.getSize()} 0 auto`,
