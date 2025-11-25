@@ -5,6 +5,7 @@ import { useAuthStore } from '~/stores/auth.store';
 export const apiMain = new Http(
   {
     baseURL: CONFIG.BASE_API_URL,
+    withCredentials: true,
   },
   (ins) => {
     ins.interceptors.request.use((cfg) => {

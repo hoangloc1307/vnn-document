@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import STORAGE_KEYS from '~/constants/storageKeys';
 
-export type User = { username: string; name: string };
+export type User = { username: string; name: string; email: string };
 
 type AuthState = {
   user: User | null;

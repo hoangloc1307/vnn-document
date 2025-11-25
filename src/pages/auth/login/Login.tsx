@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import logo from '~/assets/images/VNN_Building.jpg';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
-import { Field, FieldDescription, FieldGroup } from '~/components/ui/field';
+import { FieldDescription, FieldGroup } from '~/components/ui/field';
 import {
   Form,
   FormControl,
@@ -35,9 +35,9 @@ export default function LoginPage() {
     login.mutate(values, {
       onSuccess: () => navigate(from, { replace: true }),
       onError: (error) => {
-        const err = error as AxiosError<{ message?: string }>;
-        toast.error('Login fail', {
-          description: err.response?.data?.message,
+        const err = error as AxiosError<{ message?: string; code?: string }>;
+        toast.error(err.response?.data?.code, {
+          description: err.response?.data?.message ?? 'Đăng nhập thất bại!',
         });
       },
     });
@@ -108,12 +108,10 @@ export default function LoginPage() {
                     />
 
                     {/* <==> BUTTON <==> */}
-                    <Field>
-                      <Button disabled={login.isPending} type='submit'>
-                        {login.isPending && <Spinner />}
-                        Login
-                      </Button>
-                    </Field>
+                    <Button disabled={login.isPending} type='submit'>
+                      {login.isPending && <Spinner />}
+                      Login
+                    </Button>
 
                     {/* <==> SIGN UP <==> */}
                     <FieldDescription className='text-center'>

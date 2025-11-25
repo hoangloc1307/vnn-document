@@ -1,37 +1,13 @@
-const authServices = {
-  login: async (payload: { username: string; password: string }) => {
-    // Giả lập delay 0.5 giây
-    await new Promise((r) => setTimeout(r, 500));
+import { apiMain } from '~/lib/api';
+import { type LoginRequest, type LoginResponse, type RefreshResponse } from '~/types/auth';
 
-    return {
-      success: true,
-      message: 'Login successful',
-      data: {
-        user: {
-          username: payload.username,
-          name: 'Trần Nguyễn Hoàng Lộc',
-          email: 'tran.nguyen.hoang.loc@vnn.nokgrp.com',
-        },
-        tokens: {
-          accessToken: 'fake-access-token-xyz',
-        },
-      },
-    };
+const authServices = {
+  login: async (payload: LoginRequest) => {
+    return apiMain.post<LoginResponse>('/auth/login', payload);
   },
-  // apiMain.post<{
-  //   success: boolean;
-  //   message: string;
-  //   data: {
-  //     user: {
-  //       username: string;
-  //       name: string;
-  //       email: string;
-  //     };
-  //     tokens: {
-  //       accessToken: string;
-  //     };
-  //   };
-  // }>('/auth/login', payload),
+  refresh: async () => {
+    return apiMain.post<RefreshResponse>('/auth/refresh');
+  },
 };
 
 export default authServices;
