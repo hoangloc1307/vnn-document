@@ -2,6 +2,7 @@ import {
   BadgeInfo,
   Boxes,
   FileQuestionMark,
+  LayoutDashboard,
   MessageCircleQuestionMark,
   Wrench,
 } from 'lucide-react';
@@ -11,36 +12,40 @@ import PATHS from '~/constants/paths';
 
 const MAIN = [
   {
-    title: 'Asset',
+    title: 'dashboard',
+    url: PATHS.DASHBOARD,
+    icon: LayoutDashboard,
+  },
+  {
+    title: 'asset',
     url: '',
     icon: Boxes,
     items: [
       {
-        title: 'Category',
+        title: 'category',
         url: PATHS.CATEGORY,
       },
     ],
   },
   {
-    title: 'Maintenance',
-    url: '',
+    title: 'maintenance',
     icon: Wrench,
   },
 ] as const satisfies NavItem[];
 
 const SECONDARY = [
   {
-    title: 'User Guide',
+    title: 'user_guide',
     url: '#',
     icon: FileQuestionMark,
   },
   {
-    title: 'Version Info',
+    title: 'version_info',
     url: PATHS.VERSION,
     icon: BadgeInfo,
   },
   {
-    title: 'Support',
+    title: 'support',
     url: PATHS.SUPPORT,
     icon: MessageCircleQuestionMark,
   },

@@ -1,36 +1,18 @@
 {
   "pagination": {
-    "pageOf": "Page {{page, number}} of {{total, number}}",
-    "rowsPerPage": "Rows per page",
+    "page_of": "Page {{page, number}} of {{total, number}}",
+    "rows_per_page": "Rows per page",
     "first": "First",
     "next": "Next",
     "prev": "Previous",
     "last": "Last"
   },
   "toolbar": {
-    "search": "Search...",
-    "reset": "Reset",
-    "export": "Export",
-    "density": "Density",
-    "columns": "Columns"
+    "search": "Search",
+    "clear_search": "Clear search",
+    "filter": "Filter",
+    "show_hide_columns": "Show/Hide columns",
+    "full_screen": "Full screen"
   },
-  "filter": {
-    "title": "Filters",
-    "apply": "Apply",
-    "clear": "Clear"
-  },
-  "sort": {
-    "asc": "Sort ascending",
-    "desc": "Sort descending",
-    "remove": "Remove sort"
-  },
-  "selection": {
-    "selectAll": "Select all",
-    "selectedCount": "{{count, number}} of {{total, number}} row(s) selected."
-  },
-  "empty": "No data",
-  "aria": {
-    "table": "Data table",
-    "rowActions": "Row actions"
-  }
+  "empty": "No data"
 }

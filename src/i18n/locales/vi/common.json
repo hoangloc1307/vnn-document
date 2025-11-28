@@ -1,3 +1,10 @@
 {
-  "hi": "Xin chào"
+  "toggle_theme": "Thay đổi giao diện",
+  "light": "Sáng",
+  "dark": "Tối",
+  "system": "Hệ thống",
+  "profile": "Hồ sơ",
+  "logout": "Đăng xuất",
+  "show_sidebar": "Hiện menu",
+  "hide_sidebar": "Ẩn menu"
 }
