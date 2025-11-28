@@ -1,5 +1,6 @@
 import type { Table } from '@tanstack/react-table';
 import { Search, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import {
   InputGroup,
   InputGroupAddon,
@@ -8,6 +9,7 @@ import {
 } from '~/components/ui/input-group';
 
 export function DataTableGlobalSearch<TData>({ table }: { table: Table<TData> }) {
+  const { t } = useTranslation(['datatable']);
   const showSearch = table.options.meta?.showSearch;
 
   return (
@@ -15,7 +17,7 @@ export function DataTableGlobalSearch<TData>({ table }: { table: Table<TData> })
       {showSearch && (
         <InputGroup className='h-8 w-[150px] lg:w-[250px]'>
           <InputGroupInput
-            placeholder='Search...'
+            placeholder={t('datatable:toolbar.search') + '...'}
             value={table.getState().globalFilter ?? ''}
             onChange={(event) => table.setGlobalFilter(event.target.value)}
           />
@@ -25,7 +27,7 @@ export function DataTableGlobalSearch<TData>({ table }: { table: Table<TData> })
           {table.getState().globalFilter && (
             <InputGroupAddon align='inline-end'>
               <InputGroupButton
-                aria-label='Clear'
+                title={t('datatable:toolbar.clear_search')}
                 size='icon-xs'
                 onClick={() => {
                   table.setGlobalFilter('');

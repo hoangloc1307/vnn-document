@@ -1,36 +1,18 @@
 {
   "pagination": {
-    "pageOf": "Trang {{page, number}} / {{total, number}}",
-    "rowsPerPage": "Số dòng/trang",
+    "page_of": "Trang {{page, number}} / {{total, number}}",
+    "rows_per_page": "Số dòng/trang",
     "first": "Trang đầu",
     "next": "Trang sau",
     "prev": "Trang trước",
     "last": "Trang cuối"
   },
   "toolbar": {
-    "search": "Tìm kiếm...",
-    "reset": "Đặt lại",
-    "export": "Xuất",
-    "density": "Mật độ",
-    "columns": "Cột"
+    "search": "Tìm kiếm",
+    "clear_search": "Đặt lại",
+    "filter": "Bộ lọc",
+    "show_hide_columns": "Ẩn/Hiện cột",
+    "full_screen": "Toàn màn hình"
   },
-  "filter": {
-    "title": "Bộ lọc",
-    "apply": "Áp dụng",
-    "clear": "Xoá"
-  },
-  "sort": {
-    "asc": "Sắp xếp tăng dần",
-    "desc": "Sắp xếp giảm dần",
-    "remove": "Bỏ sắp xếp"
-  },
-  "selection": {
-    "selectAll": "Chọn tất cả",
-    "selectedCount": "Đã chọn {{count, number}} / {{total, number}} dòng"
-  },
-  "empty": "Không có dữ liệu",
-  "aria": {
-    "table": "Bảng dữ liệu",
-    "rowActions": "Thao tác hàng"
-  }
+  "empty": "Không có dữ liệu"
 }

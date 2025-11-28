@@ -37,7 +37,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
         <div className='flex items-center space-x-6 lg:space-x-8'>
           {/* <==> ROW PER PAGE <==> */}
           <div className='flex items-center space-x-2'>
-            <p className='text-sm font-medium'>{t('datatable:pagination.rowsPerPage')}</p>
+            <p className='text-sm font-medium'>{t('datatable:pagination.rows_per_page')}</p>
             <Select
               value={pageSize.toString()}
               onValueChange={(value) => table.setPageSize(Number(value))}
@@ -57,7 +57,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
 
           {/* <==> PAGE COUNT <==> */}
           <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
-            {t('datatable:pagination.pageOf', { page, total: totalPage })}
+            {t('datatable:pagination.page_of', { page, total: totalPage })}
           </div>
 
           {/* <==> NAVIGATE BUTTONS <==> */}

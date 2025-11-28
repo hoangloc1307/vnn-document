@@ -1,4 +1,5 @@
 import { LogOut, UserRound } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import {
   DropdownMenu,
@@ -13,6 +14,7 @@ import { useAuthStore } from '~/stores/auth.store';
 import { getColorFromName, getInitials } from '~/utils/avatar';
 
 export default function UserOption() {
+  const { t } = useTranslation(['common']);
   const logout = useAuthStore((s) => s.logout);
   const user = useAuthStore((s) => s.user);
   const initials = getInitials(user?.name || user?.username || 'Unknown');
@@ -49,13 +51,13 @@ export default function UserOption() {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <UserRound />
-            Profile
+            {t('common:profile')}
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={logout}>
           <LogOut />
-          Log out
+          {t('common:logout')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -32,7 +32,11 @@ const router = createBrowserRouter([
         element: <SidebarLayout />,
         children: [
           {
-            path: PATHS.HOME,
+            index: true,
+            element: <DashboardPage />,
+          },
+          {
+            path: PATHS.DASHBOARD,
             element: <DashboardPage />,
           },
           {

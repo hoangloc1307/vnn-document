@@ -1,3 +1,10 @@
 {
-  "hi": "Hi"
+  "toggle_theme": "Toggle theme",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "profile": "Profile",
+  "logout": "Log out",
+  "show_sidebar": "Show sidebar",
+  "hide_sidebar": "Hide sidebar"
 }

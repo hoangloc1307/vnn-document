@@ -6,6 +6,7 @@ const PATHS = {
   VERSION: 'version-info',
   SUPPORT: 'support',
   CATEGORY: 'category',
+  DASHBOARD: 'dashboard',
 } as const;
 
 export default PATHS;

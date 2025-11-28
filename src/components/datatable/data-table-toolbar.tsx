@@ -2,6 +2,7 @@ import { IconColumns3 } from '@tabler/icons-react';
 import type { Table } from '@tanstack/react-table';
 import { Fullscreen, Funnel, Search } from 'lucide-react';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DataTableGlobalSearch } from '~/components/datatable/data-table-global-search';
 import { Button } from '~/components/ui/button';
 import { ButtonGroup } from '~/components/ui/button-group';
@@ -17,6 +18,7 @@ interface DataTableToolbarProps<TData> {
 }
 
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
+  const { t } = useTranslation(['datatable']);
   const meta = table.options.meta!;
   const { showFilters, setShowFilters, showSearch, setShowSearch, fullScreen, setFullScreen } =
     meta;
@@ -42,7 +44,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         {/* <==> TOGGLE SEARCH <==> */}
         <Button
           size={'sm'}
-          title='Search'
+          title={t('datatable:toolbar.search')}
           variant={showSearch ? 'default' : 'outline'}
           onClick={() => setShowSearch && setShowSearch(!showSearch)}
         >
@@ -52,7 +54,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         {/* <==> TOGGLE FILTERS <==> */}
         <Button
           size={'sm'}
-          title='Filter'
+          title={t('datatable:toolbar.filter')}
           variant={showFilters ? 'default' : 'outline'}
           onClick={() => setShowFilters && setShowFilters(!showFilters)}
         >
@@ -62,7 +64,12 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         {/* <==> SHOW / HIDE COLUMNS <==> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button size={'sm'} variant={'outline'} className='p-0' title='Show/Hide columns'>
+            <Button
+              size={'sm'}
+              variant={'outline'}
+              className='p-0'
+              title={t('datatable:toolbar.show_hide_columns')}
+            >
               <IconColumns3 />
             </Button>
           </DropdownMenuTrigger>
@@ -88,7 +95,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         {/* <==> TOGGLE FULLSCREEN <==> */}
         <Button
           size={'sm'}
-          title='Full screen'
+          title={t('datatable:toolbar.full_screen')}
           variant={fullScreen ? 'default' : 'outline'}
           onClick={() => setFullScreen && setFullScreen(!fullScreen)}
         >
