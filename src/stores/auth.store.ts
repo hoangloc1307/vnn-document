@@ -8,9 +8,9 @@ type AuthState = {
   user: User | null;
   accessToken: string | null;
   isAuthenticated: boolean;
-  setAuth: (p: { user: User; accessToken: string }) => void;
-  setAccessToken: (t: string | null) => void;
-  logout: () => void;
+  setAuth: (payload: { user: User; accessToken: string }) => void;
+  setAccessToken: (token: string | null) => void;
+  resetAuth: () => void;
 };
 
 export const useAuthStore = create<AuthState>()(
@@ -20,12 +20,13 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       isAuthenticated: false,
       setAuth: ({ user, accessToken }) => set({ user, accessToken, isAuthenticated: true }),
-      setAccessToken: (t) => set((s) => ({ accessToken: t, isAuthenticated: !!t && !!s.user })),
-      logout: () => set({ user: null, accessToken: null, isAuthenticated: false }),
+      setAccessToken: (token) =>
+        set((state) => ({ accessToken: token, isAuthenticated: !!token && !!state.user })),
+      resetAuth: () => set({ user: null, accessToken: null, isAuthenticated: false }),
     }),
     {
       name: STORAGE_KEYS.AUTH,
-      partialize: (s) => ({ user: s.user, isAuthenticated: s.isAuthenticated }),
+      partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
     },
   ),
 );

@@ -4,9 +4,12 @@ import { useAuthStore } from '~/stores/auth.store';
 
 export function useLogin() {
   const setAuth = useAuthStore((s) => s.setAuth);
-
   return useMutation({
     mutationFn: authServices.login,
-    onSuccess: (data) => setAuth({ user: data.data.user, accessToken: data.data.tokens }),
+    onSuccess: (data) => {
+      if (data.data) {
+        setAuth({ user: data.data.user, accessToken: data.data.accessToken });
+      }
+    },
   });
 }

@@ -15,7 +15,7 @@ import { getColorFromName, getInitials } from '~/utils/avatar';
 
 export default function UserOption() {
   const { t } = useTranslation(['common']);
-  const logout = useAuthStore((s) => s.logout);
+  const resetAuth = useAuthStore((s) => s.resetAuth);
   const user = useAuthStore((s) => s.user);
   const initials = getInitials(user?.name || user?.username || 'Unknown');
 
@@ -55,7 +55,7 @@ export default function UserOption() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout}>
+        <DropdownMenuItem onClick={resetAuth}>
           <LogOut />
           {t('common:logout')}
         </DropdownMenuItem>

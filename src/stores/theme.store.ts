@@ -1,17 +1,20 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import STORAGE_KEYS from '~/constants/storageKeys';
-import { applyTheme } from '~/utils/theme';
+import { applyTheme, setupSystemListener } from '~/utils/theme';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 type ThemeState = {
   theme: ThemeMode;
+};
+
+type ThemeActions = {
   setTheme: (t: ThemeMode) => void;
   init: () => void;
 };
 
-export const useThemeStore = create<ThemeState>()(
+export const useThemeStore = create<ThemeState & ThemeActions>()(
   persist(
     (set, get) => ({
       theme: 'system',
@@ -33,20 +36,3 @@ export const useThemeStore = create<ThemeState>()(
     },
   ),
 );
-
-function setupSystemListener(mode: ThemeMode, get: () => ThemeState) {
-  const media = window.matchMedia?.('(prefers-color-scheme: dark)');
-  if (!media || !media.addEventListener) return;
-
-  media.removeEventListener('change', onSystemChange);
-  if (mode === 'system') {
-    media.addEventListener('change', onSystemChange);
-  }
-
-  function onSystemChange() {
-    const cur = get().theme;
-    if (cur === 'system') {
-      applyTheme('system');
-    }
-  }
-}

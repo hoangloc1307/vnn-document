@@ -24,7 +24,7 @@ type NavUserProps = {
 
 export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
-  const logout = useAuthStore((s) => s.logout);
+  const resetAuth = useAuthStore((s) => s.resetAuth);
 
   const initials = getInitials(user.name || user.username || 'Unknown');
 
@@ -95,7 +95,7 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuSeparator />
 
             {/* <==> LOG OUT <==> */}
-            <DropdownMenuItem onClick={logout}>
+            <DropdownMenuItem onClick={resetAuth}>
               <LogOut />
               Log out
             </DropdownMenuItem>
