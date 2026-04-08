@@ -1,32 +1,49 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import STORAGE_KEYS from '~/constants/storageKeys';
+import type { User } from '~/types/me';
 
-export type User = { username: string; name: string; email: string };
-
-type AuthState = {
+type AuthStates = {
   user: User | null;
+  menus: string[] | null;
+  permissions: string[] | null;
   accessToken: string | null;
   isAuthenticated: boolean;
-  setAuth: (payload: { user: User; accessToken: string }) => void;
-  setAccessToken: (token: string | null) => void;
+};
+
+type AuthActions = {
+  setAuth: (payload: { accessToken: string }) => void;
+  setMe: (payload: { user: User; menus: string[]; permissions: string[] }) => void;
   resetAuth: () => void;
 };
 
-export const useAuthStore = create<AuthState>()(
+export const useAuthStore = create<AuthStates & AuthActions>()(
   persist(
     (set) => ({
+      // States
       user: null,
+      menus: null,
+      permissions: null,
       accessToken: null,
       isAuthenticated: false,
-      setAuth: ({ user, accessToken }) => set({ user, accessToken, isAuthenticated: true }),
-      setAccessToken: (token) =>
-        set((state) => ({ accessToken: token, isAuthenticated: !!token && !!state.user })),
-      resetAuth: () => set({ user: null, accessToken: null, isAuthenticated: false }),
+
+      // Actions
+      setAuth: ({ accessToken }) => set({ accessToken, isAuthenticated: true }),
+      setMe: ({ user, menus, permissions }) => set({ user, menus, permissions }),
+      resetAuth: () =>
+        set({
+          user: null,
+          menus: null,
+          permissions: null,
+          accessToken: null,
+          isAuthenticated: false,
+        }),
     }),
     {
       name: STORAGE_KEYS.AUTH,
-      partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
+      partialize: (state) => ({
+        isAuthenticated: state.isAuthenticated,
+      }),
     },
   ),
 );

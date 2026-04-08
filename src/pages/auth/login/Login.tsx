@@ -1,8 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 import logo from '~/assets/images/VNN_Building.jpg';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
@@ -17,7 +15,7 @@ import {
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { Spinner } from '~/components/ui/spinner';
-import { useLogin } from '~/hooks/queries/auth/useLogin';
+import { useLogin } from '~/hooks/queries/auth/use-login';
 import { loginSchema, type LoginFormValues } from '~/validations/auth.validation';
 
 export default function LoginPage() {
@@ -34,12 +32,21 @@ export default function LoginPage() {
   const onSubmit = (values: LoginFormValues) =>
     login.mutate(values, {
       onSuccess: () => navigate(from, { replace: true }),
-      onError: (error) => {
-        const err = error as AxiosError<{ message?: string; code?: string }>;
-        toast.error(err.response?.data?.code, {
-          description: err.response?.data?.message ?? 'Đăng nhập thất bại!',
-        });
-      },
+      // onError: (error) => {
+      //   const err = error as AxiosError<{
+      //     message: string;
+      //     errorCode: string;
+      //     metadata?: Record<string, string>;
+      //   }>;
+      //   if (err.status === 400) {
+      //     const metadata = err.response?.data.metadata;
+      //     if (metadata) {
+      //       Object.entries(metadata).forEach(([key, value]) => {
+      //         loginForm.setError(key.split('.')[1] as keyof LoginFormValues, { message: value });
+      //       });
+      //     }
+      //   }
+      // },
     });
 
   return (

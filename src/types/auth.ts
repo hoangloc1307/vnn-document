@@ -6,12 +6,9 @@ export interface LoginRequest {
 }
 
 export type LoginResponse = ApiResponse<{
-  user: {
-    username: string;
-    name: string;
-    email: string;
-  };
-  accessToken: string;
+  token: string;
 }>;
 
-export type RefreshResponse = ApiResponse<string>;
+export type RefreshResponse = ApiResponse<{
+  accessToken: string;
+}>;

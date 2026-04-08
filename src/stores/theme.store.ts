@@ -5,29 +5,30 @@ import { applyTheme, setupSystemListener } from '~/utils/theme';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
-type ThemeState = {
+type ThemeStates = {
   theme: ThemeMode;
 };
 
 type ThemeActions = {
+  initTheme: () => void;
   setTheme: (t: ThemeMode) => void;
-  init: () => void;
 };
 
-export const useThemeStore = create<ThemeState & ThemeActions>()(
+export const useThemeStore = create<ThemeStates & ThemeActions>()(
   persist(
     (set, get) => ({
+      // States
       theme: 'system',
 
+      // Actions
+      initTheme: () => {
+        applyTheme(get().theme);
+        setupSystemListener(get().theme, get);
+      },
       setTheme: (t) => {
         set({ theme: t });
         applyTheme(t);
         setupSystemListener(t, get);
-      },
-
-      init: () => {
-        applyTheme(get().theme);
-        setupSystemListener(get().theme, get);
       },
     }),
     {

@@ -2,14 +2,19 @@ import { useMutation } from '@tanstack/react-query';
 import authServices from '~/services/auth.service';
 import { useAuthStore } from '~/stores/auth.store';
 
-export function useLogin() {
+export function useRefresh() {
   const setAuth = useAuthStore((s) => s.setAuth);
+  const resetAuth = useAuthStore((s) => s.resetAuth);
+
   return useMutation({
-    mutationFn: authServices.login,
+    mutationFn: authServices.refresh,
     onSuccess: (data) => {
       if (data.data) {
-        setAuth({ user: data.data.user, accessToken: data.data.accessToken });
+        setAuth({ accessToken: data.data.accessToken });
       }
+    },
+    onError: () => {
+      resetAuth();
     },
   });
 }
