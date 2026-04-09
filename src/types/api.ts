@@ -4,4 +4,10 @@ export interface ApiResponse<T> {
   data?: T;
   errorCode?: string;
   metadata?: Record<string, string>;
+  pagination?: {
+    page: number;
+    limit?: number;
+    totalItems: number;
+    totalPages: number;
+  };
 }
