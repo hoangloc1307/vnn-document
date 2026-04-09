@@ -1,16 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
 import PATHS from '~/constants/paths';
 import SidebarLayout from '~/layouts/sidebar';
-import AdminPage from '~/pages/admin';
 import LoginPage from '~/pages/auth/login';
-import CategoryPage from '~/pages/category';
 import DashboardPage from '~/pages/dashboard';
+import Items from '~/pages/items';
 import NotFoundPage from '~/pages/not-found';
 import SupportPage from '~/pages/support';
 import VersonPage from '~/pages/version';
+import Warehouses from '~/pages/warehouses';
 import ProtectedRoute from '~/router/guards/ProtectedRoute';
 import RejectedRoute from '~/router/guards/RejectedRoute';
-import RoleRoute from '~/router/guards/RoleRoute';
 
 const router = createBrowserRouter([
   // =============== REJECTED ROUTE ===============
@@ -36,36 +35,34 @@ const router = createBrowserRouter([
             element: <DashboardPage />,
           },
           {
-            path: PATHS.DASHBOARD,
-            element: <DashboardPage />,
+            path: PATHS.ITEMS,
+            element: <Items />,
           },
           {
-            path: PATHS.CATEGORY,
-            element: <CategoryPage />,
-          },
-          {
-            path: PATHS.VERSION,
-            element: <VersonPage />,
-          },
-          {
-            path: PATHS.SUPPORT,
-            element: <SupportPage />,
-          },
-
-          // =============== ADMIN ROUTE ===============
-          {
-            element: <RoleRoute allowedRoles={['admin']} userRole={'test'} />,
-            children: [
-              {
-                path: PATHS.ADMIN,
-                element: <AdminPage />,
-              },
-            ],
+            path: PATHS.WAREHOUSES,
+            element: <Warehouses />,
           },
         ],
       },
     ],
   },
+
+  // =============== PUBLIC ROUTE ===============
+  {
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: PATHS.VERSION,
+        element: <VersonPage />,
+      },
+      {
+        path: PATHS.SUPPORT,
+        element: <SupportPage />,
+      },
+    ],
+  },
+
+  // =============== NOT FOUND ROUTE ===============
   { path: '*', element: <NotFoundPage /> },
 ]);
 

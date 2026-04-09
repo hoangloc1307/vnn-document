@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/shallow';
 import logo from '~/assets/images/VNN_Building.jpg';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
@@ -16,10 +18,21 @@ import {
 import { Input } from '~/components/ui/input';
 import { Spinner } from '~/components/ui/spinner';
 import { useLogin } from '~/hooks/queries/auth/use-login';
+import { useGetMe } from '~/hooks/queries/me/use-get-me';
+import { useAuthStore } from '~/stores/auth.store';
 import { loginSchema, type LoginFormValues } from '~/validations/auth.validation';
 
 export default function LoginPage() {
+  const { isAuthenticated, accessToken } = useAuthStore(
+    useShallow((s) => ({
+      isAuthenticated: s.isAuthenticated,
+      accessToken: s.accessToken,
+    })),
+  );
   const login = useLogin();
+  const getMe = useGetMe({
+    enabled: isAuthenticated && !!accessToken,
+  });
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname ?? '/';
@@ -31,22 +44,25 @@ export default function LoginPage() {
 
   const onSubmit = (values: LoginFormValues) =>
     login.mutate(values, {
-      onSuccess: () => navigate(from, { replace: true }),
-      // onError: (error) => {
-      //   const err = error as AxiosError<{
-      //     message: string;
-      //     errorCode: string;
-      //     metadata?: Record<string, string>;
-      //   }>;
-      //   if (err.status === 400) {
-      //     const metadata = err.response?.data.metadata;
-      //     if (metadata) {
-      //       Object.entries(metadata).forEach(([key, value]) => {
-      //         loginForm.setError(key.split('.')[1] as keyof LoginFormValues, { message: value });
-      //       });
-      //     }
-      //   }
-      // },
+      onSuccess: () => {
+        getMe.refetch();
+        navigate(from, { replace: true });
+      },
+      onError: (error) => {
+        const err = error as AxiosError<{
+          message: string;
+          errorCode: string;
+          metadata?: Record<string, string>;
+        }>;
+        if (err.status === 400) {
+          const metadata = err.response?.data.metadata;
+          if (metadata) {
+            Object.entries(metadata).forEach(([key, value]) => {
+              loginForm.setError(key.split('.')[1] as keyof LoginFormValues, { message: value });
+            });
+          }
+        }
+      },
     });
 
   return (

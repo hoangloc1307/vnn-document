@@ -11,6 +11,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '~/components/ui/sidebar';
+import { useAuthStore } from '~/stores/auth.store';
 
 type NavSubItem = {
   title: string;
@@ -31,12 +32,13 @@ type NavMainProps = {
 
 export function NavMain({ items }: NavMainProps) {
   const { t } = useTranslation(['layout']);
+  const menus = useAuthStore((s) => s.menus);
 
   return (
     <SidebarGroup>
       <SidebarMenu>
         {items.map((item) => {
-          if (!item.items?.length) {
+          if (!item.items?.length && menus.includes(item.url ?? '')) {
             return (
               <Link to={item.url ?? ''} key={item.title}>
                 <SidebarMenuButton tooltip={t(`layout:${item.title}`)}>
@@ -45,6 +47,12 @@ export function NavMain({ items }: NavMainProps) {
                 </SidebarMenuButton>
               </Link>
             );
+          }
+
+          const visibleSubItems = item.items?.filter((subItem) => menus.includes(subItem.url));
+
+          if (!visibleSubItems || visibleSubItems.length === 0) {
+            return null;
           }
 
           return (
@@ -64,15 +72,19 @@ export function NavMain({ items }: NavMainProps) {
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarMenuSub>
-                    {item.items?.map((subItem) => (
-                      <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild>
-                          <Link to={subItem.url}>
-                            <span>{t(`layout:${subItem.title}`)}</span>
-                          </Link>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
+                    {item.items?.map((subItem) => {
+                      if (!menus.includes(subItem.url)) return null;
+
+                      return (
+                        <SidebarMenuSubItem key={subItem.title}>
+                          <SidebarMenuSubButton asChild>
+                            <Link to={subItem.url}>
+                              <span>{t(`layout:${subItem.title}`)}</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      );
+                    })}
                   </SidebarMenuSub>
                 </CollapsibleContent>
               </SidebarMenuItem>

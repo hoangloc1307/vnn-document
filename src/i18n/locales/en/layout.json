@@ -1,8 +1,7 @@
 {
-  "dashboard": "Dashboard",
-  "asset": "Asset",
-  "category": "Category",
-  "maintenance": "Maintenance",
+  "master": "Master",
+  "items": "Items",
+  "warehouses": "Warehouses",
   "user_guide": "User guide",
   "version_info": "Version info",
   "support": "Support"

@@ -5,8 +5,8 @@ import type { User } from '~/types/me';
 
 type AuthStates = {
   user: User | null;
-  menus: string[] | null;
-  permissions: string[] | null;
+  menus: string[];
+  permissions: string[];
   accessToken: string | null;
   isAuthenticated: boolean;
 };
@@ -22,8 +22,8 @@ export const useAuthStore = create<AuthStates & AuthActions>()(
     (set) => ({
       // States
       user: null,
-      menus: null,
-      permissions: null,
+      menus: [],
+      permissions: [],
       accessToken: null,
       isAuthenticated: false,
 
@@ -33,8 +33,8 @@ export const useAuthStore = create<AuthStates & AuthActions>()(
       resetAuth: () =>
         set({
           user: null,
-          menus: null,
-          permissions: null,
+          menus: [],
+          permissions: [],
           accessToken: null,
           isAuthenticated: false,
         }),

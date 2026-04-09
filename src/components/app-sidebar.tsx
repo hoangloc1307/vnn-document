@@ -17,7 +17,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               'bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg p-1 transition-[width,height] duration-200 ease-linear'
             }
           >
-            <img src={logo} className='object-contain hue-rotate-180 invert' />
+            <img src={logo} alt='Logo' className='object-contain hue-rotate-180 invert' />
           </div>
           <div className='grid flex-1 text-left text-sm leading-tight'>
             <span className='truncate font-medium'>Vietnam NOK</span>

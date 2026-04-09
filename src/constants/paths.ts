@@ -1,12 +1,10 @@
 const PATHS = {
   HOME: '/',
-  LOGIN: 'login',
-  FORBIDDEN: 'denied',
-  ADMIN: 'admin',
-  VERSION: 'version-info',
-  SUPPORT: 'support',
-  CATEGORY: 'category',
-  DASHBOARD: 'dashboard',
+  LOGIN: '/login',
+  VERSION: '/version-info',
+  SUPPORT: '/support',
+  ITEMS: '/items',
+  WAREHOUSES: '/warehouses',
 } as const;
 
 export default PATHS;
