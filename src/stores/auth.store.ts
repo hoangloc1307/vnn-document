@@ -9,12 +9,14 @@ type AuthStates = {
   permissions: string[];
   accessToken: string | null;
   isAuthenticated: boolean;
+  isInitialized: boolean;
 };
 
 type AuthActions = {
   setAuth: (payload: { accessToken: string }) => void;
   setMe: (payload: { user: User; menus: string[]; permissions: string[] }) => void;
   resetAuth: () => void;
+  setInitialized: (payload: boolean) => void;
 };
 
 export const useAuthStore = create<AuthStates & AuthActions>()(
@@ -26,6 +28,7 @@ export const useAuthStore = create<AuthStates & AuthActions>()(
       permissions: [],
       accessToken: null,
       isAuthenticated: false,
+      isInitialized: false,
 
       // Actions
       setAuth: ({ accessToken }) => set({ accessToken, isAuthenticated: true }),
@@ -37,7 +40,9 @@ export const useAuthStore = create<AuthStates & AuthActions>()(
           permissions: [],
           accessToken: null,
           isAuthenticated: false,
+          isInitialized: false,
         }),
+      setInitialized: (payload) => set({ isInitialized: payload }),
     }),
     {
       name: STORAGE_KEYS.AUTH,

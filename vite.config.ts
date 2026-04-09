@@ -15,5 +15,13 @@ export default defineConfig({
     port: 3000,
     open: false,
     host: true,
+    watch: {
+      usePolling: true,
+    },
+    hmr: {
+      host: 'localhost',
+      protocol: 'ws',
+      clientPort: 80,
+    },
   },
 });

@@ -1,19 +1,75 @@
+import { Loader2 } from 'lucide-react';
+import { Suspense, useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
+import { useShallow } from 'zustand/shallow';
 import { Toaster } from '~/components/ui/sonner';
-import { useAppInit } from '~/hooks/use-app-init';
 import router from '~/router';
+import authServices from '~/services/auth.service';
+import meServices from '~/services/me.service';
+import { useAuthStore } from '~/stores/auth.store';
 import { useThemeStore } from '~/stores/theme.store';
 
 function Bootstrap() {
   const theme = useThemeStore((s) => s.theme);
 
-  useAppInit();
+  const initTheme = useThemeStore((s) => s.initTheme);
+  const { setMe, setAuth, resetAuth, setInitialized, isInitialized } = useAuthStore(
+    useShallow((s) => ({
+      setMe: s.setMe,
+      setAuth: s.setAuth,
+      resetAuth: s.resetAuth,
+      setInitialized: s.setInitialized,
+      isInitialized: s.isInitialized,
+    })),
+  );
+
+  // Init theme
+  useEffect(() => {
+    initTheme();
+  }, [initTheme]);
+
+  useEffect(() => {
+    async function init() {
+      try {
+        const refreshRes = await authServices.refresh();
+
+        if (!refreshRes.success) {
+          return resetAuth();
+        }
+
+        const accessToken = refreshRes.data!.accessToken;
+        setAuth({ accessToken });
+
+        const meRes = await meServices.getMe();
+
+        if (!meRes.success) {
+          return resetAuth();
+        }
+
+        setMe(meRes.data!);
+      } catch {
+        resetAuth();
+      } finally {
+        setInitialized(true);
+      }
+    }
+
+    init();
+  }, [setAuth, setMe, setInitialized, resetAuth]);
+
+  if (!isInitialized) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <Loader2 className='h-8 w-8 animate-spin' />
+      </div>
+    );
+  }
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <RouterProvider router={router} />
       <Toaster theme={theme} />
-    </>
+    </Suspense>
   );
 }
 

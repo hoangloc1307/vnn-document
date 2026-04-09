@@ -17,7 +17,7 @@ export function useLogin() {
     onError: (error) => {
       const err = error as AxiosError<{ message: string; errorCode: string }>;
       toast.error(err.response?.data.errorCode, {
-        description: err.response?.data.message ?? 'Đăng nhập thất bại!',
+        description: err.response?.data.message ?? 'Login failed!',
       });
     },
   });

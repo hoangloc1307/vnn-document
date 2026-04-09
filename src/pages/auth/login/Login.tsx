@@ -17,8 +17,8 @@ import {
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { Spinner } from '~/components/ui/spinner';
-import { useLogin } from '~/hooks/queries/auth/use-login';
-import { useGetMe } from '~/hooks/queries/me/use-get-me';
+import { useLogin } from '~/hooks/mutations/useAuthMutations';
+import { useGetMe } from '~/hooks/queries/useMe';
 import { useAuthStore } from '~/stores/auth.store';
 import { loginSchema, type LoginFormValues } from '~/validations/auth.validation';
 
@@ -29,7 +29,7 @@ export default function LoginPage() {
       accessToken: s.accessToken,
     })),
   );
-  const login = useLogin();
+  const loginMutation = useLogin();
   const getMe = useGetMe({
     enabled: isAuthenticated && !!accessToken,
   });
@@ -43,7 +43,7 @@ export default function LoginPage() {
   });
 
   const onSubmit = (values: LoginFormValues) =>
-    login.mutate(values, {
+    loginMutation.mutate(values, {
       onSuccess: () => {
         getMe.refetch();
         navigate(from, { replace: true });
@@ -93,7 +93,7 @@ export default function LoginPage() {
                     <FormField
                       control={loginForm.control}
                       name='username'
-                      disabled={login.isPending}
+                      disabled={loginMutation.isPending}
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Username</FormLabel>
@@ -113,7 +113,7 @@ export default function LoginPage() {
                     <FormField
                       control={loginForm.control}
                       name='password'
-                      disabled={login.isPending}
+                      disabled={loginMutation.isPending}
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Password</FormLabel>
@@ -131,8 +131,8 @@ export default function LoginPage() {
                     />
 
                     {/* <==> BUTTON <==> */}
-                    <Button disabled={login.isPending} type='submit'>
-                      {login.isPending && <Spinner />}
+                    <Button disabled={loginMutation.isPending} type='submit'>
+                      {loginMutation.isPending && <Spinner />}
                       Login
                     </Button>
 

@@ -1,9 +1,9 @@
 import DataTable from '~/components/datatable/data-table';
 import { Button } from '~/components/ui/button';
 import useDatatable from '~/hooks/datatable/useDatatable';
-import { useGetAllItems } from '~/hooks/queries/items';
-import CreateCategory from '~/pages/category/CreateCategory';
+import { useGetAllItems } from '~/hooks/queries/useItems';
 import { itemColumns } from '~/pages/items/columns';
+import CreateItemDialog from '~/pages/items/CreateItemDialog';
 
 const PAGE_SIZE_OPTIONS = [15, 30, 50] as const;
 
@@ -31,7 +31,7 @@ export default function ItemsPage() {
           <Button variant={'outline'} onClick={() => console.log('Import')}>
             Import
           </Button>
-          <CreateCategory />
+          <CreateItemDialog />
         </div>
       </div>
 
