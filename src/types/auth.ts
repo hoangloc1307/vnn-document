@@ -12,3 +12,5 @@ export type LoginResponse = ApiResponse<{
 export type RefreshResponse = ApiResponse<{
   accessToken: string;
 }>;
+
+export type LogoutResponse = ApiResponse<void>;

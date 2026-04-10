@@ -1,5 +1,5 @@
 import { apiMain } from '~/lib/api';
-import { type LoginRequest, type LoginResponse, type RefreshResponse } from '~/types/auth';
+import type { LoginRequest, LoginResponse, LogoutResponse, RefreshResponse } from '~/types/auth';
 
 const authServices = {
   login: async (payload: LoginRequest) => {
@@ -7,6 +7,9 @@ const authServices = {
   },
   refresh: async () => {
     return apiMain.post<RefreshResponse>('/auth/refresh');
+  },
+  logout: async () => {
+    return apiMain.post<LogoutResponse>('/auth/logout');
   },
 };
 

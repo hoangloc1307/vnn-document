@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import itemServices from '~/services/item.service';
+import type { ApiErrorResponse } from '~/types/api';
 
 export function useCreateItem() {
   return useMutation({
@@ -10,7 +10,7 @@ export function useCreateItem() {
       toast.success(`Create item ${data.data} successfully!`);
     },
     onError: (error) => {
-      const err = error as AxiosError<{ message: string; errorCode: string }>;
+      const err = error as ApiErrorResponse;
       toast.error(err.response?.data.errorCode, {
         description: err.response?.data.message ?? 'Failed to create item',
       });

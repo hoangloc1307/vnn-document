@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
@@ -20,6 +19,7 @@ import { Spinner } from '~/components/ui/spinner';
 import { useLogin } from '~/hooks/mutations/useAuthMutations';
 import { useGetMe } from '~/hooks/queries/useMe';
 import { useAuthStore } from '~/stores/auth.store';
+import type { ApiErrorResponse } from '~/types/api';
 import { loginSchema, type LoginFormValues } from '~/validations/auth.validation';
 
 export default function LoginPage() {
@@ -42,18 +42,14 @@ export default function LoginPage() {
     defaultValues: { username: '', password: '' },
   });
 
-  const onSubmit = (values: LoginFormValues) =>
+  const onSubmit = (values: LoginFormValues) => {
     loginMutation.mutate(values, {
       onSuccess: () => {
         getMe.refetch();
         navigate(from, { replace: true });
       },
       onError: (error) => {
-        const err = error as AxiosError<{
-          message: string;
-          errorCode: string;
-          metadata?: Record<string, string>;
-        }>;
+        const err = error as ApiErrorResponse;
         if (err.status === 400) {
           const metadata = err.response?.data.metadata;
           if (metadata) {
@@ -64,6 +60,7 @@ export default function LoginPage() {
         }
       },
     });
+  };
 
   return (
     <div className='bg-muted flex min-h-svh items-center justify-center p-6 md:p-10'>

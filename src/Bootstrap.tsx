@@ -13,13 +13,14 @@ function Bootstrap() {
   const theme = useThemeStore((s) => s.theme);
 
   const initTheme = useThemeStore((s) => s.initTheme);
-  const { setMe, setAuth, resetAuth, setInitialized, isInitialized } = useAuthStore(
+  const { setMe, setAuth, resetAuth, setInitialized, isAuthenticated, accessToken } = useAuthStore(
     useShallow((s) => ({
       setMe: s.setMe,
       setAuth: s.setAuth,
       resetAuth: s.resetAuth,
       setInitialized: s.setInitialized,
-      isInitialized: s.isInitialized,
+      isAuthenticated: s.isAuthenticated,
+      accessToken: s.accessToken,
     })),
   );
 
@@ -28,17 +29,22 @@ function Bootstrap() {
     initTheme();
   }, [initTheme]);
 
+  // Khi reload app mà đã đăng nhập rồi thì fetch lại token và thông tin user
   useEffect(() => {
     async function init() {
       try {
-        const refreshRes = await authServices.refresh();
+        if (!isAuthenticated) return;
 
-        if (!refreshRes.success) {
-          return resetAuth();
+        if (!accessToken) {
+          const refreshRes = await authServices.refresh();
+
+          if (!refreshRes.success) {
+            return resetAuth();
+          }
+
+          const newAccessToken = refreshRes.data!.accessToken;
+          setAuth({ accessToken: newAccessToken });
         }
-
-        const accessToken = refreshRes.data!.accessToken;
-        setAuth({ accessToken });
 
         const meRes = await meServices.getMe();
 
@@ -55,18 +61,16 @@ function Bootstrap() {
     }
 
     init();
-  }, [setAuth, setMe, setInitialized, resetAuth]);
-
-  if (!isInitialized) {
-    return (
-      <div className='flex h-screen items-center justify-center'>
-        <Loader2 className='h-8 w-8 animate-spin' />
-      </div>
-    );
-  }
+  }, [isAuthenticated]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className='flex h-screen items-center justify-center'>
+          <Loader2 className='h-8 w-8 animate-spin' />
+        </div>
+      }
+    >
       <RouterProvider router={router} />
       <Toaster theme={theme} />
     </Suspense>

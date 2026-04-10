@@ -1,3 +1,5 @@
+import type { AxiosError } from 'axios';
+
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
@@ -11,3 +13,10 @@ export interface ApiResponse<T> {
     totalPages: number;
   };
 }
+
+export type ApiErrorResponse = AxiosError<{
+  success: boolean;
+  message: string;
+  errorCode: string;
+  metadata?: Record<string, string>;
+}>;

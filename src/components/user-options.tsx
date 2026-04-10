@@ -10,14 +10,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { useLogout } from '~/hooks/mutations/useAuthMutations';
 import { useAuthStore } from '~/stores/auth.store';
 import { getColorFromName, getInitials } from '~/utils/avatar';
 
 export default function UserOption() {
   const { t } = useTranslation(['common']);
-  const resetAuth = useAuthStore((s) => s.resetAuth);
   const user = useAuthStore((s) => s.user);
   const initials = getInitials(user?.name || user?.username || 'Unknown');
+  const logoutMutation = useLogout();
 
   return (
     <DropdownMenu>
@@ -55,7 +56,7 @@ export default function UserOption() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={resetAuth}>
+        <DropdownMenuItem onClick={() => logoutMutation.mutate()}>
           <LogOut />
           {t('common:logout')}
         </DropdownMenuItem>

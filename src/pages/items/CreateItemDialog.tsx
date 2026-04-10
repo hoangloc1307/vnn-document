@@ -194,13 +194,13 @@ export default function CreateItemDialog() {
                     <FormLabel className='required text-xs'>Conversion Factor</FormLabel>
                     <FormControl>
                       <NumericFormat
-                        value={field.value ?? 1}
+                        value={field.value}
                         customInput={Input}
                         thousandSeparator
                         allowNegative={false}
                         decimalScale={2}
                         onValueChange={(values) => {
-                          field.onChange(values.floatValue ?? null);
+                          field.onChange(values.floatValue ?? 1);
                         }}
                       />
                     </FormControl>
