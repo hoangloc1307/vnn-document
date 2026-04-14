@@ -8,5 +8,17 @@
   "show_sidebar": "Hiện menu",
   "hide_sidebar": "Ẩn menu",
   "create": "Thêm",
-  "import": "Import"
+  "import": "Import",
+  "edit": "Sửa",
+  "copy": "Sao chép",
+  "delete": "Xóa",
+  "save": "Lưu",
+  "cancel": "Hủy",
+  "yes": "Có",
+  "no": "Không",
+  "confirm_delete": "Xác nhận xóa",
+  "created_at": "Ngày tạo",
+  "updated_at": "Ngày cập nhật",
+  "created_by": "Người tạo",
+  "updated_by": "Người cập nhật"
 }

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import itemServices from '~/services/item.service';
 
-const ITEM_QUERY_KEY = {
+export const ITEM_QUERY_KEY = {
   ALL: 'items',
 };
 

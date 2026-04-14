@@ -8,5 +8,17 @@
   "show_sidebar": "Show sidebar",
   "hide_sidebar": "Hide sidebar",
   "create": "Create",
-  "import": "Import"
+  "import": "Import",
+  "edit": "Edit",
+  "copy": "Copy",
+  "delete": "Delete",
+  "save": "Save",
+  "cancel": "Cancel",
+  "yes": "Yes",
+  "no": "No",
+  "confirm_delete": "Confirm delete",
+  "created_at": "Created at",
+  "updated_at": "Updated at",
+  "created_by": "Created by",
+  "updated_by": "Updated by"
 }

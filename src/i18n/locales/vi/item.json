@@ -8,5 +8,10 @@
   "base_unit": "Đơn vị cơ sở",
   "conversion_factor": "Tỉ lệ quy đổi",
   "delivery_on_base_unit": "Giao theo đơn vị cơ sở",
-  "tracking_type": "Loại quản lý"
+  "tracking_type": "Loại quản lý",
+  "note": "Ghi chú",
+  "create_item": "Thêm nguyên vật liệu",
+  "create_item_description": "Vui lòng nhập tên và chi tiết cho nguyên vật liệu mới. Nhấn lưu để hoàn tất.",
+  "delete_item_confirm": "Bạn có chắc chắn muốn xóa nguyên vật liệu <highlight>{{code}}</highlight>?",
+  "delete_success": "Xóa nguyên vật liệu <highlight>{{code}}</highlight> thành công!"
 }

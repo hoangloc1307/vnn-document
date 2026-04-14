@@ -39,7 +39,7 @@ import { useCreateItem } from '~/hooks/mutations/useItemMutations';
 import { createItemSchema, type CreateItemFormValues } from '~/validations/item.validation';
 
 export default function CreateItemDialog() {
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['common', 'item']);
   const [open, setOpen] = useState<boolean>(false);
   const createItemMutation = useCreateItem();
 
@@ -87,10 +87,8 @@ export default function CreateItemDialog() {
         showCloseButton={false}
       >
         <DialogHeader>
-          <DialogTitle>Create Item</DialogTitle>
-          <DialogDescription>
-            Please enter the name and details for the new item below. Click save to finalize.
-          </DialogDescription>
+          <DialogTitle className='capitalize'>{t('item:create_item')}</DialogTitle>
+          <DialogDescription>{t('item:create_item_description')}</DialogDescription>
         </DialogHeader>
         <Form {...createForm}>
           <div className='grid grid-cols-12 gap-4'>
@@ -101,7 +99,7 @@ export default function CreateItemDialog() {
                 control={createForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='required text-xs'>Item Code</FormLabel>
+                    <FormLabel className='required text-xs'>{t('item:item_code')}</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -117,7 +115,7 @@ export default function CreateItemDialog() {
                 control={createForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='required text-xs'>Product Code</FormLabel>
+                    <FormLabel className='required text-xs'>{t('item:product_code')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -136,7 +134,7 @@ export default function CreateItemDialog() {
                 control={createForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='required text-xs'>Name</FormLabel>
+                    <FormLabel className='required text-xs'>{t('item:name')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -155,7 +153,7 @@ export default function CreateItemDialog() {
                 control={createForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='required text-xs'>Unit</FormLabel>
+                    <FormLabel className='required text-xs'>{t('item:unit')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -174,7 +172,7 @@ export default function CreateItemDialog() {
                 control={createForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='required text-xs'>Base Unit</FormLabel>
+                    <FormLabel className='required text-xs'>{t('item:base_unit')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -193,7 +191,9 @@ export default function CreateItemDialog() {
                 control={createForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='required text-xs'>Conversion Factor</FormLabel>
+                    <FormLabel className='required text-xs'>
+                      {t('item:conversion_factor')}
+                    </FormLabel>
                     <FormControl>
                       <NumericFormat
                         value={field.value}
@@ -218,7 +218,9 @@ export default function CreateItemDialog() {
                 control={createForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='required text-xs'>Delivery On Base Unit</FormLabel>
+                    <FormLabel className='required text-xs'>
+                      {t('item:delivery_on_base_unit')}
+                    </FormLabel>
                     <FormControl className='h-9'>
                       <div className='flex items-center space-x-2'>
                         <Switch
@@ -226,7 +228,9 @@ export default function CreateItemDialog() {
                           checked={!!field.value}
                           onCheckedChange={(val) => field.onChange(Boolean(val))}
                         />
-                        <Label htmlFor='deliveryOnBaseUnit'>{field.value ? 'Yes' : 'No'}</Label>
+                        <Label htmlFor='deliveryOnBaseUnit'>
+                          {field.value ? t('common:yes') : t('common:no')}
+                        </Label>
                       </div>
                     </FormControl>
                     <FormMessage className='text-xs' />
@@ -242,7 +246,7 @@ export default function CreateItemDialog() {
                 control={createForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='required text-xs'>Tracking Type</FormLabel>
+                    <FormLabel className='required text-xs'>{t('item:tracking_type')}</FormLabel>
                     <FormControl>
                       <Select value={field.value} onValueChange={field.onChange}>
                         <SelectTrigger className='w-full max-w-48'>
@@ -268,7 +272,7 @@ export default function CreateItemDialog() {
                 control={createForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-xs'>Note</FormLabel>
+                    <FormLabel className='text-xs'>{t('item:note')}</FormLabel>
                     <FormControl>
                       <Textarea {...field} className='resize-none' />
                     </FormControl>
@@ -281,9 +285,9 @@ export default function CreateItemDialog() {
         </Form>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant='outline'>Cancel</Button>
+            <Button variant='outline'>{t('common:cancel')}</Button>
           </DialogClose>
-          <Button onClick={createForm.handleSubmit(onSubmit)}>Save</Button>
+          <Button onClick={createForm.handleSubmit(onSubmit)}>{t('common:save')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

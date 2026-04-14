@@ -8,5 +8,10 @@
   "base_unit": "Base unit",
   "conversion_factor": "Conversion factor",
   "delivery_on_base_unit": "Delivery on base unit",
-  "tracking_type": "Tracking type"
+  "tracking_type": "Tracking type",
+  "note": "Note",
+  "create_item": "Create item",
+  "create_item_description": "Please enter the name and details for the new item below. Click save to finalize.",
+  "delete_item_confirm": "Are you sure you want to delete item <highlight>{{code}}</highlight>?",
+  "delete_success": "Delete item <highlight>{{code}}</highlight> successfully!"
 }
