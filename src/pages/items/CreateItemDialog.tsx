@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FilePlus } from 'lucide-react';
+import { FilePlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
 import { Button } from '~/components/ui/button';
 import {
@@ -38,6 +39,7 @@ import { useCreateItem } from '~/hooks/mutations/useItemMutations';
 import { createItemSchema, type CreateItemFormValues } from '~/validations/item.validation';
 
 export default function CreateItemDialog() {
+  const { t } = useTranslation(['common']);
   const [open, setOpen] = useState<boolean>(false);
   const createItemMutation = useCreateItem();
 
@@ -76,7 +78,7 @@ export default function CreateItemDialog() {
     >
       <DialogTrigger asChild>
         <Button size={'sm'}>
-          <FilePlus /> Create
+          <FilePlusIcon /> {t('common:create')}
         </Button>
       </DialogTrigger>
       <DialogContent

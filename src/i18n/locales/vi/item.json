@@ -1,0 +1,12 @@
+{
+  "title": "Nguyên vật liệu",
+  "description": "Danh sách master nguyên vật liệu",
+  "item_code": "Mã nguyên vật liệu",
+  "product_code": "Mã loại",
+  "name": "Tên",
+  "unit": "Đơn vị đóng gói",
+  "base_unit": "Đơn vị cơ sở",
+  "conversion_factor": "Tỉ lệ quy đổi",
+  "delivery_on_base_unit": "Giao theo đơn vị cơ sở",
+  "tracking_type": "Loại quản lý"
+}

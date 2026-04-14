@@ -1,0 +1,12 @@
+{
+  "title": "Items",
+  "description": "List of master items",
+  "item_code": "Item code",
+  "product_code": "Product code",
+  "name": "Name",
+  "unit": "Unit",
+  "base_unit": "Base unit",
+  "conversion_factor": "Conversion factor",
+  "delivery_on_base_unit": "Delivery on base unit",
+  "tracking_type": "Tracking type"
+}

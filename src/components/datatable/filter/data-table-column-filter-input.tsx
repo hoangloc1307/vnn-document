@@ -12,7 +12,6 @@ export default function DataTableColumnFilterInput<TData, TValue>({
     <Input
       type='text'
       className='w-full'
-      placeholder='Filter...'
       value={(column.getFilterValue() ?? '') as string}
       onChange={(e) => column.setFilterValue(e.target.value)}
     />

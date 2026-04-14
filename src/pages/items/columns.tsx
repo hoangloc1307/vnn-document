@@ -1,68 +1,70 @@
 import type { ColumnDef } from '@tanstack/react-table';
+import type { TFunction } from 'i18next';
+import { Badge } from '~/components/ui/badge';
 import type { Item } from '~/types/item';
 
-export const itemColumns: ColumnDef<Item>[] = [
+export const getItemColumns = (t: TFunction): ColumnDef<Item>[] => [
   {
     accessorKey: 'itemCode',
-    header: 'Item Code',
+    header: t('item_code'),
   },
   {
     accessorKey: 'productCode',
-    header: 'Product Code',
+    header: t('product_code'),
+    size: 120,
   },
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: t('name'),
   },
   {
     accessorKey: 'unit',
-    header: 'Unit',
+    header: t('unit'),
+    size: 120,
   },
   {
     accessorKey: 'baseUnit',
-    header: 'Base Unit',
+    header: t('base_unit'),
+    size: 100,
   },
   {
     accessorKey: 'conversionFactor',
-    header: 'Conversion Factor',
+    header: t('conversion_factor'),
+    size: 130,
+    filterFn: 'inNumberRange',
+    meta: {
+      filterVariant: 'range',
+    },
   },
   {
     accessorKey: 'deliveryOnBaseUnit',
-    header: 'Delivery On Base Unit',
+    accessorFn: (row) => (row.deliveryOnBaseUnit ? 'Yes' : 'No'),
+    header: t('delivery_on_base_unit'),
+    size: 160,
+    meta: {
+      filterVariant: 'select',
+    },
+    cell: ({ row }) => {
+      const isTrue = row.getValue('deliveryOnBaseUnit') === 'Yes';
+      return (
+        <Badge
+          variant='default'
+          className={
+            isTrue
+              ? 'bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300'
+              : 'bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300'
+          }
+        >
+          {isTrue ? 'Yes' : 'No'}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: 'trackingType',
-    header: 'Tracking Type',
+    header: t('tracking_type'),
+    meta: {
+      filterVariant: 'select',
+    },
   },
-  // {
-  //   accessorKey: 'maintenanceIntervalHours',
-  //   header: 'Maintenance After (hours)',
-  //   filterFn: 'inNumberRange',
-  //   meta: {
-  //     filterVariant: 'range',
-  //   },
-  // },
-  // {
-  //   accessorKey: 'status',
-  //   accessorFn: (row) => (row.status ? 'Active' : 'Inactive'),
-  //   header: 'Status',
-  //   filterFn: 'equals',
-  //   size: 100,
-  //   cell: ({ row }) => {
-  //     const isActive = row.getValue('status') === 'Active';
-  //     return (
-  //       <Badge variant='outline' className='px-1.5'>
-  //         {isActive ? (
-  //           <IconCircleCheckFilled className='fill-green-500 dark:fill-green-400' />
-  //         ) : (
-  //           <IconCircleXFilled className='fill-red-500 dark:fill-red-400' />
-  //         )}
-  //         {isActive ? 'Active' : 'Inactive'}
-  //       </Badge>
-  //     );
-  //   },
-  //   meta: {
-  //     filterVariant: 'select',
-  //   },
-  // },
 ];
