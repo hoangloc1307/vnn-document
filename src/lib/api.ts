@@ -1,5 +1,6 @@
-import { Http } from '~/lib/http';
+import type { AxiosError } from 'axios';
 import CONFIG from '~/config/app';
+import { Http } from '~/lib/http';
 import { useAuthStore } from '~/stores/auth.store';
 
 export const apiMain = new Http(
@@ -15,6 +16,29 @@ export const apiMain = new Http(
       }
       return cfg;
     });
+    ins.interceptors.response.use(
+      (res) => res,
+      async (error: AxiosError) => {
+        const originalRequest = error.response?.config;
+        const url = originalRequest?.url;
+
+        if (error.response?.status === 401 && url !== '/auth/refresh') {
+          try {
+            const res = await ins.post('/auth/refresh');
+            const token = res.data.data.accessToken;
+
+            useAuthStore.getState().setAuth({ accessToken: token });
+
+            return ins(error.response?.config);
+          } catch (err) {
+            useAuthStore.getState().resetAuth();
+            return Promise.reject(err);
+          }
+        }
+
+        return Promise.reject(error);
+      },
+    );
   },
 );
 
