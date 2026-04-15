@@ -13,8 +13,11 @@ const itemServices = {
     const response = await apiMain.post<CreateItemResponse>(ITEM_ENDPOINT, data);
     return response;
   },
-  updateItem: async (data: ItemFormValues, itemCode: string) => {
-    const response = await apiMain.put<UpdateItemResponse>(`${ITEM_ENDPOINT}/${itemCode}`, data);
+  updateItem: async (data: ItemFormValues) => {
+    const response = await apiMain.put<UpdateItemResponse>(
+      `${ITEM_ENDPOINT}/${data.itemCode}`,
+      data,
+    );
     return response;
   },
   deleteItem: async (itemCode: string) => {

@@ -103,7 +103,7 @@ function DataTableCell<TData>({ cell }: { cell: Cell<TData, unknown> }) {
         width: cell.column.getSize(),
         flex: `${cell.column.getSize()} 0 auto`,
       }}
-      className='overflow-hidden text-ellipsis whitespace-nowrap'
+      className='flex items-center overflow-hidden text-ellipsis whitespace-nowrap'
     >
       {flexRender(cell.column.columnDef.cell, cell.getContext())}
     </TableCell>

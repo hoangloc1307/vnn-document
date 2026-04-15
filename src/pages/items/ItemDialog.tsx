@@ -75,7 +75,7 @@ export default function ItemDialog({
       itemForm.reset(defaultValues);
       setAction('create');
     }
-  }, [item, open]);
+  }, [item, open, itemForm]);
 
   const onSubmit = (values: ItemFormValues) => {
     if (action === 'create') {
@@ -84,7 +84,7 @@ export default function ItemDialog({
           setOpen(false);
         },
       });
-    } else {
+    } else if (action === 'update' && item) {
       updateItemMutation.mutate(values, {
         onSuccess: () => {
           setOpen(false);
@@ -97,8 +97,8 @@ export default function ItemDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className='sm:max-w-[425px]' showCloseButton={false}>
         <DialogHeader>
-          <DialogTitle className='capitalize'>{t('item:create_item')}</DialogTitle>
-          <DialogDescription>{t('item:create_item_description')}</DialogDescription>
+          <DialogTitle className='capitalize'>{t(`item:${action}_item`)}</DialogTitle>
+          <DialogDescription>{t(`item:${action}_item_description`)}</DialogDescription>
         </DialogHeader>
         <Form {...itemForm}>
           <div className='grid grid-cols-12 gap-4'>
@@ -107,13 +107,13 @@ export default function ItemDialog({
               <FormField
                 name='itemCode'
                 control={itemForm.control}
-                disabled={action === 'update'}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='required text-xs'>{t('item:item_code')}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
+                        readOnly={action === 'update'}
                         onChange={(e) => field.onChange(e.target.value.toUpperCase())}
                       />
                     </FormControl>

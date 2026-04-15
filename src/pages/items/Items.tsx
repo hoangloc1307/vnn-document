@@ -30,6 +30,7 @@ export default function ItemsPage() {
     pagination: {
       type: 'client',
     },
+    sorting: {},
   });
 
   function handleEdit(item: Item) {

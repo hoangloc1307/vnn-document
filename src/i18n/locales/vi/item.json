@@ -12,6 +12,8 @@
   "note": "Ghi chú",
   "create_item": "Thêm nguyên vật liệu",
   "create_item_description": "Vui lòng nhập tên và chi tiết cho nguyên vật liệu mới. Nhấn lưu để hoàn tất.",
+  "update_item": "Cập nhật nguyên vật liệu",
+  "update_item_description": "Vui lòng nhập tên và chi tiết cho nguyên vật liệu. Nhấn lưu để hoàn tất.",
   "delete_item_confirm": "Bạn có chắc chắn muốn xóa nguyên vật liệu <highlight>{{code}}</highlight>?",
   "delete_success": "Xóa nguyên vật liệu <highlight>{{code}}</highlight> thành công!"
 }

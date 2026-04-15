@@ -80,7 +80,6 @@ export const getItemColumns = (t: TFunction, actions?: ItemRowActions): ColumnDe
   {
     accessorKey: 'note',
     header: t('item:note'),
-    enableColumnFilter: false,
     enableSorting: false,
   },
   {
@@ -90,6 +89,7 @@ export const getItemColumns = (t: TFunction, actions?: ItemRowActions): ColumnDe
       const date = format(new Date(row.getValue('createdAt')), 'dd/MM/yyyy HH:mm:ss');
       return date;
     },
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'createdBy',
@@ -103,6 +103,7 @@ export const getItemColumns = (t: TFunction, actions?: ItemRowActions): ColumnDe
       const date = updatedAt ? format(new Date(updatedAt), 'dd/MM/yyyy HH:mm:ss') : null;
       return date;
     },
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'updatedBy',

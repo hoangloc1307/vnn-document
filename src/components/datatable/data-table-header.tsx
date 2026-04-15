@@ -1,6 +1,6 @@
 import type { Table } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
-import { ChevronDown, ChevronsUpDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Fragment } from 'react';
 import DataTableColumnFilter from '~/components/datatable/data-table-column-filter';
 import { TableHead, TableHeader, TableRow } from '~/components/ui/table';
@@ -55,7 +55,7 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
                     header.column.toggleSorting(undefined, (e as React.MouseEvent).shiftKey);
                   }}
                 >
-                  <p className='max-w-[calc(100%-16x)] whitespace-break-spaces select-none'>
+                  <p className='max-w-[calc(100%-16x)] whitespace-break-spaces capitalize select-none'>
                     {title}
                   </p>
                   {Boolean(canSort && hasSorting) && (
@@ -64,9 +64,7 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
                         <ChevronDown className='size-4' />
                       ) : sortDir === 'asc' ? (
                         <ChevronUp className='size-4' />
-                      ) : (
-                        <ChevronsUpDown className='text-muted-foreground/50 size-4' />
-                      )}
+                      ) : null}
                     </Fragment>
                   )}
                 </TableHead>
