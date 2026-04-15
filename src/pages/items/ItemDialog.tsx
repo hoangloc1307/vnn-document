@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FilePlusIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
@@ -13,7 +12,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '~/components/ui/dialog';
 import {
   Form,
@@ -35,73 +33,89 @@ import {
 } from '~/components/ui/select';
 import { Switch } from '~/components/ui/switch';
 import { Textarea } from '~/components/ui/textarea';
-import { useCreateItem } from '~/hooks/mutations/useItemMutations';
-import { createItemSchema, type CreateItemFormValues } from '~/validations/item.validation';
+import { useCreateItem, useUpdateItem } from '~/hooks/mutations/useItemMutations';
+import { itemSchema, type ItemFormValues } from '~/validations/item.validation';
 
-export default function CreateItemDialog() {
+const defaultValues: ItemFormValues = {
+  itemCode: '',
+  productCode: '',
+  name: '',
+  unit: '',
+  baseUnit: '',
+  conversionFactor: 1,
+  deliveryOnBaseUnit: true,
+  note: '',
+  trackingType: 'LABEL',
+};
+
+export default function ItemDialog({
+  item,
+  open,
+  setOpen,
+}: {
+  item: ItemFormValues | null;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}) {
+  const [action, setAction] = useState<'create' | 'update'>('create');
   const { t } = useTranslation(['common', 'item']);
-  const [open, setOpen] = useState<boolean>(false);
   const createItemMutation = useCreateItem();
+  const updateItemMutation = useUpdateItem();
 
-  const createForm = useForm<CreateItemFormValues>({
-    resolver: zodResolver(createItemSchema),
-    defaultValues: {
-      itemCode: '',
-      productCode: '',
-      name: '',
-      unit: '',
-      baseUnit: '',
-      conversionFactor: 1,
-      deliveryOnBaseUnit: true,
-      note: '',
-      trackingType: 'LABEL',
-    },
+  const itemForm = useForm<ItemFormValues>({
+    resolver: zodResolver(itemSchema),
+    defaultValues,
   });
 
-  const onSubmit = (values: CreateItemFormValues) => {
-    createItemMutation.mutate(values, {
-      onSuccess: () => {
-        setOpen(false);
-      },
-    });
+  useEffect(() => {
+    if (open && item) {
+      itemForm.reset(item);
+      setAction('update');
+    } else if (open) {
+      itemForm.reset(defaultValues);
+      setAction('create');
+    }
+  }, [item, open]);
+
+  const onSubmit = (values: ItemFormValues) => {
+    if (action === 'create') {
+      createItemMutation.mutate(values, {
+        onSuccess: () => {
+          setOpen(false);
+        },
+      });
+    } else {
+      updateItemMutation.mutate(values, {
+        onSuccess: () => {
+          setOpen(false);
+        },
+      });
+    }
   };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(open) => {
-        if (open) {
-          createForm.reset();
-        }
-        setOpen((prev) => !prev);
-      }}
-    >
-      <DialogTrigger asChild>
-        <Button size={'sm'}>
-          <FilePlusIcon /> {t('common:create')}
-        </Button>
-      </DialogTrigger>
-      <DialogContent
-        className='sm:max-w-[425px]'
-        onInteractOutside={(e) => e.preventDefault()}
-        showCloseButton={false}
-      >
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className='sm:max-w-[425px]' showCloseButton={false}>
         <DialogHeader>
           <DialogTitle className='capitalize'>{t('item:create_item')}</DialogTitle>
           <DialogDescription>{t('item:create_item_description')}</DialogDescription>
         </DialogHeader>
-        <Form {...createForm}>
+        <Form {...itemForm}>
           <div className='grid grid-cols-12 gap-4'>
             {/* ---------- Item Code ---------- */}
             <div className='col-span-6'>
               <FormField
                 name='itemCode'
-                control={createForm.control}
+                control={itemForm.control}
+                disabled={action === 'update'}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='required text-xs'>{t('item:item_code')}</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input
+                        {...field}
+                        onChange={(e) => field.onChange(e.target.value.toUpperCase())}
+                      />
                     </FormControl>
                     <FormMessage className='text-xs' />
                   </FormItem>
@@ -112,7 +126,7 @@ export default function CreateItemDialog() {
             <div className='col-span-6'>
               <FormField
                 name='productCode'
-                control={createForm.control}
+                control={itemForm.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='required text-xs'>{t('item:product_code')}</FormLabel>
@@ -131,7 +145,7 @@ export default function CreateItemDialog() {
             <div className='col-span-12'>
               <FormField
                 name='name'
-                control={createForm.control}
+                control={itemForm.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='required text-xs'>{t('item:name')}</FormLabel>
@@ -150,7 +164,7 @@ export default function CreateItemDialog() {
             <div className='col-span-4'>
               <FormField
                 name='unit'
-                control={createForm.control}
+                control={itemForm.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='required text-xs'>{t('item:unit')}</FormLabel>
@@ -169,7 +183,7 @@ export default function CreateItemDialog() {
             <div className='col-span-4'>
               <FormField
                 name='baseUnit'
-                control={createForm.control}
+                control={itemForm.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='required text-xs'>{t('item:base_unit')}</FormLabel>
@@ -188,7 +202,7 @@ export default function CreateItemDialog() {
             <div className='col-span-4'>
               <FormField
                 name='conversionFactor'
-                control={createForm.control}
+                control={itemForm.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='required text-xs'>
@@ -215,7 +229,7 @@ export default function CreateItemDialog() {
             <div className='col-span-6'>
               <FormField
                 name='deliveryOnBaseUnit'
-                control={createForm.control}
+                control={itemForm.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='required text-xs'>
@@ -243,7 +257,7 @@ export default function CreateItemDialog() {
             <div className='col-span-6'>
               <FormField
                 name='trackingType'
-                control={createForm.control}
+                control={itemForm.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='required text-xs'>{t('item:tracking_type')}</FormLabel>
@@ -269,12 +283,12 @@ export default function CreateItemDialog() {
             <div className='col-span-12'>
               <FormField
                 name='note'
-                control={createForm.control}
+                control={itemForm.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='text-xs'>{t('item:note')}</FormLabel>
                     <FormControl>
-                      <Textarea {...field} className='resize-none' />
+                      <Textarea {...field} value={field.value ?? ''} className='resize-none' />
                     </FormControl>
                     <FormMessage className='text-xs' />
                   </FormItem>
@@ -287,7 +301,7 @@ export default function CreateItemDialog() {
           <DialogClose asChild>
             <Button variant='outline'>{t('common:cancel')}</Button>
           </DialogClose>
-          <Button onClick={createForm.handleSubmit(onSubmit)}>{t('common:save')}</Button>
+          <Button onClick={itemForm.handleSubmit(onSubmit)}>{t('common:save')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

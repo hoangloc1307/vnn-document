@@ -16,11 +16,16 @@ export function useCreateItem() {
   });
 }
 
-// export function useUpdateItem() {
-//   return useMutation({
-//     mutationFn: itemServices.updateItem,
-//   });
-// }
+export function useUpdateItem() {
+  const queryClient = useQueryClient();
+  return useAppMutation({
+    mutationFn: itemServices.updateItem,
+    onSuccess: (data) => {
+      toast.success(`Update item ${data.data} successfully!`);
+      queryClient.invalidateQueries({ queryKey: [ITEM_QUERY_KEY.ALL] });
+    },
+  });
+}
 
 export function useDeleteItem() {
   const queryClient = useQueryClient();

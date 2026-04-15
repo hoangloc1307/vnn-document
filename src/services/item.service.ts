@@ -1,6 +1,6 @@
 import { apiMain } from '~/lib/api';
-import type { CreateItemResponse, GetItemsResponse } from '~/types/item';
-import type { CreateItemFormValues } from '~/validations/item.validation';
+import type { CreateItemResponse, GetItemsResponse, UpdateItemResponse } from '~/types/item';
+import type { ItemFormValues } from '~/validations/item.validation';
 
 const ITEM_ENDPOINT = '/items';
 
@@ -9,9 +9,13 @@ const itemServices = {
     const response = await apiMain.get<GetItemsResponse>(ITEM_ENDPOINT);
     return response.data;
   },
-  createItem: async (data: CreateItemFormValues) => {
-    const itemCode = await apiMain.post<CreateItemResponse>(ITEM_ENDPOINT, data);
-    return itemCode;
+  createItem: async (data: ItemFormValues) => {
+    const response = await apiMain.post<CreateItemResponse>(ITEM_ENDPOINT, data);
+    return response;
+  },
+  updateItem: async (data: ItemFormValues, itemCode: string) => {
+    const response = await apiMain.put<UpdateItemResponse>(`${ITEM_ENDPOINT}/${itemCode}`, data);
+    return response;
   },
   deleteItem: async (itemCode: string) => {
     const response = await apiMain.delete<void>(`${ITEM_ENDPOINT}/${itemCode}`);

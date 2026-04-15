@@ -20,3 +20,5 @@ export type Item = {
 export type GetItemsResponse = ApiResponse<Item[]>;
 
 export type CreateItemResponse = ApiResponse<string>;
+
+export type UpdateItemResponse = ApiResponse<string>;

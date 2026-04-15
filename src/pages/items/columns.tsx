@@ -99,7 +99,8 @@ export const getItemColumns = (t: TFunction, actions?: ItemRowActions): ColumnDe
     accessorKey: 'updatedAt',
     header: t('common:updated_at'),
     cell: ({ row }) => {
-      const date = format(new Date(row.getValue('updatedAt')), 'dd/MM/yyyy HH:mm:ss');
+      const updatedAt = row.getValue('updatedAt') as string | null;
+      const date = updatedAt ? format(new Date(updatedAt), 'dd/MM/yyyy HH:mm:ss') : null;
       return date;
     },
   },

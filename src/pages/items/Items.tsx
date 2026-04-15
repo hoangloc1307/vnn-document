@@ -1,4 +1,5 @@
-import { FileUpIcon } from 'lucide-react';
+import { FilePlusIcon, FileUpIcon } from 'lucide-react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import DataTable from '~/components/datatable/data-table';
@@ -7,8 +8,9 @@ import useDatatable from '~/hooks/datatable/useDatatable';
 import { useDeleteItem } from '~/hooks/mutations/useItemMutations';
 import { useGetAllItems } from '~/hooks/queries/useItems';
 import { getItemColumns } from '~/pages/items/columns';
-import CreateItemDialog from '~/pages/items/CreateItemDialog';
+import ItemDialog from '~/pages/items/ItemDialog';
 import type { Item } from '~/types/item';
+import { itemSchema, type ItemFormValues } from '~/validations/item.validation';
 
 export default function ItemsPage() {
   const { t } = useTranslation(['common', 'item']);
@@ -19,6 +21,8 @@ export default function ItemsPage() {
     onDelete: handleDelete,
     onCopy: handleCopy,
   });
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const editItem = useRef<ItemFormValues | null>(null);
 
   const table = useDatatable({
     columns,
@@ -29,7 +33,8 @@ export default function ItemsPage() {
   });
 
   function handleEdit(item: Item) {
-    console.log(item);
+    editItem.current = itemSchema.parse(item);
+    setOpenDialog(true);
   }
 
   function handleDelete(item: Item) {
@@ -58,13 +63,27 @@ export default function ItemsPage() {
           <Button variant={'outline'} size={'sm'} onClick={() => console.log('Import')}>
             <FileUpIcon /> Import
           </Button>
-          <CreateItemDialog />
+
+          <Button size={'sm'} onClick={() => setOpenDialog(true)}>
+            <FilePlusIcon /> {t('common:create')}
+          </Button>
         </div>
       </div>
 
       <div className='flex-1'>
         <DataTable table={table} loading={itemsLoading} />
       </div>
+
+      <ItemDialog
+        open={openDialog}
+        setOpen={(value) => {
+          if (!value) {
+            editItem.current = null;
+          }
+          setOpenDialog(value);
+        }}
+        item={editItem.current}
+      />
     </section>
   );
 }
