@@ -93,6 +93,7 @@ export function DataTableHeader<TData>({ table }: DataTableHeaderProps<TData>) {
                 return (
                   <TableHead
                     key={header.id}
+                    className='font-normal'
                     style={{
                       width: header.getSize(),
                       flex: `${header.getSize()} 0 auto`,

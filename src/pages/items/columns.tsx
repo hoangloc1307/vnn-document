@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
+import { endOfDay, format, isAfter, isBefore, startOfDay } from 'date-fns';
 import type { TFunction } from 'i18next';
 import { Badge } from '~/components/ui/badge';
 import ActionCell, { type ItemRowActions } from '~/pages/items/ActionCell';
@@ -89,7 +89,15 @@ export const getItemColumns = (t: TFunction, actions?: ItemRowActions): ColumnDe
       const date = format(new Date(row.getValue('createdAt')), 'dd/MM/yyyy HH:mm:ss');
       return date;
     },
-    enableColumnFilter: false,
+    meta: {
+      filterVariant: 'date',
+    },
+    filterFn: (row, column, value) => {
+      const date = new Date(row.getValue(column) as string);
+      if (!date) return false;
+      const { from, to } = value as { from: Date; to: Date };
+      return isAfter(date, startOfDay(from)) && isBefore(date, endOfDay(to));
+    },
   },
   {
     accessorKey: 'createdBy',

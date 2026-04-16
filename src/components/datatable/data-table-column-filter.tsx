@@ -1,4 +1,5 @@
 import type { Column } from '@tanstack/react-table';
+import DataTableColumnFilterDate from '~/components/datatable/filter/data-table-column-filter-date';
 import DataTableColumnFilterInput from '~/components/datatable/filter/data-table-column-filter-input';
 import DataTableColumnFilterRange from '~/components/datatable/filter/data-table-column-filter-range';
 import DataTableColumnFilterSelect from '~/components/datatable/filter/data-table-column-filter-select';
@@ -16,6 +17,8 @@ export default function DataTableColumnFilter<TData, TValue>({
     <DataTableColumnFilterRange column={column} />
   ) : filterVariant === 'select' ? (
     <DataTableColumnFilterSelect column={column} />
+  ) : filterVariant === 'date' ? (
+    <DataTableColumnFilterDate column={column} />
   ) : (
     <DataTableColumnFilterInput column={column} />
   );
