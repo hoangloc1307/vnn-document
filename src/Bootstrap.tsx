@@ -3,6 +3,7 @@ import { Suspense, useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
 import { Toaster } from '~/components/ui/sonner';
+import { socket } from '~/lib/socket';
 import router from '~/router';
 import authServices from '~/services/auth.service';
 import meServices from '~/services/me.service';
@@ -62,6 +63,20 @@ function Bootstrap() {
 
     init();
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (!accessToken) return;
+
+    socket.auth = {
+      token: accessToken,
+    };
+
+    socket.connect();
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [accessToken]);
 
   return (
     <Suspense
