@@ -24,11 +24,17 @@ type SortingConfig = {
   initial?: { id: string; desc: boolean }[];
 };
 
+type ExportConfig = {
+  filename?: string;
+  handleExport?: () => void;
+};
+
 interface UseDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   pagination?: PaginationConfig;
   sorting?: SortingConfig;
+  export?: ExportConfig;
 }
 
 const DEFAULT_PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const;
@@ -38,6 +44,7 @@ export default function useDatatable<TData, TValue>({
   data,
   pagination,
   sorting,
+  export: exportConfig,
 }: UseDataTableProps<TData, TValue>) {
   const hasPagination = Boolean(pagination);
   const hasSorting = Boolean(sorting);
@@ -98,6 +105,7 @@ export default function useDatatable<TData, TValue>({
       hasPagination,
       pageSizeOptions: pagination?.pageSizeOptions ?? [...DEFAULT_PAGE_SIZE_OPTIONS],
       hasSorting,
+      exportConfig,
     },
   });
 

@@ -1,6 +1,6 @@
 import { IconColumns3 } from '@tabler/icons-react';
 import type { Table } from '@tanstack/react-table';
-import { Fullscreen, Funnel, Search } from 'lucide-react';
+import { FileDownIcon, FullscreenIcon, FunnelIcon, SearchIcon } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTableGlobalSearch } from '~/components/datatable/data-table-global-search';
@@ -12,6 +12,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { datatableExportDefaultHandler } from '~/utils/export';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -20,8 +21,15 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const { t } = useTranslation(['datatable']);
   const meta = table.options.meta!;
-  const { showFilters, setShowFilters, showSearch, setShowSearch, fullScreen, setFullScreen } =
-    meta;
+  const {
+    showFilters,
+    setShowFilters,
+    showSearch,
+    setShowSearch,
+    fullScreen,
+    setFullScreen,
+    exportConfig,
+  } = meta;
 
   useEffect(() => {
     if (!showFilters) {
@@ -48,7 +56,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           variant={showSearch ? 'default' : 'outline'}
           onClick={() => setShowSearch && setShowSearch(!showSearch)}
         >
-          <Search />
+          <SearchIcon />
         </Button>
 
         {/* <==> TOGGLE FILTERS <==> */}
@@ -58,7 +66,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           variant={showFilters ? 'default' : 'outline'}
           onClick={() => setShowFilters && setShowFilters(!showFilters)}
         >
-          <Funnel />
+          <FunnelIcon />
         </Button>
 
         {/* <==> SHOW / HIDE COLUMNS <==> */}
@@ -92,6 +100,20 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           </DropdownMenuContent>
         </DropdownMenu>
 
+        {/* <==> EXPORT <==> */}
+        <Button
+          size={'sm'}
+          title={t('datatable:toolbar.export')}
+          variant={'outline'}
+          onClick={() =>
+            exportConfig?.handleExport
+              ? exportConfig.handleExport()
+              : datatableExportDefaultHandler(table, exportConfig)
+          }
+        >
+          <FileDownIcon />
+        </Button>
+
         {/* <==> TOGGLE FULLSCREEN <==> */}
         <Button
           size={'sm'}
@@ -99,7 +121,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           variant={fullScreen ? 'default' : 'outline'}
           onClick={() => setFullScreen && setFullScreen(!fullScreen)}
         >
-          <Fullscreen />
+          <FullscreenIcon />
         </Button>
       </ButtonGroup>
     </div>

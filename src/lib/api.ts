@@ -1,4 +1,5 @@
 import type { AxiosError } from 'axios';
+import { toast } from 'sonner';
 import CONFIG from '~/config/app';
 import { Http } from '~/lib/http';
 import { useAuthStore } from '~/stores/auth.store';
@@ -32,10 +33,12 @@ export const apiMain = new Http(
             return ins(error.response?.config);
           } catch (err) {
             useAuthStore.getState().resetAuth();
+            toast.error(error.message);
             return Promise.reject(err);
           }
         }
 
+        toast.error(error.message);
         return Promise.reject(error);
       },
     );

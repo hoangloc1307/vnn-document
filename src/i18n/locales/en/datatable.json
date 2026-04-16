@@ -12,7 +12,8 @@
     "clear_search": "Clear search",
     "filter": "Filter",
     "show_hide_columns": "Show/Hide columns",
-    "full_screen": "Full screen"
+    "full_screen": "Full screen",
+    "export": "Export file"
   },
   "empty": "No data"
 }

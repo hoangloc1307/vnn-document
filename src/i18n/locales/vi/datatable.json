@@ -12,7 +12,8 @@
     "clear_search": "Đặt lại",
     "filter": "Bộ lọc",
     "show_hide_columns": "Ẩn/Hiện cột",
-    "full_screen": "Toàn màn hình"
+    "full_screen": "Toàn màn hình",
+    "export": "Xuất file"
   },
   "empty": "Không có dữ liệu"
 }

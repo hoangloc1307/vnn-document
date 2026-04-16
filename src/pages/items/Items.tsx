@@ -31,6 +31,12 @@ export default function ItemsPage() {
       type: 'client',
     },
     sorting: {},
+    export: {
+      filename: 'items.xlsx',
+      // handleExport: () => {
+      //   console.log('Export');
+      // },
+    },
   });
 
   function handleEdit(item: Item) {

@@ -14,6 +14,12 @@ declare module '@tanstack/react-table' {
     hasSorting?: boolean;
     hasPagination?: boolean;
     pageSizeOptions: number[];
+    exportConfig?: ExportConfig;
+  }
+
+  interface ExportConfig {
+    filename?: string;
+    handleExport?: () => void;
   }
 
   interface ColumnMeta<TData extends RowData, TValue> {
