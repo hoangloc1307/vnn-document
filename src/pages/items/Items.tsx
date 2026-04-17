@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import DataTable from '~/components/datatable/data-table';
+import SelectFile from '~/components/select-file';
 import { Button } from '~/components/ui/button';
 import useDatatable from '~/hooks/datatable/useDatatable';
 import { useDeleteItem } from '~/hooks/mutations/useItemMutations';
@@ -67,9 +68,11 @@ export default function ItemsPage() {
         </div>
 
         <div className='flex flex-wrap justify-end gap-2'>
-          <Button variant={'outline'} size={'sm'} onClick={() => console.log('Import')}>
-            <FileUpIcon /> Import
-          </Button>
+          <SelectFile>
+            <Button variant={'outline'} size={'sm'}>
+              <FileUpIcon /> Import
+            </Button>
+          </SelectFile>
 
           <Button size={'sm'} onClick={() => setOpenDialog(true)}>
             <FilePlusIcon /> {t('common:create')}

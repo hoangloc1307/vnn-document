@@ -6,27 +6,20 @@ import { PieChartExample } from '~/components/chart/pie';
 export default function DashboardPage() {
   useEffect(() => {
     const handler = (data: string) => {
-      console.log('Message:', data);
+      console.log(data);
     };
 
-    socket.on('receive_message', handler);
+    socket.on('socket_connected', handler);
 
     return () => {
-      socket.off('receive_message', handler);
+      socket.off('socket_connected', handler);
     };
   }, []);
-
-  const sendMessage = () => {
-    socket.emit('send_message', {
-      text: 'Hello from React',
-    });
-  };
 
   return (
     <div className='flex flex-wrap gap-2'>
       <BarChartExample />
       <PieChartExample />
-      <button onClick={sendMessage}>Send Message</button>
     </div>
   );
 }

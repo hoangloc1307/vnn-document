@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '~/components/language-switcher';
 import { ModeToggle } from '~/components/mode-toggle';
+import { Notification } from '~/components/notification';
 import { Separator } from '~/components/ui/separator';
 import { SidebarTrigger, useSidebar } from '~/components/ui/sidebar';
 import UserOption from '~/components/user-options';
@@ -19,6 +20,7 @@ export function SiteHeader() {
         <div className='ml-auto flex items-center gap-2'>
           <LanguageSwitcher />
           <ModeToggle />
+          <Notification />
           <Separator orientation='vertical' className='mx-2 data-[orientation=vertical]:h-4' />
           <UserOption />
         </div>

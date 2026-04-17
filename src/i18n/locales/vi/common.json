@@ -20,5 +20,6 @@
   "created_at": "Ngày tạo",
   "updated_at": "Ngày cập nhật",
   "created_by": "Người tạo",
-  "updated_by": "Người cập nhật"
+  "updated_by": "Người cập nhật",
+  "notification": "Thông báo"
 }

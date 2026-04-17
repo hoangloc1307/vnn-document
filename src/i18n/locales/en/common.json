@@ -20,5 +20,6 @@
   "created_at": "Created at",
   "updated_at": "Updated at",
   "created_by": "Created by",
-  "updated_by": "Updated by"
+  "updated_by": "Updated by",
+  "notification": "Notification"
 }
