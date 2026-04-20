@@ -1,5 +1,10 @@
 import { apiMain } from '~/lib/api';
-import type { CreateItemResponse, GetItemsResponse, UpdateItemResponse } from '~/types/item';
+import type {
+  CreateItemResponse,
+  GetItemsResponse,
+  ImportItemResponse,
+  UpdateItemResponse,
+} from '~/types/item';
 import type { ItemFormValues } from '~/validations/item.validation';
 
 const ITEM_ENDPOINT = '/items';
@@ -23,6 +28,14 @@ const itemServices = {
   deleteItem: async (itemCode: string) => {
     const response = await apiMain.delete<void>(`${ITEM_ENDPOINT}/${itemCode}`);
     return response;
+  },
+  importItem: async (data: FormData) => {
+    const response = await apiMain.post<ImportItemResponse>(`${ITEM_ENDPOINT}/import`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
   },
 };
 

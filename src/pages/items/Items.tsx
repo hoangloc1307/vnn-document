@@ -6,7 +6,7 @@ import DataTable from '~/components/datatable/data-table';
 import SelectFile from '~/components/select-file';
 import { Button } from '~/components/ui/button';
 import useDatatable from '~/hooks/datatable/useDatatable';
-import { useDeleteItem } from '~/hooks/mutations/useItemMutations';
+import { useDeleteItem, useImportItem } from '~/hooks/mutations/useItemMutations';
 import { useGetAllItems } from '~/hooks/queries/useItems';
 import { getItemColumns } from '~/pages/items/columns';
 import ItemDialog from '~/pages/items/ItemDialog';
@@ -17,6 +17,7 @@ export default function ItemsPage() {
   const { t } = useTranslation(['common', 'item']);
   const { data: items, isFetching: itemsLoading } = useGetAllItems();
   const deleteItemMutation = useDeleteItem();
+  const importItemMutation = useImportItem();
   const columns = getItemColumns(t, {
     onEdit: handleEdit,
     onDelete: handleDelete,
@@ -34,9 +35,6 @@ export default function ItemsPage() {
     sorting: {},
     export: {
       filename: 'items.xlsx',
-      // handleExport: () => {
-      //   console.log('Export');
-      // },
     },
   });
 
@@ -59,6 +57,12 @@ export default function ItemsPage() {
     }
   }
 
+  function handleSelectedFiles(files: File[]) {
+    const formData = new FormData();
+    formData.append('itemMasterFile', files[0]);
+    importItemMutation.mutate(formData);
+  }
+
   return (
     <section>
       <div className='mb-2 flex items-baseline justify-between gap-2'>
@@ -68,7 +72,7 @@ export default function ItemsPage() {
         </div>
 
         <div className='flex flex-wrap justify-end gap-2'>
-          <SelectFile>
+          <SelectFile onSelectedFiles={handleSelectedFiles}>
             <Button variant={'outline'} size={'sm'}>
               <FileUpIcon /> Import
             </Button>

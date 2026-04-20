@@ -21,5 +21,10 @@
   "updated_at": "Updated at",
   "created_by": "Created by",
   "updated_by": "Updated by",
-  "notification": "Notification"
+  "notification": "Notification",
+  "selectFile": "Select File",
+  "selectFileDescription": "Select a file to upload",
+  "dragAndDropFile": "Drag and drop file or click to select",
+  "dragAndDropFileDescription": "Support multiple files",
+  "dropFileHere": "Drop file here"
 }

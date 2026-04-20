@@ -21,5 +21,10 @@
   "updated_at": "Ngày cập nhật",
   "created_by": "Người tạo",
   "updated_by": "Người cập nhật",
-  "notification": "Thông báo"
+  "notification": "Thông báo",
+  "selectFile": "Chọn file",
+  "selectFileDescription": "Chọn file để tải lên",
+  "dragAndDropFile": "Kéo & thả file hoặc click để chọn",
+  "dragAndDropFileDescription": "Hỗ trợ nhiều file",
+  "dropFileHere": "Thả file vào đây"
 }

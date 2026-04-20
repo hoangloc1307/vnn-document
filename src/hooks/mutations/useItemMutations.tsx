@@ -45,3 +45,12 @@ export function useDeleteItem() {
     },
   });
 }
+
+export function useImportItem() {
+  return useAppMutation({
+    mutationFn: itemServices.importItem,
+    onSuccess: () => {
+      toast.success(`Import item successfully, please wait for processing!`);
+    },
+  });
+}

@@ -33,12 +33,10 @@ export const apiMain = new Http(
             return ins(error.response?.config);
           } catch (err) {
             useAuthStore.getState().resetAuth();
-            toast.error(error.message);
             return Promise.reject(err);
           }
         }
 
-        toast.error(error.message);
         return Promise.reject(error);
       },
     );

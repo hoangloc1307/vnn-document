@@ -22,3 +22,9 @@ export type GetItemsResponse = ApiResponse<Item[]>;
 export type CreateItemResponse = ApiResponse<string>;
 
 export type UpdateItemResponse = ApiResponse<string>;
+
+export type ImportItemResponse = ApiResponse<{
+  token: string;
+  status: string;
+  expiredAt: string;
+}>;
