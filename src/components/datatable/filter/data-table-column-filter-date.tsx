@@ -29,6 +29,7 @@ export default function DataTableColumnFilterDate<TData, TValue>({
                 : format(columnFilterValue.from, 'dd/MM/yyyy')
               : ''
           }
+          readOnly
         />
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0' align='start'>
