@@ -3,11 +3,12 @@ import PATHS from '~/constants/paths';
 import SidebarLayout from '~/layouts/sidebar';
 import LoginPage from '~/pages/auth/login';
 import DashboardPage from '~/pages/dashboard';
-import Items from '~/pages/items';
+import ImportPage from '~/pages/import';
+import ItemsPage from '~/pages/items';
 import NotFoundPage from '~/pages/not-found';
 import SupportPage from '~/pages/support';
 import VersonPage from '~/pages/version';
-import Warehouses from '~/pages/warehouses';
+import WarehousesPage from '~/pages/warehouses';
 import ProtectedRoute from '~/router/guards/ProtectedRoute';
 import RejectedRoute from '~/router/guards/RejectedRoute';
 
@@ -36,11 +37,15 @@ const router = createBrowserRouter([
           },
           {
             path: PATHS.ITEMS,
-            element: <Items />,
+            element: <ItemsPage />,
           },
           {
             path: PATHS.WAREHOUSES,
-            element: <Warehouses />,
+            element: <WarehousesPage />,
+          },
+          {
+            path: `${PATHS.IMPORT}/:id`,
+            element: <ImportPage />,
           },
         ],
       },

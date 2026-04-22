@@ -26,5 +26,7 @@
   "selectFileDescription": "Select a file to upload",
   "dragAndDropFile": "Drag and drop file or click to select",
   "dragAndDropFileDescription": "Support multiple files",
-  "dropFileHere": "Drop file here"
+  "dropFileHere": "Drop file here",
+  "no_notifications": "No notifications",
+  "confirm": "Confirm"
 }

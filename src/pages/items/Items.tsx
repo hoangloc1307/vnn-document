@@ -6,7 +6,8 @@ import DataTable from '~/components/datatable/data-table';
 import SelectFile from '~/components/select-file';
 import { Button } from '~/components/ui/button';
 import useDatatable from '~/hooks/datatable/useDatatable';
-import { useDeleteItem, useImportItem } from '~/hooks/mutations/useItemMutations';
+import { useImport } from '~/hooks/mutations/useImportMutation';
+import { useDeleteItem } from '~/hooks/mutations/useItemMutations';
 import { useGetAllItems } from '~/hooks/queries/useItems';
 import { getItemColumns } from '~/pages/items/columns';
 import ItemDialog from '~/pages/items/ItemDialog';
@@ -17,7 +18,7 @@ export default function ItemsPage() {
   const { t } = useTranslation(['common', 'item']);
   const { data: items, isFetching: itemsLoading } = useGetAllItems();
   const deleteItemMutation = useDeleteItem();
-  const importItemMutation = useImportItem();
+  const importMutation = useImport();
   const columns = getItemColumns(t, {
     onEdit: handleEdit,
     onDelete: handleDelete,
@@ -59,8 +60,9 @@ export default function ItemsPage() {
 
   function handleSelectedFiles(files: File[]) {
     const formData = new FormData();
-    formData.append('itemMasterFile', files[0]);
-    importItemMutation.mutate(formData);
+    formData.append('importFile', files[0]);
+    formData.append('type', 'item-master');
+    importMutation.mutate(formData);
   }
 
   return (

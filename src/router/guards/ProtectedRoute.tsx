@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { matchPath, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
 import PATHS from '~/constants/paths';
 import { useAuthStore } from '~/stores/auth.store';
@@ -17,7 +17,9 @@ export default function ProtectedRoute() {
     return <Navigate to={PATHS.LOGIN} replace state={{ from: location }} />;
   }
 
-  if (location.pathname !== PATHS.HOME && isInitialized && !menus.includes(location.pathname)) {
+  const isAllowed = menus.some((menu) => matchPath({ path: menu, end: false }, location.pathname));
+
+  if (location.pathname !== PATHS.HOME && isInitialized && !isAllowed) {
     return <Navigate to={PATHS.HOME} replace />;
   }
 

@@ -5,6 +5,7 @@ const PATHS = {
   SUPPORT: '/support',
   ITEMS: '/items',
   WAREHOUSES: '/warehouses',
+  IMPORT: '/import',
 } as const;
 
 export default PATHS;
