@@ -18,7 +18,7 @@ type ImportJobRow = {
   action: string;
   rawData: unknown;
   normalizedData: unknown | null;
-  diffData: unknown | null;
+  diffData: Record<string, { from: unknown; to: unknown }> | null;
   errorData: ErrorData[];
 };
 

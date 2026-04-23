@@ -1,1 +1,7 @@
-{}
+{
+  "importCommitment": "Xác nhận import",
+  "reviewAndConfirm": "Xem và xác nhận dữ liệu trước khi import",
+  "noImportAvailable": "Không có import khả dụng",
+  "importJobNotFoundOrExpired": "Bản import bạn tìm kiếm không tồn tại hoặc đã hết hạn.",
+  "backToHome": "Quay lại trang chủ"
+}

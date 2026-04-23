@@ -6,7 +6,7 @@ export function useImport() {
   return useAppMutation({
     mutationFn: importServices.importItem,
     onSuccess: () => {
-      toast.success(`Import successfully, please wait for processing!`);
+      toast.success(`Import successfully, please wait for validation!`);
     },
   });
 }
