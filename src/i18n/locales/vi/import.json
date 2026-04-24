@@ -5,5 +5,20 @@
   "importJobNotFoundOrExpired": "Bản import bạn tìm kiếm không tồn tại hoặc đã hết hạn.",
   "backToHome": "Quay lại trang chủ",
   "importFileInfo": "Chi tiết import",
-  "importRowInfo": "Chi tiết từng dòng"
+  "importRowInfo": "Chi tiết từng dòng",
+  "code": "Mã",
+  "type": "Loại",
+  "status": "Trạng thái",
+  "filename": "Tên file",
+  "totalRows": "Tổng số dòng",
+  "createdRows": "Số dòng tạo mới",
+  "updatedRows": "Số dòng cập nhật",
+  "skippedRows": "Số dòng bỏ qua",
+  "errorRows": "Số dòng lỗi",
+  "expiredDate": "Ngày hết hạn",
+  "rowNumber": "Dòng",
+  "action": "Hành động",
+  "normalizedData": "Dữ liệu chuẩn hóa",
+  "diffData": "Dữ liệu thay đổi",
+  "errorData": "Dữ liệu lỗi"
 }

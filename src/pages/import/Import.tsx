@@ -12,6 +12,7 @@ import {
   TableRow,
 } from '~/components/ui/table';
 import { useGetImportByCode } from '~/hooks/queries/useImport';
+import { cn } from '~/lib/utils';
 import ImportNotFound from '~/pages/import/ImportNotFound';
 
 export default function ImportPage() {
@@ -57,16 +58,16 @@ export default function ImportPage() {
           <Table>
             <TableHeader className='bg-accent'>
               <TableRow>
-                <TableHead>Code</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Filename</TableHead>
-                <TableHead>Total Rows</TableHead>
-                <TableHead>Created Rows</TableHead>
-                <TableHead>Updated Rows</TableHead>
-                <TableHead>Skipped Rows</TableHead>
-                <TableHead>Error Rows</TableHead>
-                <TableHead>Expired Date</TableHead>
+                <TableHead>{t('import:code')}</TableHead>
+                <TableHead>{t('import:type')}</TableHead>
+                <TableHead>{t('import:status')}</TableHead>
+                <TableHead>{t('import:filename')}</TableHead>
+                <TableHead>{t('import:totalRows')}</TableHead>
+                <TableHead>{t('import:createdRows')}</TableHead>
+                <TableHead>{t('import:updatedRows')}</TableHead>
+                <TableHead>{t('import:skippedRows')}</TableHead>
+                <TableHead>{t('import:errorRows')}</TableHead>
+                <TableHead>{t('import:expiredDate')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -94,33 +95,43 @@ export default function ImportPage() {
             <Table className='table-fixed'>
               <TableHeader className='bg-accent sticky top-0 shadow-sm'>
                 <TableRow>
-                  <TableHead>Row Number</TableHead>
-                  <TableHead>Action</TableHead>
-                  <TableHead>Normolized Data</TableHead>
-                  <TableHead>Diff Data</TableHead>
-                  <TableHead>Error Data</TableHead>
+                  <TableHead>{t('import:rowNumber')}</TableHead>
+                  <TableHead>{t('import:action')}</TableHead>
+                  <TableHead>{t('import:normalizedData')}</TableHead>
+                  <TableHead>{t('import:diffData')}</TableHead>
+                  <TableHead>{t('import:errorData')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {importJob?.importJobRows?.map((row) => (
-                  <TableRow key={row.id}>
+                  <TableRow
+                    key={row.id}
+                    className={cn(
+                      'hover:bg-primary/10',
+                      row.action === 'ERROR' && 'bg-red-50',
+                      row.action === 'CREATE' && 'bg-green-50',
+                      row.action === 'UPDATE' && 'bg-yellow-50',
+                      row.action === 'SKIP' && 'bg-gray-50',
+                    )}
+                  >
                     <TableCell>{row.rowNumber}</TableCell>
                     <TableCell>{row.action}</TableCell>
-                    <TableCell>
-                      {Object.entries(row.normalizedData ?? {}).map(([key, value]) => (
-                        <p key={key}>
-                          <strong>{key}:</strong> {value?.toString()}
-                        </p>
-                      ))}
+                    <TableCell className='text-xs'>
+                      {row.action === 'CREATE' &&
+                        Object.entries(row.normalizedData ?? {}).map(([key, value]) => (
+                          <p key={key}>
+                            <strong>{key}:</strong> {value?.toString()}
+                          </p>
+                        ))}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className='text-xs'>
                       {Object.entries(row.diffData ?? {}).map(([key, value]) => (
                         <p key={key}>
                           <strong>{key}:</strong> {`${String(value?.from)} -> ${String(value?.to)}`}
                         </p>
                       ))}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className='text-xs'>
                       {row.errorData?.map((error, index) => (
                         <p key={index} className='text-wrap'>
                           <strong>{error.field}:</strong> {error.message}

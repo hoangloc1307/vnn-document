@@ -5,5 +5,20 @@
   "importJobNotFoundOrExpired": "The import commitment you are looking for is not found or has expired.",
   "backToHome": "Back to home",
   "importFileInfo": "Import detail",
-  "importRowInfo": "Import row detail"
+  "importRowInfo": "Import row detail",
+  "code": "Code",
+  "type": "Type",
+  "status": "Status",
+  "filename": "Filename",
+  "totalRows": "Total rows",
+  "createdRows": "Created rows",
+  "updatedRows": "Updated rows",
+  "skippedRows": "Skipped rows",
+  "errorRows": "Error rows",
+  "expiredDate": "Expired date",
+  "rowNumber": "Row number",
+  "action": "Action",
+  "normalizedData": "Normalized data",
+  "diffData": "Diff data",
+  "errorData": "Error data"
 }
