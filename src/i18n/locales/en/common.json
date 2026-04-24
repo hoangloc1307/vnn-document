@@ -28,5 +28,6 @@
   "dragAndDropFileDescription": "Support multiple files",
   "dropFileHere": "Drop file here",
   "no_notifications": "No notifications",
+  "no_notifications_description": "You&apos;re all caught up. New notifications will appear here.",
   "confirm": "Confirm"
 }

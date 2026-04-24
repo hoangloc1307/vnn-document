@@ -3,5 +3,7 @@
   "reviewAndConfirm": "Review and confirm the import commitment",
   "noImportAvailable": "No Import Available",
   "importJobNotFoundOrExpired": "The import commitment you are looking for is not found or has expired.",
-  "backToHome": "Back to home"
+  "backToHome": "Back to home",
+  "importFileInfo": "Import detail",
+  "importRowInfo": "Import row detail"
 }

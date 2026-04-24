@@ -1,3 +1,4 @@
+import { IconBell } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { BellIcon, InfoIcon } from 'lucide-react';
@@ -11,6 +12,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '~/components/ui/empty';
 import { Separator } from '~/components/ui/separator';
 import PATHS from '~/constants/paths';
 import {
@@ -59,7 +67,17 @@ export function Notification() {
           <Separator className='my-1' />
           <div className='max-h-[300px] overflow-y-auto'>
             {notifications.length === 0 ? (
-              <p className='text-center'>{t('common:no_notifications')}</p>
+              <Empty className='bg-muted/30 h-full'>
+                <EmptyHeader>
+                  <EmptyMedia variant='icon'>
+                    <IconBell />
+                  </EmptyMedia>
+                  <EmptyTitle>{t('common:no_notifications')}</EmptyTitle>
+                  <EmptyDescription className='max-w-xs text-pretty'>
+                    {t('common:no_notifications_description')}
+                  </EmptyDescription>
+                </EmptyHeader>
+              </Empty>
             ) : (
               <>
                 {notifications.map((notification) => (

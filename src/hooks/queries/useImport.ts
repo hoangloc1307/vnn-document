@@ -12,6 +12,7 @@ export function useGetImportByCode(code: string) {
   const { data, ...rest } = useQuery({
     queryKey: IMPORT_QUERY_KEY.GET_BY_CODE(code),
     queryFn: () => importServices.getImportByCode(code),
+    enabled: !!code,
   });
 
   return {
