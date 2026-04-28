@@ -15,3 +15,5 @@ export type Notification = {
 export type GetNotificationResponse = ApiResponse<Notification[]>;
 
 export type GetUnreadCountResponse = ApiResponse<{ count: number }>;
+
+export type MarkAsReadResponse = ApiResponse<void>;

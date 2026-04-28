@@ -1,5 +1,4 @@
 import type { AxiosError } from 'axios';
-import { toast } from 'sonner';
 import CONFIG from '~/config/app';
 import { Http } from '~/lib/http';
 import { useAuthStore } from '~/stores/auth.store';

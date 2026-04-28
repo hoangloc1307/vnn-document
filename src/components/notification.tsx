@@ -21,6 +21,7 @@ import {
 } from '~/components/ui/empty';
 import { Separator } from '~/components/ui/separator';
 import PATHS from '~/constants/paths';
+import { useMarkAsRead } from '~/hooks/mutations/useNotificationMutation';
 import {
   NOTIFICATION_QUERY_KEY,
   useGetAllNotifications,
@@ -35,12 +36,14 @@ export function Notification() {
   const queryClient = useQueryClient();
   const { data: notifications } = useGetAllNotifications();
   const { data: unreadCount } = useGetUnreadCount();
+  const markAsReadMutation = useMarkAsRead();
 
   useSocketEvent('notification:new', () => {
     queryClient.invalidateQueries({ queryKey: NOTIFICATION_QUERY_KEY.ALL });
   });
 
   const handleNotificationClick = (notification: Notification) => () => {
+    markAsReadMutation.mutate(notification.id);
     navigate(`${PATHS.IMPORT}/${notification.entityId}`);
   };
 
