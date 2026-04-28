@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui/table';
-import { useCommitImport } from '~/hooks/mutations/useImportMutation';
+import { useCancelImport, useCommitImport } from '~/hooks/mutations/useImportMutation';
 import { useGetImportByCode } from '~/hooks/queries/useImport';
 import { cn } from '~/lib/utils';
 import ImportNotFound from '~/pages/import/ImportNotFound';
@@ -23,9 +23,14 @@ export default function ImportPage() {
 
   const { data: importJob, isError, isFetching } = useGetImportByCode(id ?? '');
   const commitImportMutation = useCommitImport();
+  const cancelImportMutation = useCancelImport();
 
   const handleCommitImport = () => {
     commitImportMutation.mutate({ token: importJob?.token ?? '', type: importJob?.type ?? '' });
+  };
+
+  const handleCancelImport = () => {
+    cancelImportMutation.mutate({ token: importJob?.token ?? '', type: importJob?.type ?? '' });
   };
 
   if (isFetching) {
@@ -49,7 +54,7 @@ export default function ImportPage() {
         </div>
 
         <div className='flex flex-wrap justify-end gap-2'>
-          <Button size={'sm'} variant={'outline'}>
+          <Button size={'sm'} variant={'outline'} onClick={handleCancelImport}>
             <XIcon /> {t('common:cancel')}
           </Button>
 

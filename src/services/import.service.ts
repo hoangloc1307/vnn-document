@@ -26,6 +26,12 @@ const importServices = {
     });
     return response.data;
   },
+  cancelImport: async (code: string, type: string) => {
+    const response = await apiMain.put<CommitImportResponse>(`${IMPORT_ENDPOINT}/${code}/cancel`, {
+      type,
+    });
+    return response.data;
+  },
 };
 
 export default importServices;
