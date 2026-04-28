@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { CheckIcon, Loader2Icon, XIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -11,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui/table';
+import { useCommitImport } from '~/hooks/mutations/useImportMutation';
 import { useGetImportByCode } from '~/hooks/queries/useImport';
 import { cn } from '~/lib/utils';
 import ImportNotFound from '~/pages/import/ImportNotFound';
@@ -20,6 +22,11 @@ export default function ImportPage() {
   const { t } = useTranslation(['common', 'import']);
 
   const { data: importJob, isError, isFetching } = useGetImportByCode(id ?? '');
+  const commitImportMutation = useCommitImport();
+
+  const handleCommitImport = () => {
+    commitImportMutation.mutate({ token: importJob?.token ?? '', type: importJob?.type ?? '' });
+  };
 
   if (isFetching) {
     return (
@@ -46,7 +53,7 @@ export default function ImportPage() {
             <XIcon /> {t('common:cancel')}
           </Button>
 
-          <Button size={'sm'}>
+          <Button size={'sm'} onClick={handleCommitImport}>
             <CheckIcon /> {t('common:confirm')}
           </Button>
         </div>
@@ -81,7 +88,9 @@ export default function ImportPage() {
                 <TableCell>{importJob?.updatedRows}</TableCell>
                 <TableCell>{importJob?.skippedRows}</TableCell>
                 <TableCell>{importJob?.errorRows}</TableCell>
-                <TableCell>{importJob?.expiredAt}</TableCell>
+                <TableCell>
+                  {importJob?.expiredAt ? format(importJob.expiredAt, 'dd/MM/yyyy HH:mm:ss') : ''}
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -95,11 +104,9 @@ export default function ImportPage() {
             <Table className='table-fixed'>
               <TableHeader className='bg-accent sticky top-0 shadow-sm'>
                 <TableRow>
-                  <TableHead>{t('import:rowNumber')}</TableHead>
-                  <TableHead>{t('import:action')}</TableHead>
-                  <TableHead>{t('import:normalizedData')}</TableHead>
-                  <TableHead>{t('import:diffData')}</TableHead>
-                  <TableHead>{t('import:errorData')}</TableHead>
+                  <TableHead className='w-14'>{t('import:rowNumber')}</TableHead>
+                  <TableHead className='w-28'>{t('import:action')}</TableHead>
+                  <TableHead className='w-full'>{t('import:data')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -115,28 +122,29 @@ export default function ImportPage() {
                     )}
                   >
                     <TableCell>{row.rowNumber}</TableCell>
-                    <TableCell>{row.action}</TableCell>
+                    <TableCell>{t(`import:${row.action.toLowerCase()}`)}</TableCell>
                     <TableCell className='text-xs'>
-                      {row.action === 'CREATE' &&
-                        Object.entries(row.normalizedData ?? {}).map(([key, value]) => (
-                          <p key={key}>
-                            <strong>{key}:</strong> {value?.toString()}
-                          </p>
-                        ))}
-                    </TableCell>
-                    <TableCell className='text-xs'>
-                      {Object.entries(row.diffData ?? {}).map(([key, value]) => (
-                        <p key={key}>
-                          <strong>{key}:</strong> {`${String(value?.from)} -> ${String(value?.to)}`}
-                        </p>
-                      ))}
-                    </TableCell>
-                    <TableCell className='text-xs'>
-                      {row.errorData?.map((error, index) => (
-                        <p key={index} className='text-wrap'>
-                          <strong>{error.field}:</strong> {error.message}
-                        </p>
-                      ))}
+                      <p className='flex flex-wrap gap-2'>
+                        {row.action === 'CREATE' &&
+                          Object.entries(row.normalizedData ?? {}).map(([key, value]) => (
+                            <p key={key}>
+                              <strong>{key}:</strong> {value?.toString()}
+                            </p>
+                          ))}
+                        {row.action === 'UPDATE' &&
+                          Object.entries(row.diffData ?? {}).map(([key, value]) => (
+                            <p key={key}>
+                              <strong>{key}:</strong>{' '}
+                              {`${String(value?.from)} -> ${String(value?.to)}`}
+                            </p>
+                          ))}
+                        {row.action === 'ERROR' &&
+                          row.errorData?.map((error, index) => (
+                            <p key={index} className='text-wrap'>
+                              <strong>{error.field}:</strong> {error.message}
+                            </p>
+                          ))}
+                      </p>
                     </TableCell>
                   </TableRow>
                 ))}

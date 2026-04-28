@@ -18,6 +18,11 @@
   "expiredDate": "Expired date",
   "rowNumber": "Row number",
   "action": "Action",
+  "data": "Data",
+  "create": "Create",
+  "update": "Update",
+  "error": "Error",
+  "skip": "Skip",
   "normalizedData": "Normalized data",
   "diffData": "Diff data",
   "errorData": "Error data"

@@ -18,6 +18,11 @@
   "expiredDate": "Ngày hết hạn",
   "rowNumber": "Dòng",
   "action": "Hành động",
+  "data": "Dữ liệu",
+  "create": "Tạo mới",
+  "update": "Cập nhật",
+  "error": "Lỗi",
+  "skip": "Bỏ qua",
   "normalizedData": "Dữ liệu chuẩn hóa",
   "diffData": "Dữ liệu thay đổi",
   "errorData": "Dữ liệu lỗi"

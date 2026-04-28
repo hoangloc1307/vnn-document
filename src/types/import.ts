@@ -38,3 +38,5 @@ type ImportJob = {
 };
 
 export type GetImportByCodeResponse = ApiResponse<ImportJob>;
+
+export type CommitImportResponse = ApiResponse<null>;

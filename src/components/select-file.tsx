@@ -51,8 +51,8 @@ export default function SelectFile({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('common:selectFile')}</DialogTitle>
-          <DialogDescription>{t('common:selectFileDescription')}</DialogDescription>
+          <DialogTitle>{t('common:select_file')}</DialogTitle>
+          <DialogDescription>{t('common:select_file_description')}</DialogDescription>
         </DialogHeader>
         <div className='w-full'>
           <div
@@ -69,13 +69,13 @@ export default function SelectFile({
               <UploadIcon className='text-muted-foreground h-8 w-8' />
 
               {isDragActive ? (
-                <p className='text-primary text-sm'>{t('common:dropFileHere')}</p>
+                <p className='text-primary text-sm'>{t('common:drop_file_here')}</p>
               ) : (
                 <>
-                  <p className='text-sm'>{t('common:dragAndDropFile')}</p>
+                  <p className='text-sm'>{t('common:drag_and_drop_file')}</p>
                   {multiple && (
                     <p className='text-muted-foreground text-xs'>
-                      {t('common:dragAndDropFileDescription')}
+                      {t('common:drag_and_drop_file_description')}
                     </p>
                   )}
                 </>

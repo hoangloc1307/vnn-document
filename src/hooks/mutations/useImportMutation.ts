@@ -10,3 +10,13 @@ export function useImport() {
     },
   });
 }
+
+export function useCommitImport() {
+  return useAppMutation({
+    mutationFn: ({ token, type }: { token: string; type: string }) =>
+      importServices.commitImport(token, type),
+    onSuccess: () => {
+      toast.success(`Commit successfully!`);
+    },
+  });
+}
