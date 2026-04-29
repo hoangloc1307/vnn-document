@@ -20,11 +20,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-import type { Warehouse } from '~/types/warehouse';
+import type { Zone } from '~/types/zone';
 
-export type WarehouseRowActions = {
-  onEdit?: (row: Warehouse) => void;
-  onDelete?: (row: Warehouse) => void;
+export type ZoneRowActions = {
+  onEdit?: (row: Zone) => void;
+  onDelete?: (row: Zone) => void;
 };
 
 export default function ActionCell({
@@ -32,8 +32,8 @@ export default function ActionCell({
   actions,
   t,
 }: {
-  row: Warehouse;
-  actions?: WarehouseRowActions;
+  row: Zone;
+  actions?: ZoneRowActions;
   t: TFunction;
 }) {
   return (

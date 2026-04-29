@@ -17,6 +17,10 @@ const MAIN = [
         title: 'warehouses',
         url: PATHS.WAREHOUSES,
       },
+      {
+        title: 'zones',
+        url: PATHS.ZONES,
+      },
     ],
   },
 ] as const satisfies NavItem[];

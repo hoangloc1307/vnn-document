@@ -1,0 +1,16 @@
+{
+  "title": "Khu vực",
+  "description": "Danh sách master khu vực",
+  "create_title": "Thêm khu vực",
+  "create_description": "Vui lòng nhập tên và các thông tin chi tiết cho khu vực dưới đây. Nhấn lưu để hoàn tất.",
+  "create_success": "Tạo khu vực <highlight>{{code}}</highlight> thành công!",
+  "update_title": "Cập nhật khu vực",
+  "update_description": "Vui lòng cập nhật tên và các thông tin chi tiết cho khu vực dưới đây. Nhấn lưu để hoàn tất.",
+  "update_success": "Cập nhật khu vực <highlight>{{code}}</highlight> thành công!",
+  "delete_confirm": "Bạn có chắc chắn muốn xóa khu vực <highlight>{{code}}</highlight> không?",
+  "delete_success": "Xóa khu vực <highlight>{{code}}</highlight> thành công!",
+  "code": "Mã khu vực",
+  "name": "Tên khu vực",
+  "warehouse_code": "Mã kho",
+  "note": "Ghi chú"
+}

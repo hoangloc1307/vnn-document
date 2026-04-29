@@ -1,16 +1,19 @@
+import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import PATHS from '~/constants/paths';
 import SidebarLayout from '~/layouts/sidebar';
-import LoginPage from '~/pages/auth/login';
-import DashboardPage from '~/pages/dashboard';
-import ImportPage from '~/pages/import';
-import ItemsPage from '~/pages/items';
-import NotFoundPage from '~/pages/not-found';
-import SupportPage from '~/pages/support';
-import VersonPage from '~/pages/version';
-import WarehousesPage from '~/pages/warehouses';
 import ProtectedRoute from '~/router/guards/ProtectedRoute';
 import RejectedRoute from '~/router/guards/RejectedRoute';
+
+const DashboardPage = lazy(() => import('~/pages/dashboard'));
+const ImportPage = lazy(() => import('~/pages/import'));
+const ItemsPage = lazy(() => import('~/pages/items'));
+const NotFoundPage = lazy(() => import('~/pages/not-found'));
+const SupportPage = lazy(() => import('~/pages/support'));
+const VersionPage = lazy(() => import('~/pages/version'));
+const WarehousesPage = lazy(() => import('~/pages/warehouses'));
+const ZonesPage = lazy(() => import('~/pages/zones'));
+const LoginPage = lazy(() => import('~/pages/auth/login'));
 
 const router = createBrowserRouter([
   // =============== REJECTED ROUTE ===============
@@ -44,6 +47,10 @@ const router = createBrowserRouter([
             element: <WarehousesPage />,
           },
           {
+            path: PATHS.ZONES,
+            element: <ZonesPage />,
+          },
+          {
             path: `${PATHS.IMPORT}/:id`,
             element: <ImportPage />,
           },
@@ -58,7 +65,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: PATHS.VERSION,
-        element: <VersonPage />,
+        element: <VersionPage />,
       },
       {
         path: PATHS.SUPPORT,

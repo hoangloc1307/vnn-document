@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import DataTable from '~/components/datatable/data-table';
 import { Button } from '~/components/ui/button';
 import useDatatable from '~/hooks/datatable/useDatatable';
-import { useImport } from '~/hooks/mutations/useImportMutation';
 import { useDeleteWarehouse } from '~/hooks/mutations/useWarehouseMutations';
 import { useGetAllWarehouses } from '~/hooks/queries/useWarehouses';
 import { getWarehouseColumns } from '~/pages/warehouses/columns';
@@ -16,7 +15,6 @@ export default function WarehousesPage() {
   const { t } = useTranslation(['common', 'warehouse']);
   const { data: warehouses, isFetching: warehousesLoading } = useGetAllWarehouses();
   const deleteWarehouseMutation = useDeleteWarehouse();
-  const importMutation = useImport();
   const columns = getWarehouseColumns(t, {
     onEdit: handleEdit,
     onDelete: handleDelete,
@@ -43,13 +41,6 @@ export default function WarehousesPage() {
 
   function handleDelete(warehouse: Warehouse) {
     deleteWarehouseMutation.mutate(warehouse.code);
-  }
-
-  function handleSelectedFiles(files: File[]) {
-    const formData = new FormData();
-    formData.append('importFile', files[0]);
-    formData.append('type', 'warehouse-master');
-    importMutation.mutate(formData);
   }
 
   return (
