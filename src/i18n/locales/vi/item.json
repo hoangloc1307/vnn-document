@@ -1,6 +1,14 @@
 {
   "title": "Nguyên vật liệu",
   "description": "Danh sách master nguyên vật liệu",
+  "create_title": "Thêm nguyên vật liệu",
+  "create_description": "Vui lòng nhập tên và chi tiết cho nguyên vật liệu mới. Nhấn lưu để hoàn tất.",
+  "create_success": "Thêm nguyên vật liệu <highlight>{{code}}</highlight> thành công!",
+  "update_title": "Cập nhật nguyên vật liệu",
+  "update_description": "Vui lòng nhập tên và chi tiết cho nguyên vật liệu. Nhấn lưu để hoàn tất.",
+  "update_success": "Cập nhật nguyên vật liệu <highlight>{{code}}</highlight> thành công!",
+  "delete_confirm": "Bạn có chắc chắn muốn xóa nguyên vật liệu <highlight>{{code}}</highlight>?",
+  "delete_success": "Xóa nguyên vật liệu <highlight>{{code}}</highlight> thành công!",
   "item_code": "Mã nguyên vật liệu",
   "product_code": "Mã loại",
   "name": "Tên",
@@ -8,12 +16,5 @@
   "base_unit": "Đơn vị cơ sở",
   "conversion_factor": "Tỉ lệ quy đổi",
   "delivery_on_base_unit": "Giao theo đơn vị cơ sở",
-  "tracking_type": "Loại quản lý",
-  "note": "Ghi chú",
-  "create_item": "Thêm nguyên vật liệu",
-  "create_item_description": "Vui lòng nhập tên và chi tiết cho nguyên vật liệu mới. Nhấn lưu để hoàn tất.",
-  "update_item": "Cập nhật nguyên vật liệu",
-  "update_item_description": "Vui lòng nhập tên và chi tiết cho nguyên vật liệu. Nhấn lưu để hoàn tất.",
-  "delete_item_confirm": "Bạn có chắc chắn muốn xóa nguyên vật liệu <highlight>{{code}}</highlight>?",
-  "delete_success": "Xóa nguyên vật liệu <highlight>{{code}}</highlight> thành công!"
+  "tracking_type": "Loại quản lý"
 }

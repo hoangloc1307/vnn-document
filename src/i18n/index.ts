@@ -16,7 +16,7 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    ns: ['common', 'datatable', 'layout', 'item'],
+    ns: ['common', 'datatable', 'layout', 'item', 'warehouse', 'import'],
     defaultNS: 'common',
     detection: {
       caches: ['localStorage'],

@@ -1,63 +1,63 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { Trans } from 'react-i18next';
 import { toast } from 'sonner';
-import { ITEM_QUERY_KEY } from '~/hooks/queries/useItems';
+import { WAREHOUSE_QUERY_KEY } from '~/hooks/queries/useWarehouses';
 import { useAppMutation } from '~/hooks/useAppMutaion';
-import itemServices from '~/services/item.service';
+import warehouseServices from '~/services/warehouse.service';
 
-export function useCreateItem() {
+export function useCreateWarehouse() {
   const queryClient = useQueryClient();
   return useAppMutation({
-    mutationFn: itemServices.createItem,
+    mutationFn: warehouseServices.createWarehouse,
     onSuccess: (data) => {
       toast.success(
         <Trans
-          i18nKey='item:create_success'
+          i18nKey='warehouse:create_success'
           values={{ code: data.data }}
           components={{
             highlight: <span className='font-extrabold' />,
           }}
         />,
       );
-      queryClient.invalidateQueries({ queryKey: [ITEM_QUERY_KEY.ALL] });
+      queryClient.invalidateQueries({ queryKey: [WAREHOUSE_QUERY_KEY.ALL] });
     },
   });
 }
 
-export function useUpdateItem() {
+export function useUpdateWarehouse() {
   const queryClient = useQueryClient();
   return useAppMutation({
-    mutationFn: itemServices.updateItem,
+    mutationFn: warehouseServices.updateWarehouse,
     onSuccess: (data) => {
       toast.success(
         <Trans
-          i18nKey='item:update_success'
+          i18nKey='warehouse:update_success'
           values={{ code: data.data }}
           components={{
             highlight: <span className='font-extrabold' />,
           }}
         />,
       );
-      queryClient.invalidateQueries({ queryKey: [ITEM_QUERY_KEY.ALL] });
+      queryClient.invalidateQueries({ queryKey: [WAREHOUSE_QUERY_KEY.ALL] });
     },
   });
 }
 
-export function useDeleteItem() {
+export function useDeleteWarehouse() {
   const queryClient = useQueryClient();
   return useAppMutation({
-    mutationFn: itemServices.deleteItem,
-    onSuccess: (_, itemCode) => {
+    mutationFn: warehouseServices.deleteWarehouse,
+    onSuccess: (_, warehouseCode) => {
       toast.success(
         <Trans
-          i18nKey='item:delete_success'
-          values={{ code: itemCode }}
+          i18nKey='warehouse:delete_success'
+          values={{ code: warehouseCode }}
           components={{
             highlight: <span className='font-extrabold' />,
           }}
         />,
       );
-      queryClient.invalidateQueries({ queryKey: [ITEM_QUERY_KEY.ALL] });
+      queryClient.invalidateQueries({ queryKey: [WAREHOUSE_QUERY_KEY.ALL] });
     },
   });
 }

@@ -1,6 +1,14 @@
 {
   "title": "Items",
   "description": "List of master items",
+  "create_title": "Create item",
+  "create_description": "Please enter the name and details for the new item below. Click save to finalize.",
+  "create_success": "Create item <highlight>{{code}}</highlight> successfully!",
+  "update_title": "Update item",
+  "update_description": "Please enter the name and details for the new item below. Click save to finalize.",
+  "update_success": "Update item <highlight>{{code}}</highlight> successfully!",
+  "delete_confirm": "Are you sure you want to delete item <highlight>{{code}}</highlight>?",
+  "delete_success": "Delete item <highlight>{{code}}</highlight> successfully!",
   "item_code": "Item code",
   "product_code": "Product code",
   "name": "Name",
@@ -8,12 +16,5 @@
   "base_unit": "Base unit",
   "conversion_factor": "Conversion factor",
   "delivery_on_base_unit": "Delivery on base unit",
-  "tracking_type": "Tracking type",
-  "note": "Note",
-  "create_item": "Create item",
-  "create_item_description": "Please enter the name and details for the new item below. Click save to finalize.",
-  "update_item": "Update item",
-  "update_item_description": "Please enter the name and details for the new item below. Click save to finalize.",
-  "delete_item_confirm": "Are you sure you want to delete item <highlight>{{code}}</highlight>?",
-  "delete_success": "Delete item <highlight>{{code}}</highlight> successfully!"
+  "tracking_type": "Tracking type"
 }

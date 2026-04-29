@@ -79,7 +79,7 @@ export const getItemColumns = (t: TFunction, actions?: ItemRowActions): ColumnDe
   },
   {
     accessorKey: 'note',
-    header: t('item:note'),
+    header: t('common:note'),
     enableSorting: false,
   },
   {

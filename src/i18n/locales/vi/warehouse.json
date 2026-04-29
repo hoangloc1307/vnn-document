@@ -1,0 +1,15 @@
+{
+  "title": "Kho",
+  "description": "Danh sách master kho",
+  "create_title": "Thêm kho",
+  "create_description": "Vui lòng nhập tên và các thông tin chi tiết cho kho dưới đây. Nhấn lưu để hoàn tất.",
+  "create_success": "Tạo kho <highlight>{{code}}</highlight> thành công!",
+  "update_title": "Cập nhật kho",
+  "update_description": "Vui lòng cập nhật tên và các thông tin chi tiết cho kho dưới đây. Nhấn lưu để hoàn tất.",
+  "update_success": "Cập nhật kho <highlight>{{code}}</highlight> thành công!",
+  "delete_confirm": "Bạn có chắc chắn muốn xóa kho <highlight>{{code}}</highlight> không?",
+  "delete_success": "Xóa kho <highlight>{{code}}</highlight> thành công!",
+  "code": "Mã kho",
+  "name": "Tên kho",
+  "note": "Ghi chú"
+}

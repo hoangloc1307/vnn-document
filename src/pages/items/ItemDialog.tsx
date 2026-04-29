@@ -97,8 +97,8 @@ export default function ItemDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className='sm:max-w-[425px]' showCloseButton={false}>
         <DialogHeader>
-          <DialogTitle className='capitalize'>{t(`item:${action}_item`)}</DialogTitle>
-          <DialogDescription>{t(`item:${action}_item_description`)}</DialogDescription>
+          <DialogTitle className='capitalize'>{t(`item:${action}_title`)}</DialogTitle>
+          <DialogDescription>{t(`item:${action}_description`)}</DialogDescription>
         </DialogHeader>
         <Form {...itemForm}>
           <div className='grid grid-cols-12 gap-4'>
@@ -286,7 +286,7 @@ export default function ItemDialog({
                 control={itemForm.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-xs'>{t('item:note')}</FormLabel>
+                    <FormLabel className='text-xs'>{t('common:note')}</FormLabel>
                     <FormControl>
                       <Textarea {...field} value={field.value ?? ''} className='resize-none' />
                     </FormControl>

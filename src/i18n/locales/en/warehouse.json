@@ -1,0 +1,15 @@
+{
+  "title": "Warehouses",
+  "description": "Master list of warehouses",
+  "create_title": "Create Warehouse",
+  "create_description": "Please enter the name and details for the new warehouse below. Click save to finalize.",
+  "create_success": "Create warehouse <highlight>{{code}}</highlight> successfully!",
+  "update_title": "Update Warehouse",
+  "update_description": "Please enter the name and details for the warehouse below. Click save to finalize.",
+  "update_success": "Update warehouse <highlight>{{code}}</highlight> successfully!",
+  "delete_confirm": "Are you sure you want to delete warehouse <highlight>{{code}}</highlight>?",
+  "delete_success": "Delete warehouse <highlight>{{code}}</highlight> successfully!",
+  "code": "Code",
+  "name": "Name",
+  "note": "Note"
+}
