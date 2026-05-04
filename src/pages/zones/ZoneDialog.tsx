@@ -146,16 +146,22 @@ export default function ZoneDialog({
                     <FormLabel className='required text-xs'>{t('zone:warehouse_code')}</FormLabel>
                     <FormControl>
                       <Combobox
-                        items={['Next.js', 'SvelteKit', 'Nuxt.js', 'Remix', 'Astro']}
-                        onValueChange={(e) => console.log(e)}
+                        items={warehouses}
+                        value={warehouses.find((wh) => wh.code === field.value) ?? null}
+                        onValueChange={(value) => field.onChange(value?.code)}
+                        itemToStringLabel={(wh) => wh.name}
                       >
-                        <ComboboxInput placeholder='Select a framework' />
+                        <ComboboxInput />
                         <ComboboxContent>
                           <ComboboxEmpty>No items found.</ComboboxEmpty>
                           <ComboboxList>
-                            {(item) => (
-                              <ComboboxItem key={item} value={item} onClick={(e) => console.log(e)}>
-                                {item}
+                            {(wh: Warehouse) => (
+                              <ComboboxItem
+                                key={wh.code}
+                                value={wh}
+                                className='pointer-events-auto'
+                              >
+                                {wh.name}
                               </ComboboxItem>
                             )}
                           </ComboboxList>
@@ -195,3 +201,4 @@ export default function ZoneDialog({
     </Dialog>
   );
 }
+
