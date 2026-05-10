@@ -1,13 +1,15 @@
 FROM node:22.21.1-alpine
 
+RUN corepack enable && corepack prepare pnpm@11.0.9 --activate
+
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-RUN npm install
+RUN pnpm install
 
 COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "dev"]
